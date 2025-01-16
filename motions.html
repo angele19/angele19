@@ -131,13 +131,46 @@
         .contact-button-right:hover {
             background-color: rgba(255, 255, 255, 0.3);
         }
+
+        /* Adaptations pour les petits écrans (comme les téléphones en mode portrait) */
+        @media (max-width: 768px) {
+            .container {
+                height: auto; /* Permet à la hauteur de s'adapter à la taille de l'écran */
+            }
+
+            .background-video {
+                width: 100%;
+                height: auto; /* Pour que la vidéo garde une proportion correcte */
+                object-fit: cover;
+            }
+
+            .text-overlay h1 {
+                font-size: 5rem; /* Réduire la taille du texte pour s'adapter à l'écran */
+            }
+
+            .bottom-link {
+                bottom: 5%; /* Ajuste la position du lien sur petit écran */
+            }
+
+            .bottom-left-text {
+                bottom: 5%;
+                left: 10%;
+                font-size: 0.5rem;
+            }
+
+            .contact-button-right {
+                bottom: 5%;
+                right: 10%;
+                font-size: 0.5rem;
+            }
+        }
     </style>
 </head>
 <body>
     <!-- Conteneur principal -->
     <div class="container">
         <!-- Vidéo en arrière-plan -->
-        <video class="background-video" autoplay muted loop playsinline preload="auto">
+        <video class="background-video" autoplay muted loop>
             <source src="https://i.imgur.com/flkXn1T.mp4" alt="Video depuis Imgur">
             Votre navigateur ne supporte pas les vidéos.
         </video>
@@ -159,8 +192,6 @@
         <!-- Bouton Contact en bas à droite -->
         <a href="contact.html" class="contact-button-right">CONTACT</a>
     </div>
-
 </body>
 </html>
-
 
