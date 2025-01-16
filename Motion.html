@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Site avec vidéo en arrière-plan</title>
+    <style>
+        /* Appliquer un reset simple */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Conteneur principal pour centrer tout le contenu */
+        .container {
+            position: relative;
+            width: 100%;
+            height: 100vh; /* Utiliser toute la hauteur de la fenêtre */
+            overflow: hidden;
+        }
+
+        /* Vidéo en arrière-plan */
+        .background-video {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* Pour que la vidéo couvre tout l'écran */
+            transform: translate(-50%, -50%);
+        }
+
+        /* Texte au-dessus de la vidéo */
+        .text-overlay {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            text-align: center;
+        }
+
+        .text-overlay h1 {
+            font-family: Impact;
+            font-size: 8rem;
+            font-weight: bold;
+        }
+
+        /* Lien en bas */
+        .bottom-link {
+            position: absolute;
+            bottom: 10%;
+            left: 50%;
+            transform: translateX(-50%);
+            text-align: center;
+        }
+
+        .bottom-link a {
+            font-size: 1rem;
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+        }
+
+        .photos-button {
+            font-size: 1rem;
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            margin-left: 10px;
+            background-color: rgba(0, 0, 0, 0);
+            transition: background-color 0.3s;
+        }
+
+        .photos-button:hover {
+            background-color: rgba(255, 255, 255, 0.3);
+        }
+
+        .contact-button {
+            font-size: 1rem;
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            margin-left: 10px;
+            background-color: rgba(0, 0, 0, 0);
+            transition: background-color 0.3s;
+        }
+
+        .contact-button:hover {
+            background-color: rgba(255, 255, 255, 0.3);
+        }
+
+        /* Texte en bas à gauche */
+        .bottom-left-text {
+            position: absolute;
+            bottom: 20px;
+            left: 30px;
+            font-size: 0.7rem;
+            color: white;
+            font-family: Didot, serif;
+        }
+
+        /* Texte en bas à droite remplacé par le bouton contact */
+        .bottom-right-text {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            font-size: 0.7rem;
+            color: white;
+            font-family: Didot, serif;
+        }
+
+        .contact-button-right {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            font-size: 0.7rem;
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            background-color: rgba(0, 0, 0, 0);
+            transition: background-color 0.3s;
+        }
+
+        .contact-button-right:hover {
+            background-color: rgba(255, 255, 255, 0.3);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Conteneur principal -->
+    <div class="container">
+        <!-- Vidéo en arrière-plan -->
+        <video class="background-video" autoplay muted loop>
+            <source src="demoreel1601.mp4" type="video/mp4"> <!-- H.264 -->
+            <source src="DEMOREEL_2025.webm" type="video/webm"> <!-- VP8/VP9 -->
+            Votre navigateur ne supporte pas les vidéos.
+        </video>
+
+        <!-- Texte au-dessus de la vidéo -->
+        <div class="text-overlay">
+            <h1>MOTION</h1>
+            <h2></h2>
+        </div>
+
+        <!-- Lien en bas -->
+        <div class="bottom-link">
+            <a href="photos.html" class="photos-button">PHOTOGRAPHY</a>
+        </div>
+
+        <!-- Texte en bas à gauche -->
+        <div class="bottom-left-text">ANGÈLE RONACH</div>
+
+        <!-- Bouton Contact en bas à droite -->
+        <a href="contact.html" class="contact-button-right">CONTACT</a>
+    </div>
+
+</body>
+</html>
+
+
