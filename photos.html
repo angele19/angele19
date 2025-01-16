@@ -1,0 +1,230 @@
+<meta name="robots" content="noindex, nofollow">
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Angèle Ronach</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Didot, serif;
+            background-color: #f4f4f4;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .gallery-container {
+            margin-top: 190px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            width: 90%;
+            max-width: 1350px;
+        }
+
+        .gallery-text {
+            margin-bottom: 40px;
+            font-size: 0.5em;
+            font-weight: bold;
+            color:rgb(34, 66, 124);
+            transform: translateX(-200px);
+        }
+
+        .gallery-wrapper {
+            position: relative;
+            width: 100%;
+            overflow: hidden;
+        }
+
+        .gallery {
+            display: flex;
+            gap: 8px;
+            padding: 10px;
+            width: 100%;
+            overflow-x: auto;
+            scroll-behavior: smooth;
+            scroll-snap-type: x mandatory;
+            -webkit-overflow-scrolling: touch; /* Pour une meilleure expérience sur mobile */
+        }
+
+        .gallery img {
+            width: 250px;
+            height: 200px;
+            object-fit: cover;
+            transition: transform 0.3s ease-in-out;
+            cursor: pointer;
+            scroll-snap-align: start;
+
+        }
+
+        .gallery img:hover {
+            transform: scale(1.1);
+        }
+
+        /* Dégradé sur les bords internes avec une transition plus douce et opaque */
+.gallery-wrapper::before,
+.gallery-wrapper::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 60px; /* Largeur du dégradé */
+    background: linear-gradient(90deg, rgba(244, 244, 244, 4) 0%, rgba(244, 244, 244, 0) 100%);
+    z-index: 1;
+}
+.gallery-wrapper::before {
+    left: 0;
+}
+
+.gallery-wrapper::after {
+    right: 0;
+    transform: rotate(180deg);
+}
+        /* Texte en bas à gauche */
+.bottom-left-text {
+    position: absolute; /* Position absolue pour se placer dans le coin inférieur gauche */
+    bottom: 20px; /* Distance depuis le bas */
+    left: 30px; /* Distance depuis la gauche */
+    font-size: 0.7rem;
+    color: white;
+    font-family: Didot, serif;
+}
+        /* Texte en haut à gauche et à droite */
+        .top-left {
+            position: absolute;
+            top: 30px;
+            left: 70px;
+            font-size: 0.7em;
+            color: rvb(49, 140, 231);
+        }
+
+        .top-right {
+            position: absolute;
+            top: 90px;
+            right: 100px;
+            font-size: 8em;
+            color: #333;
+            font-family: 'impact', sans-serif; /* Ajout de la police */
+        }
+          .center {
+            position: right-center; 
+            top: 50px;
+            left: 50px;
+            font-size: 0.8em;
+            color: black;
+        }
+
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            overflow: auto;
+        }
+
+        .modal-content {
+            max-width: 80%;
+            max-height: 80%;
+            object-fit: contain;
+            margin: auto;
+            transition: transform 0.3s ease;
+        }
+
+        .close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 30px;
+            color: white;
+            cursor: pointer;
+            z-index: 1001;
+        }
+        footer {
+            position: absolute;
+            bottom: 20px;
+            font-size: 0.9em;
+            color: #333;
+        }
+
+        footer a {
+            text-decoration: none;
+            color: #333;
+            margin: 0 10px;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+    <body>
+    <div class="top-left">ANGÈLE RONACH</div>
+    <div class="top-right">STILLS</div>
+    <div class="gallery-container">
+        <div class="gallery-text"></div>
+                    <!-- Texte en bas à gauche -->
+        <div class="bottom-left-text">ANGÈLE RONACH</div>
+        <div class="gallery-wrapper">
+        <div class="gallery" id="gallery">
+    <img src="https://i.imgur.com/m8Ry58Z.jpeg" alt="Photo depuis Imgur">
+</div>
+        </div>
+
+    </div>
+
+    <!-- Modal -->
+    <div id="imageModal" class="modal">
+        <span class="close" id="closeModal">&times;</span>
+        <img class="modal-content" id="modalImage">
+    </div>
+
+    <footer>
+    <a href="contact.html">CONTACT</a>
+    <a href="motion.html">MOTION</a>
+</footer>
+
+    <script>
+        // Récupérer les éléments de la page
+        const galleryImages = document.querySelectorAll('.gallery img');
+        const modal = document.getElementById('imageModal');
+        const modalImage = document.getElementById('modalImage');
+        const closeModal = document.getElementById('closeModal');
+
+        // Ouvrir la modal avec l'image agrandie
+        galleryImages.forEach(image => {
+            image.addEventListener('click', () => {
+                modal.style.display = 'flex';
+                modalImage.src = image.src;
+                modalImage.alt = image.alt;
+            });
+        });
+
+        // Fermer la modal
+        closeModal.addEventListener('click', () => {
+            modal.style.display = 'none';
+        });
+
+        // Fermer la modal si l'utilisateur clique en dehors de l'image
+        window.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                modal.style.display = 'none';
+            }
+        });
+
+    </script>
+</body>
+</html>
+
