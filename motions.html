@@ -131,34 +131,28 @@
         .contact-button-right:hover {
             background-color: rgba(255, 255, 255, 0.3);
             
-     @media (max-width: 768px) {
-            /* Ajuster la taille de la vidéo */
+        @media (max-width: 768px) {
+            /* Adapter la vidéo */
             .background-video {
-                width: 100vw;
-                height: auto;
+                width: auto;
+                height: 100vh; /* Prendre toute la hauteur */
                 top: 0;
                 left: 0;
-                transform: none;
+                transform: none; /* Supprimer le centrage */
             }
 
             /* Réduire la taille du texte */
             .text-overlay h1 {
-                font-size: 4rem; /* Taille réduite pour mobile */
+                font-size: 4rem;
             }
 
-            /* Ajuster le lien en bas */
-            .bottom-link {
-                bottom: 10%;
+            .bottom-link, .contact-button-right {
+                font-size: 0.8rem;
+                padding: 5px 10px;
             }
 
             .bottom-left-text {
-                bottom: 5%;
-                font-size: 0.5rem; /* Réduire la taille du texte */
-            }
-
-            .contact-button-right {
-                bottom: 10%;
-                right: 5%;
+                font-size: 0.6rem;
             }
         }
     </style>
