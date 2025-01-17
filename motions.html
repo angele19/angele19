@@ -132,21 +132,32 @@
             background-color: rgba(255, 255, 255, 0.3);
             
      @media (max-width: 768px) {
-            .text-overlay h1 {
-                font-size: 4rem;
+            /* Ajuster la taille de la vidéo */
+            .background-video {
+                width: 100vw;
+                height: auto;
+                top: 0;
+                left: 0;
+                transform: none;
             }
 
+            /* Réduire la taille du texte */
+            .text-overlay h1 {
+                font-size: 4rem; /* Taille réduite pour mobile */
+            }
+
+            /* Ajuster le lien en bas */
             .bottom-link {
-                bottom: 5%;
+                bottom: 10%;
             }
 
             .bottom-left-text {
                 bottom: 5%;
-                font-size: 0.5rem;
+                font-size: 0.5rem; /* Réduire la taille du texte */
             }
 
             .contact-button-right {
-                bottom: 5%;
+                bottom: 10%;
                 right: 5%;
             }
         }
