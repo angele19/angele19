@@ -130,22 +130,22 @@
 
         .contact-button-right:hover {
             background-color: rgba(255, 255, 255, 0.3);
-        }
-
-        /* Adaptations pour les petits écrans (comme les téléphones en mode portrait) */
-        @media (max-width: 768px) {
+             @media (max-width: 768px) {
             .container {
-                height: auto; /* Permet à la hauteur de s'adapter à la taille de l'écran */
+                height: 100vh; /* Garder la hauteur à 100% pour les petits écrans */
             }
 
             .background-video {
                 width: 100%;
-                height: auto; /* Pour que la vidéo garde une proportion correcte */
+                height: 100%;
                 object-fit: cover;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
             }
 
             .text-overlay h1 {
-                font-size: 5rem; /* Réduire la taille du texte pour s'adapter à l'écran */
+                font-size: 4rem; /* Réduire la taille du texte pour s'adapter à l'écran */
             }
 
             .bottom-link {
@@ -155,13 +155,20 @@
             .bottom-left-text {
                 bottom: 5%;
                 left: 10%;
-                font-size: 0.5rem;
+                font-size: 0.6rem;
             }
 
             .contact-button-right {
                 bottom: 5%;
                 right: 10%;
+                font-size: 0.6rem;
+            }
+
+            /* Ajuster l'espacement du texte et des boutons sur les petits écrans */
+            .bottom-left-text,
+            .bottom-right-text {
                 font-size: 0.5rem;
+                padding: 5px;
             }
         }
     </style>
@@ -170,7 +177,7 @@
     <!-- Conteneur principal -->
     <div class="container">
         <!-- Vidéo en arrière-plan -->
-        <video class="background-video" autoplay muted loop>
+        <video class="background-video" autoplay muted loop playsinline preload="auto">
             <source src="https://i.imgur.com/flkXn1T.mp4" alt="Video depuis Imgur">
             Votre navigateur ne supporte pas les vidéos.
         </video>
@@ -192,6 +199,9 @@
         <!-- Bouton Contact en bas à droite -->
         <a href="contact.html" class="contact-button-right">CONTACT</a>
     </div>
+
 </body>
 </html>
+
+
 
