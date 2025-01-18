@@ -98,30 +98,28 @@
 
         /* Styles pour les petits écrans */
         @media (max-width: 768px) {
-            .text-overlay h1 {
-                font-size: 17vw; /* Réduire la taille du texte pour les mobiles */
-            }
+    /* Positionner le bouton "PHOTOGRAPHY" bien au-dessus */
+    .bottom-link {
+        bottom: 30%; /* Ajuster cette valeur pour définir la hauteur */
+    }
 
-            .bottom-link a,
-            .contact-button-right {
-                font-size: 4vw; /* Ajuster la taille des boutons */
-                padding: 8px 16px;
-            }
+    /* Ajuster la taille du bouton pour qu'il reste harmonieux */
+    .bottom-link a {
+        font-size: 4vw; /* Taille du texte */
+        padding: 8px 16px; /* Espace interne */
+    }
 
-    /* Remonter et ajuster la taille du texte en bas à gauche */
+    /* Ajuster la position et la taille des textes en bas */
     .bottom-left-text {
-        font-size: 3.5vw; /* Réduire la taille du texte */
-        bottom: 20%; /* Remonter un peu le texte */
+        font-size: 3.5vw;
+        bottom: 8%; /* Garder un espace par rapport au bas de l'écran */
     }
 
-    /* Remonter et ajuster la taille du texte en bas à droite */
     .contact-button-right {
-        font-size: 3.5vw; /* Réduire la taille du texte du bouton */
-        bottom: 20%; /* Remonter le bouton */
-
-            .bottom-link {
-        bottom: 10%; /* Remonter le texte "PHOTOGRAPHY" plus haut */
+        font-size: 3.5vw;
+        bottom: 8%;
     }
+}
     }
         }
     </style>
