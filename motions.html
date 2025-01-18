@@ -60,12 +60,12 @@
             text-decoration: none;
             padding: 10px 20px;
             border-radius: 5px;
-            background-color: rgba(0, 0, 0, 0.5);
+            background-color: transparent;
             transition: background-color 0.3s;
         }
 
         .bottom-link a:hover {
-            background-color: rgba(255, 255, 255, 0.3);
+            background-color: transparent;
         }
 
         /* Texte en bas à gauche */
@@ -88,7 +88,7 @@
             text-decoration: none;
             padding: 10px 20px;
             border-radius: 5px;
-            background-color: rgba(0, 0, 0, 0.5);
+            background-color: transparent;
             transition: background-color 0.3s;
         }
 
@@ -98,6 +98,9 @@
 
         /* Styles pour les petits écrans */
         @media (max-width: 768px) {
+            .text-overlay h1 {
+        font-size: 9rem; /* Ajuste cette valeur selon tes besoins */
+    }
     /* Positionner le bouton "PHOTOGRAPHY" bien au-dessus */
     .bottom-link {
         bottom: 30%; /* Ajuster cette valeur pour définir la hauteur */
@@ -111,13 +114,13 @@
 
     /* Ajuster la position et la taille des textes en bas */
     .bottom-left-text {
-        font-size: 3.5vw;
-        bottom: 8%; /* Garder un espace par rapport au bas de l'écran */
+        font-size: 3vw;
+        bottom: 20%; /* Garder un espace par rapport au bas de l'écran */
     }
 
     .contact-button-right {
-        font-size: 3.5vw;
-        bottom: 8%;
+        font-size: 3vw;
+        bottom: 20%;
     }
 }
     }
@@ -139,7 +142,7 @@
 
         <!-- Bouton Photography -->
         <div class="bottom-link">
-            <a href="photos.html">PHOTOGRAPHY</a>
+            <a href="photos.html">STILLS</a>
         </div>
 
         <!-- Texte en bas à gauche -->
