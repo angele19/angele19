@@ -49,7 +49,7 @@
         /* Bouton en bas */
         .bottom-link {
             position: absolute;
-            bottom: 10%;
+            bottom: 30%; /* Positionner au-dessus des textes en bas */
             left: 50%;
             transform: translateX(-50%);
         }
@@ -58,7 +58,7 @@
             font-size: 4vw; /* Taille responsive pour les boutons */
             color: white;
             text-decoration: none;
-            padding: 10px 20px;
+            padding: 8px 16px;
             border-radius: 5px;
             background-color: transparent;
             transition: background-color 0.3s;
@@ -68,11 +68,20 @@
             background-color: transparent;
         }
 
-        /* Texte en bas à gauche */
-        .bottom-left-text {
+        /* Conteneur commun pour les textes en bas */
+        .bottom-text-container {
             position: absolute;
             bottom: 20px;
-            left: 20px;
+            width: 100%; /* Prend toute la largeur */
+            display: flex; /* Utilise flexbox */
+            justify-content: space-between; /* Place un élément à gauche, l'autre à droite */
+            align-items: center; /* Aligne verticalement */
+            padding: 0 20px; /* Ajoute un espace interne sur les côtés */
+            box-sizing: border-box; /* Inclut le padding dans la largeur totale */
+        }
+
+        /* Texte en bas à gauche */
+        .bottom-left-text {
             font-size: 3vw; /* Texte responsive */
             color: white;
             font-family: Didot, serif;
@@ -80,9 +89,6 @@
 
         /* Bouton contact en bas à droite */
         .contact-button-right {
-            position: absolute;
-            bottom: 20px;
-            right: 20px;
             font-size: 3vw; /* Texte responsive */
             color: white;
             text-decoration: none;
@@ -99,38 +105,28 @@
         /* Styles pour les petits écrans */
         @media (max-width: 768px) {
             .text-overlay h1 {
-        font-size: 9rem; /* Ajuste cette valeur selon tes besoins */
-    }
-    /* Positionner le bouton "PHOTOGRAPHY" bien au-dessus */
-    .bottom-link {
-        bottom: 30%; /* Ajuster cette valeur pour définir la hauteur */
-    }
+                font-size: 6vw; /* Ajuster la taille pour les petits écrans */
+            }
 
-    /* Ajuster la taille du bouton pour qu'il reste harmonieux */
-    .bottom-link a {
-        font-size: 4vw; /* Taille du texte */
-        padding: 8px 16px; /* Espace interne */
-    }
+            .bottom-link {
+                bottom: 40%; /* Ajuster la hauteur du bouton "STILLS" */
+            }
 
-    /* Ajuster la position et la taille des textes en bas */
-    .bottom-left-text {
-        font-size: 3vw;
-        bottom: 20%; /* Garder un espace par rapport au bas de l'écran */
-    }
+            .bottom-link a {
+                font-size: 4.5vw; /* Ajuster la taille du texte */
+            }
 
-    .contact-button-right {
-        font-size: 3vw;
-        bottom: 20%;
-    }
-}
-    }
+            .bottom-left-text,
+            .contact-button-right {
+                font-size: 3vw; /* Adapter la taille des textes en bas */
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
         <!-- Vidéo en arrière-plan -->
-         <video class="background-video" autoplay muted loop playsinline>
+        <video class="background-video" autoplay muted loop playsinline>
             <source src="https://i.imgur.com/flkXn1T.mp4" type="video/mp4">
             Votre navigateur ne supporte pas les vidéos.
         </video>
@@ -145,14 +141,15 @@
             <a href="photos.html">STILLS</a>
         </div>
 
-        <!-- Texte en bas à gauche -->
-        <div class="bottom-left-text">ANGÈLE RONACH</div>
-
-        <!-- Bouton Contact en bas à droite -->
-        <a href="contact.html" class="contact-button-right">CONTACT</a>
+        <!-- Texte et bouton en bas -->
+        <div class="bottom-text-container">
+            <div class="bottom-left-text">ANGÈLE RONACH</div>
+            <a href="contact.html" class="contact-button-right">CONTACT</a>
+        </div>
     </div>
 </body>
 </html>
+
 
 
 
