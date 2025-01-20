@@ -90,7 +90,28 @@
             .modal-content {
                 width: auto; /* Laisse l'image ajuster sa largeur automatiquement */
                 height: 100%; /* Prend toute la hauteur de l'écran */
+             /* Styles pour les petits écrans */
+                
+            .gallery {
+                flex-direction: column;
+                overflow-x: hidden;
+                overflow-y: scroll;
+                scroll-snap-type: y proximity;
+                -webkit-overflow-scrolling: touch;
             }
+
+            .gallery img {
+                width: 90%;
+                height: auto;
+                margin: 0 auto;
+                scroll-snap-align: start;
+            }
+
+            .gallery-wrapper::before,
+            .gallery-wrapper::after {
+                display: none;
+            }
+    
         }
 
         footer {
