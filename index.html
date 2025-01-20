@@ -1,4 +1,3 @@
-<meta name="robots" content="noindex, nofollow">
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -11,7 +10,6 @@
             padding: 0;
             font-family: Didot, serif;
             background-color: #f4f4f4;
-            overflow: hidden;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -28,14 +26,6 @@
             max-width: 1150px;
         }
 
-        .gallery-text {
-            margin-bottom: 40px;
-            font-size: 0.5em;
-            font-weight: bold;
-            color:rgb(34, 66, 124);
-            transform: translateX(-200px);
-        }
-
         .gallery-wrapper {
             position: relative;
             width: 100%;
@@ -50,7 +40,6 @@
             overflow-x: auto;
             scroll-behavior: smooth;
             scroll-snap-type: x mandatory;
-            -webkit-overflow-scrolling: touch; /* Pour une meilleure expérience sur mobile */
         }
 
         .gallery img {
@@ -60,64 +49,10 @@
             transition: transform 0.3s ease-in-out;
             cursor: pointer;
             scroll-snap-align: start;
-
         }
 
         .gallery img:hover {
             transform: scale(1.1);
-        }
-
-        /* Dégradé sur les bords internes avec une transition plus douce et opaque */
-.gallery-wrapper::before,
-.gallery-wrapper::after {
-    content: "";
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    width: 60px; /* Largeur du dégradé */
-    background: linear-gradient(90deg, rgba(244, 244, 244, 4) 0%, rgba(244, 244, 244, 0) 100%);
-    z-index: 1;
-}
-.gallery-wrapper::before {
-    left: 0;
-}
-
-.gallery-wrapper::after {
-    right: 0;
-    transform: rotate(180deg);
-}
-        /* Texte en bas à gauche */
-.bottom-left-text {
-    position: absolute; /* Position absolue pour se placer dans le coin inférieur gauche */
-    bottom: 20px; /* Distance depuis le bas */
-    left: 30px; /* Distance depuis la gauche */
-    font-size: 0.7rem;
-    color: white;
-    font-family: Didot, serif;
-}
-        /* Texte en haut à gauche et à droite */
-        .top-left {
-            position: absolute;
-            top: 30px;
-            left: 70px;
-            font-size: 0.7em;
-            color: rvb(49, 140, 231);
-        }
-
-        .top-right {
-            position: absolute;
-            top: 90px;
-            right: 100px;
-            font-size: 8em;
-            color: #333;
-            font-family: 'impact', sans-serif; /* Ajout de la police */
-        }
-          .center {
-            position: right-center; 
-            top: 50px;
-            left: 50px;
-            font-size: 0.8em;
-            color: black;
         }
 
         /* Modal styles */
@@ -128,19 +63,16 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.7);
+            background-color: rgba(0, 0, 0, 0.9); /* Couleur noire pour les marges */
             justify-content: center;
             align-items: center;
             z-index: 1000;
-            overflow: auto;
         }
 
         .modal-content {
-            max-width: 80%;
-            max-height: 80%;
-            object-fit: contain;
-            margin: auto;
-            transition: transform 0.3s ease;
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain; /* Assure un ratio correct pour les images */
         }
 
         .close {
@@ -152,71 +84,36 @@
             cursor: pointer;
             z-index: 1001;
         }
-        }
-        /* Styles pour les petits écrans */
+
+        /* Media queries pour petits écrans */
         @media (max-width: 768px) {
-            .gallery {
-                flex-direction: column; /* Aligne les images verticalement */
-                overflow-x: hidden; /* Désactive le défilement horizontal */
-                overflow-y: auto; /* Active le défilement vertical */
-                scroll-snap-type: y mandatory; /* Snap en vertical */
-            }
-
-            .gallery img {
-                width: 90%; /* Ajuste la largeur pour les petits écrans */
-                height: auto; /* Maintient le ratio d'aspect */
-                margin: 0 auto; /* Centre les images */
-            }
-
-            .gallery-wrapper::before,
-            .gallery-wrapper::after {
-                display: none; /* Supprime les dégradés pour le défilement vertical */
+            .modal-content {
+                width: auto; /* Laisse l'image ajuster sa largeur automatiquement */
+                height: 100%; /* Prend toute la hauteur de l'écran */
             }
         }
-         /* Pied de page toujours visible */
+
         footer {
-            position: fixed; /* Fixe le pied de page en bas de la fenêtre */
+            position: fixed;
             bottom: 0;
             width: 100%;
             background-color: #f4f4f4;
             text-align: center;
             padding: 10px 0;
             font-size: 1em;
-            text-decoration: underline;
             color: #333;
-            z-index: 1000; /* Place le pied de page au-dessus des autres éléments */
-        }
-
-        footer a {
-            text-decoration: underline;
-            color: #333;
-            margin: 0 10px;
-        }
-
-        footer a:hover {
-            text-decoration: underline;
         }
     </style>
 </head>
-    <body>
-    <div class="top-right">STILLS</div>
+<body>
     <div class="gallery-container">
-        <div class="gallery-text"></div>
-                    <!-- Texte en bas à gauche -->
-        <div class="bottom-left-text">ANGÈLE RONACH</div>
         <div class="gallery-wrapper">
-        <div class="gallery" id="gallery">
-            <img src="https://i.imgur.com/m8Ry58Z.jpeg" alt="Photo depuis Imgur">
-            <img src="https://i.imgur.com/BQJ5sH1.jpeg" alt="Photo depuis Imgur">
-            <img src="https://i.imgur.com/HpyO7d2.jpeg" alt="Photo depuis Imgur">
-            <img src="https://i.imgur.com/HpyO7d2.jpeg" alt="Photo depuis Imgur">
-            <img src="https://i.imgur.com/HpyO7d2.jpeg" alt="Photo depuis Imgur">
-            <img src="https://i.imgur.com/HpyO7d2.jpeg" alt="Photo depuis Imgur">
-            <img src="https://i.imgur.com/HpyO7d2.jpeg" alt="Photo depuis Imgur">
-            <img src="https://i.imgur.com/HpyO7d2.jpeg" alt="Photo depuis Imgur">
-</div>
+            <div class="gallery" id="gallery">
+                <img src="https://i.imgur.com/m8Ry58Z.jpeg" alt="Photo 1">
+                <img src="https://i.imgur.com/BQJ5sH1.jpeg" alt="Photo 2">
+                <img src="https://i.imgur.com/HpyO7d2.jpeg" alt="Photo 3">
+            </div>
         </div>
-
     </div>
 
     <!-- Modal -->
@@ -226,18 +123,17 @@
     </div>
 
     <footer>
-    <a href="Contact.html">CONTACT</a>
-    <a href="motions.html">MOTION</a>
-</footer>
+        <a href="Contact.html">CONTACT</a>
+        <a href="motions.html">MOTION</a>
+    </footer>
 
     <script>
-        // Récupérer les éléments de la page
         const galleryImages = document.querySelectorAll('.gallery img');
         const modal = document.getElementById('imageModal');
         const modalImage = document.getElementById('modalImage');
         const closeModal = document.getElementById('closeModal');
 
-        // Ouvrir la modal avec l'image agrandie
+        // Ouvrir la modal avec l'image
         galleryImages.forEach(image => {
             image.addEventListener('click', () => {
                 modal.style.display = 'flex';
@@ -251,14 +147,14 @@
             modal.style.display = 'none';
         });
 
-        // Fermer la modal si l'utilisateur clique en dehors de l'image
-        window.addEventListener('click', (e) => {
+        // Fermer la modal en cliquant à l'extérieur de l'image
+        modal.addEventListener('click', (e) => {
             if (e.target === modal) {
                 modal.style.display = 'none';
             }
         });
-
     </script>
 </body>
 </html>
+
 
