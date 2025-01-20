@@ -152,22 +152,6 @@
             cursor: pointer;
             z-index: 1001;
         }
-        footer {
-            position: absolute;
-            bottom: 20px;
-            font-size: 0.9em;
-            text-decoration: underline;
-            color: #333;
-        }
-
-        footer a {
-            text-decoration: underline;
-            color: #333;
-            margin: 0 10px;
-        }
-
-        footer a:hover {
-            text-decoration: underline;
         }
         /* Styles pour les petits écrans */
         @media (max-width: 768px) {
@@ -188,6 +172,29 @@
             .gallery-wrapper::after {
                 display: none; /* Supprime les dégradés pour le défilement vertical */
             }
+        }
+         /* Pied de page toujours visible */
+        footer {
+            position: fixed; /* Fixe le pied de page en bas de la fenêtre */
+            bottom: 0;
+            width: 100%;
+            background-color: #f4f4f4;
+            text-align: center;
+            padding: 10px 0;
+            font-size: 1em;
+            text-decoration: underline;
+            color: #333;
+            z-index: 1000; /* Place le pied de page au-dessus des autres éléments */
+        }
+
+        footer a {
+            text-decoration: underline;
+            color: #333;
+            margin: 0 10px;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
         }
     </style>
 </head>
