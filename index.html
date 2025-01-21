@@ -12,35 +12,39 @@
             background-color: white;
             color: black;
             display: flex;
+            flex-direction: column;
             justify-content: space-between;
             height: 100vh;
             overflow: hidden;
         }
 
         .text-container {
-            width: 50%;
             display: flex;
             flex-direction: column;
-            justify-content: space-between;
+            justify-content: center;
+            align-items: center;
             padding: 20px;
             box-sizing: border-box;
+            text-align: center;
+            flex-shrink: 0;
         }
 
         .text-container .header {
-            font-size: 1.2em;
-            text-align: left;
+            font-size: 2em;
         }
 
         .text-container .footer {
-            text-align: left;
-            font-size: 1em;
+            display: flex;
+            justify-content: center;
+            width: 100%;
+            margin-top: 10px;
         }
 
         .text-container .footer a {
             text-decoration: none;
             color: black;
-            display: block;
-            margin-bottom: 5px;
+            margin: 0 10px;
+            font-size: 1.2em;
         }
 
         .text-container .footer a:hover {
@@ -48,14 +52,15 @@
         }
 
         .gallery-container {
-            width: 100%;
             display: flex;
             flex-direction: column;
-            justify-content: flex-start;
-            align-items: flex-end;
+            justify-content: center;
+            align-items: center;
+            flex: 1;
             overflow-y: auto;
             padding: 20px;
             box-sizing: border-box;
+            margin-top: 20px;
         }
 
         .gallery img {
@@ -66,13 +71,34 @@
             object-fit: contain;
             margin-bottom: 15px;
             border: 1px solid #ddd;
-            cursor: pointer; /* Indique que l'image est cliquable */
+            cursor: pointer;
         }
 
         @media (max-width: 768px) {
+            .gallery-container {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                margin-top: 20px;
+            }
+
+            .text-container .header {
+                font-size: 1.8em; /* Taille du titre en version mobile */
+            }
+
+            .text-container .footer {
+                margin-top: 20px;
+                margin-bottom: 20px;
+            }
+
             .gallery img {
-                max-width: 100%;
+                max-width: 90%; /* Images plus petites sur mobile */
                 max-height: 250px;
+            }
+
+            .footer a {
+                font-size: 1em;
             }
         }
 
@@ -84,7 +110,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.7); /* Fond semi-transparent */
+            background-color: rgba(0, 0, 0, 0.7);
             justify-content: center;
             align-items: center;
             z-index: 1000;
@@ -105,11 +131,12 @@
             <a href="contact.html">CONTACT</a>
         </div>
     </div>
+
     <div class="gallery-container">
         <div class="gallery">
             <img src="https://i.imgur.com/jJ6zVH6.jpeg" alt="Photo 1" onclick="openModal(this)">
             <img src="https://i.imgur.com/5K7bNv8.jpg" alt="Photo 2" onclick="openModal(this)">
-            <!-- Ajoute plus d'images ici -->
+            <!-- Ajoutez plus d'images ici -->
         </div>
     </div>
 
@@ -135,3 +162,4 @@
     </script>
 </body>
 </html>
+
