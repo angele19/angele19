@@ -9,172 +9,112 @@
             margin: 0;
             padding: 0;
             font-family: Didot, serif;
-            background-color: ivory;
-            overflow: hidden;
+            background-color: white;
+            color: black;
             display: flex;
-            justify-content: center;
-            align-items: center;
+            justify-content: space-between;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .text-container {
+            width: 50%; /* Colonne gauche avec texte */
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .text-container .header {
+            font-size: 1.2em;
+            text-align: left;
+        }
+
+        .text-container .footer {
+            text-align: left;
+            font-size: 1em;
+        }
+
+        .text-container .footer a {
+            text-decoration: none;
+            color: black;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .text-container .footer a:hover {
+            text-decoration: underline;
         }
 
         .gallery-container {
-            margin-top: 152px; /* 20% moins que l'original */
+            width: 100%; /* Colonne des images */
             display: flex;
             flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            width: 90%;
-            max-width: 1350px;
-        }
-
-        .gallery-text {
-            margin-bottom: 40px;
-            font-size: 0.5em;
-            font-weight: bold;
-            color: rgb(34, 66, 124);
-            transform: translateX(-200px);
-        }
-
-        .gallery-wrapper {
-            position: relative;
-            width: 100%;
-            overflow: hidden;
-        }
-
-        .gallery {
-            display: flex;
-            gap: 8px;
-            padding: 10px;
-            width: 100%;
-            overflow-x: auto;
-            scroll-behavior: smooth;
-            scroll-snap-type: x mandatory;
-            -webkit-overflow-scrolling: touch;
+            justify-content: flex-start; /* Aligne le contenu du conteneur vers le haut */
+            align-items: flex-end; /* Aligne le contenu du conteneur à droite */
+            overflow-y: auto;
+            padding: 20px;
+            box-sizing: border-box;
+            margin-left: 20%; /* Décalage supplémentaire à droite */
         }
 
         .gallery img {
-            width: 250px;
-            height: 200px;
-            object-fit: cover;
-            transition: transform 0.3s ease-in-out;
-            cursor: pointer;
-            scroll-snap-align: start;
+            width: 100%; /* L'image prend toute la largeur du conteneur */
+            max-width: 100%; /* Limite la largeur de l'image à 100% du conteneur */
+            max-height: 1500px; /* Hauteur maximale pour éviter qu'elle ne soit trop grande */
+            height: auto; /* Maintient le ratio de l'image */
+            object-fit: contain; /* Maintient le ratio de l'image sans la rogner */
+            margin-bottom: 15px; /* Espacement entre les images */
+            border: 1px solid #ddd; /* Bordure discrète */
         }
 
-        .gallery img:hover {
-            transform: scale(1.1);
-        }
-
-        .gallery-wrapper::before,
-        .gallery-wrapper::after {
-            content: "";
-            position: absolute;
-            top: 0;
-            bottom: 0;
-            width: 60px;
-            background: linear-gradient(90deg, rgba(255, 255, 240, 1) 0%, rgba(255, 255, 240, 0) 100%);
-            z-index: 1;
-        }
-
-        .gallery-wrapper::before {
-            left: 0;
-        }
-
-        .gallery-wrapper::after {
-            right: 0;
-            transform: rotate(180deg);
-        }
-
-        .bottom-left-text {
-            position: absolute;
-            bottom: 20px;
-            left: 30px;
-            font-size: 0.7rem;
-            color: white;
-            font-family: Didot, serif;
-        }
-
-        .top-left {
-            position: absolute;
-            top: 30px;
-            left: 20px; /* Aligné avec CONTACT et MOTION */
-            font-size: 1em;
-            color: rgb(49, 140, 231);
-            font-family: Didot, serif;
-        }
-
-        .top-right {
-            position: absolute;
-            top: 30px;
-            right: 100px;
-            font-size: 1.5em; /* Texte plus grand */
-            color: rgb(49, 140, 231);
-            font-family: Didot, serif;
+        @media (min-width: 769px) {
+            .gallery img {
+                max-width: 80%; /* Sur les grands écrans, l'image peut occuper 80% du conteneur */
+            }
         }
 
         @media (max-width: 768px) {
+            body {
+                flex-direction: column;
+                justify-content: flex-start;
+            }
+
             .gallery-container {
-                margin-top: 50px;
                 width: 100%;
-            }
-
-            .gallery-text {
-                font-size: 1em;
-                transform: translateX(0);
-            }
-
-            .gallery {
-                gap: 5px;
-                padding: 5px;
+                padding: 10px;
+                margin-left: 0; /* Sur mobile, il n'y a pas de marge à gauche */
             }
 
             .gallery img {
-                width: 120px;
-                height: 120px; /* Galerie plus grande */
-                scroll-snap-align: center;
+                max-width: 90%; /* Sur mobile, l'image occupe 90% du conteneur */
+                max-height: 250px; /* Hauteur maximale sur mobile */
             }
 
-            .gallery-wrapper::before,
-            .gallery-wrapper::after {
-                width: 30px;
+            .text-container {
+                width: 100%;
+                padding: 10px;
             }
 
-            .top-left {
-                position: absolute;
-                top: 30px;
-                left: 20px; /* Aligné avec CONTACT et MOTION */
+            .text-container .header {
                 font-size: 1em;
-                color: rgb(49, 140, 231);
             }
-        }
-
-        footer {
-            position: absolute;
-            bottom: 20px;
-            font-size: 0.9em;
-            color: #333;
-        }
-
-        footer a {
-            text-decoration: none;
-            color: #333;
-            margin: 0 10px;
-        }
-
-        footer a:hover {
-            text-decoration: underline;
         }
     </style>
 </head>
 <body>
-    <div class="top-left">ANGÈLE RONACH</div>
-    <div class="top-right">STILLS</div>
+    <div class="text-container">
+        <div class="header">ANGÈLE RONACH</div>
+        <div class="footer">
+            <a href="motions.html">MOTION</a>
+            <a href="contact.html">CONTACT</a>
+        </div>
+    </div>
     <div class="gallery-container">
-        <div class="gallery-text"></div>
-        <div class="gallery-wrapper">
-            <div class="gallery" id="gallery">
-                <img src="https://i.imgur.com/jJ6zVH6.jpeg" alt="Photo 1">
-                <img src="https://i.imgur.com/BQJ5sH1.jpeg" alt="Photo 2">
+        <div class="gallery">
+            <img src="https://i.imgur.com/jJ6zVH6.jpeg" alt="Photo 1">
+            <img src="https://i.imgur.com/BQJ5sH1.jpeg" alt="Photo 2">
                 <img src="https://i.imgur.com/HpyO7d2.jpeg" alt="Photo 3">
                 <img src="https://i.imgur.com/m8Ry58Z.jpeg" alt="Photo 4">
                 <img src="https://i.imgur.com/9m6ICXN.jpeg" alt="Photo 5">
@@ -192,40 +132,8 @@
                 <img src="https://i.imgur.com/FjyCio7.jpeg" alt="Photo 17">
                 <img src="https://i.imgur.com/MC0CKfW.jpeg" alt="Photo 18">
                 <img src="https://i.imgur.com/Aq3mk0C.jpeg" alt="Photo 19">
-            </div>
         </div>
     </div>
-
-    <footer>
-        <a href="contact.html">CONTACT</a>
-        <a href="motions.html">MOTION</a>
-    </footer>
-
-    <script>
-        const galleryImages = document.querySelectorAll('.gallery img');
-        const modal = document.getElementById('imageModal');
-        const modalImage = document.getElementById('modalImage');
-        const closeModal = document.getElementById('closeModal');
-
-        galleryImages.forEach(image => {
-            image.addEventListener('click', () => {
-                modal.style.display = 'flex';
-                modalImage.src = image.src;
-                modalImage.alt = image.alt;
-            });
-        });
-
-        closeModal.addEventListener('click', () => {
-            modal.style.display = 'none';
-        });
-
-        modal.addEventListener('click', (e) => {
-            if (e.target === modal) {
-                modal.style.display = 'none';
-            }
-        });
-    </script>
 </body>
 </html>
-
 
