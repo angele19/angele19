@@ -18,7 +18,7 @@
         }
 
         .text-container {
-            width: 50%; /* Colonne gauche avec texte */
+            width: 50%;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
@@ -27,7 +27,7 @@
         }
 
         .text-container .header {
-            font-size: 0,9em;
+            font-size: 1.2em;
             text-align: left;
         }
 
@@ -48,7 +48,7 @@
         }
 
         .gallery-container {
-            width: 100%; /* Colonne des images */
+            width: 100%;
             display: flex;
             flex-direction: column;
             justify-content: flex-start;
@@ -59,33 +59,32 @@
         }
 
         .gallery img {
-            width: 100%; /* L'image prend toute la largeur du conteneur */
-            max-width: 100%; /* Limite la largeur de l'image à 100% du conteneur */
-            max-height: 1500px; /* Hauteur maximale pour éviter qu'elle ne soit trop grande */
-            height: auto; /* Maintient le ratio de l'image */
-            object-fit: contain; /* Maintient le ratio sans rognage */
+            width: 100%;
+            max-width: 100%;
+            max-height: 1500px;
+            height: auto;
+            object-fit: contain;
             margin-bottom: 15px;
             border: 1px solid #ddd;
-            cursor: pointer; /* Change le curseur pour indiquer que c'est cliquable */
+            cursor: pointer; /* Indique que l'image est cliquable */
         }
 
-        /* Style pour la version mobile */
         @media (max-width: 768px) {
             .gallery img {
-                max-width: 100%; /* Sur mobile, l'image prend toute la largeur du conteneur */
+                max-width: 100%;
                 max-height: 250px;
             }
         }
 
         /* Modal (lightbox) */
         .modal {
-            display: none; /* Masqué par défaut */
+            display: none;
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.7); /* Fond noir semi-transparent */
+            background-color: rgba(0, 0, 0, 0.7); /* Fond semi-transparent */
             justify-content: center;
             align-items: center;
             z-index: 1000;
@@ -128,13 +127,8 @@
                 <img src="https://i.imgur.com/MC0CKfW.jpeg" alt="Photo 18">
                 <img src="https://i.imgur.com/Aq3mk0C.jpeg" alt="Photo 19">
         </div>
-    </div>
-     <!-- Modal pour afficher l'image en plein écran -->
-    <div id="modal" class="modal" onclick="closeModal()">
-        <img id="modal-img" src="" alt="Image en plein écran">
-    </div>
-
-      <!-- Modal pour afficher l'image en plein écran -->
+   
+    <!-- Modal pour afficher l'image en plein écran -->
     <div id="modal" class="modal" onclick="closeModal()">
         <img id="modal-img" src="" alt="Image en plein écran">
     </div>
@@ -156,4 +150,3 @@
     </script>
 </body>
 </html>
-
