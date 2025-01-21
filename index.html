@@ -1,3 +1,4 @@
+<meta name="robots" content="noindex, nofollow">
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -10,38 +11,47 @@
             padding: 0;
             font-family: Didot, serif;
             background-color: #f4f4f4;
+            overflow: hidden;
             display: flex;
             justify-content: center;
-            align-items: flex-start; /* Aligne le contenu en haut de la page */
-            flex-direction: column;
-            min-height: 100vh; /* Assure que le contenu occupe toute la hauteur */
+            align-items: center;
         }
 
         .gallery-container {
-            margin-top: 120px;
+            margin-top: 190px;
             display: flex;
             flex-direction: column;
+            justify-content: center;
             align-items: center;
             text-align: center;
             width: 90%;
-            max-width: 1150px;
+            max-width: 1350px;
+        }
+
+        .gallery-text {
+            margin-bottom: 40px;
+            font-size: 0.5em;
+            font-weight: bold;
+            color:rgb(34, 66, 124);
+            transform: translateX(-200px);
         }
 
         .gallery-wrapper {
-    position: relative;
-    width: 100%;
-    overflow: hidden;
-}
+            position: relative;
+            width: 100%;
+            overflow: hidden;
+        }
 
-.gallery {
-    display: flex;
-    gap: 8px;
-    padding: 10px;
-    overflow-x: scroll; /* Permet le défilement horizontal */
-    scroll-behavior: smooth;
-    scroll-snap-type: x mandatory;
-    justify-content: flex-start; /* Change à 'flex-start' pour éviter le centrage */
-}
+        .gallery {
+            display: flex;
+            gap: 8px;
+            padding: 10px;
+            width: 100%;
+            overflow-x: auto;
+            scroll-behavior: smooth;
+            scroll-snap-type: x mandatory;
+            -webkit-overflow-scrolling: touch; /* Pour une meilleure expérience sur mobile */
+        }
 
         .gallery img {
             width: 250px;
@@ -49,25 +59,66 @@
             object-fit: cover;
             transition: transform 0.3s ease-in-out;
             cursor: pointer;
-            scroll-snap-align: start; /* Centrer les images lors du défilement */
+            scroll-snap-align: start;
+
         }
 
         .gallery img:hover {
             transform: scale(1.1);
         }
 
-        .gallery {
-            min-width: 100%; /* La galerie prendra au moins toute la largeur du conteneur */
-        }
+        /* Dégradé sur les bords internes avec une transition plus douce et opaque */
+.gallery-wrapper::before,
+.gallery-wrapper::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 60px; /* Largeur du dégradé */
+    background: linear-gradient(90deg, rgba(244, 244, 244, 4) 0%, rgba(244, 244, 244, 0) 100%);
+    z-index: 1;
+}
+.gallery-wrapper::before {
+    left: 0;
+}
 
-        /* Texte en haut à droite */
-        .top-right {
+.gallery-wrapper::after {
+    right: 0;
+    transform: rotate(180deg);
+}
+        /* Texte en bas à gauche */
+.bottom-left-text {
+    position: absolute; /* Position absolue pour se placer dans le coin inférieur gauche */
+    bottom: 20px; /* Distance depuis le bas */
+    left: 30px; /* Distance depuis la gauche */
+    font-size: 0.7rem;
+    color: white;
+    font-family: Didot, serif;
+}
+        /* Texte en haut à gauche et à droite */
+        .top-left {
             position: absolute;
             top: 30px;
-            right: 20px;
-            font-size: 1.8em;
+            left: 70px;
+            font-size: 0.7em;
+            color: rvb(49, 140, 231);
+
+        }
+
+        .top-right {
+            position: absolute;
+            top: 90px;
+            right: 100px;
+            font-size: 8em;
             color: #333;
-            font-family: 'Impact', sans-serif;
+            font-family: '', sans-serif; /* Ajout de la police */
+        }
+          .center {
+            position: right-center; 
+            top: 50px;
+            left: 50px;
+            font-size: 0.8em;
+            color: black;
         }
 
         /* Modal styles */
@@ -78,16 +129,19 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.9);
+            background-color: rgba(0, 0, 0, 0.7);
             justify-content: center;
             align-items: center;
             z-index: 1000;
+            overflow: auto;
         }
 
         .modal-content {
-            max-width: 100%;
-            max-height: 100%;
+            max-width: 80%;
+            max-height: 80%;
             object-fit: contain;
+            margin: auto;
+            transition: transform 0.3s ease;
         }
 
         .close {
@@ -99,45 +153,33 @@
             cursor: pointer;
             z-index: 1001;
         }
-
-        /* Styles pour les petits écrans */
-        @media (max-width: 768px) {
-            body {
-                align-items: center; /* Centre tout le contenu */
-            }
-
-            .top-right {
-                top: 10px;
-                font-size: 1.2em; /* Réduit la taille du texte */
-            }
-
-            .gallery-container {
-                margin-top: 80px; /* Réduit l'espace au-dessus */
-            }
-
-            .gallery img {
-                width: 90%; /* Les images occupent presque tout l'écran */
-                height: auto;
-            }
+        footer {
+            position: absolute;
+            bottom: 20px;
+            font-size: 0.9em;
+            color: #333;
         }
 
-        footer {
-            position: fixed;
-            bottom: 0;
-            width: 100%;
-            background-color: #f4f4f4;
-            text-align: center;
-            padding: 10px 0;
-            font-size: 1em;
+        footer a {
+            text-decoration: none;
             color: #333;
+            margin: 0 10px;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
         }
     </style>
 </head>
-<body>
+    <body>
+    <div class="top-left">ANGÈLE RONACH</div>
     <div class="top-right">STILLS</div>
     <div class="gallery-container">
+        <div class="gallery-text"></div>
+                    <!-- Texte en bas à gauche -->
+        <div class="bottom-left-text">ANGÈLE RONACH</div>
         <div class="gallery-wrapper">
-            <div class="gallery" id="gallery">
+        <div class="gallery" id="gallery">
                 <img src="https://i.imgur.com/jJ6zVH6.jpeg" alt="Photo 1">
                 <img src="https://i.imgur.com/BQJ5sH1.jpeg" alt="Photo 2">
                 <img src="https://i.imgur.com/HpyO7d2.jpeg" alt="Photo 3">
@@ -157,9 +199,9 @@
                 <img src="https://i.imgur.com/FjyCio7.jpeg" alt="Photo 17">
                 <img src="https://i.imgur.com/MC0CKfW.jpeg" alt="Photo 18">
                 <img src="https://i.imgur.com/Aq3mk0C.jpeg" alt="Photo 19">
-                
-            </div>
+</div>
         </div>
+
     </div>
 
     <!-- Modal -->
@@ -169,17 +211,18 @@
     </div>
 
     <footer>
-        <a href="Contact.html">CONTACT</a>
-        <a href="motions.html">MOTION</a>
-    </footer>
+    <a href="contact.html">CONTACT</a>
+    <a href="motions.html">MOTION</a>
+</footer>
 
     <script>
+        // Récupérer les éléments de la page
         const galleryImages = document.querySelectorAll('.gallery img');
         const modal = document.getElementById('imageModal');
         const modalImage = document.getElementById('modalImage');
         const closeModal = document.getElementById('closeModal');
 
-        // Ouvrir la modal avec l'image
+        // Ouvrir la modal avec l'image agrandie
         galleryImages.forEach(image => {
             image.addEventListener('click', () => {
                 modal.style.display = 'flex';
@@ -193,14 +236,14 @@
             modal.style.display = 'none';
         });
 
-        // Fermer la modal en cliquant à l'extérieur de l'image
-        modal.addEventListener('click', (e) => {
+        // Fermer la modal si l'utilisateur clique en dehors de l'image
+        window.addEventListener('click', (e) => {
             if (e.target === modal) {
                 modal.style.display = 'none';
             }
         });
+
     </script>
 </body>
 </html>
-
 
