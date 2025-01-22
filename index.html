@@ -66,7 +66,7 @@
             display: flex;
         }
 
-        /* Footer */
+        /* Footer - version mobile */
         .footer {
             text-align: center;
             display: flex;
@@ -92,7 +92,7 @@
             text-decoration: underline;
         }
 
-        /* Bureau */
+        /* Bureau - version bureau */
         @media (min-width: 769px) {
             body {
                 display: flex;
@@ -120,13 +120,15 @@
             }
 
             .footer {
-                position: static;
+                position: static; /* Retirer le positionnement fixe */
                 justify-content: flex-start;
                 padding: 20px 0;
+                background-color: lightgray; /* Exemple : couleur différente */
             }
 
             .footer a {
                 margin-right: 20px;
+                font-size: 1.2em; /* Taille de police différente sur bureau */
             }
         }
     </style>
@@ -160,7 +162,7 @@
             <img src="https://i.imgur.com/FjyCio7.jpeg" alt="Photo 17">
             <img src="https://i.imgur.com/MC0CKfW.jpeg" alt="Photo 18">
             <img src="https://i.imgur.com/Aq3mk0C.jpeg" alt="Photo 19">
-      </div>
+        </div>
     </div>
 
     <div class="modal" id="modal">
@@ -187,5 +189,6 @@
     </script>
 </body>
 </html>
+
 
 
