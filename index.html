@@ -12,17 +12,17 @@
             background-color: white;
             color: black;
             display: flex;
-            flex-direction: column; /* Permet une meilleure gestion sur mobile */
-            min-height: 100vh; /* Hauteur minimale plutôt que fixe */
-            overscroll-behavior-y: none; /* Évite les rebonds intempestifs */
-            -webkit-overflow-scrolling: touch; /* Active le défilement fluide */
+            flex-direction: column;
+            min-height: 100vh;
+            overscroll-behavior-y: none;
+            -webkit-overflow-scrolling: touch;
         }
 
         .text-container {
-            width: 100%; /* Utilisation sur toute la largeur */
+            width: 100%;
             padding: 20px;
             box-sizing: border-box;
-            text-align: center; /* Centre le texte */
+            text-align: center;
         }
 
         .text-container .header {
@@ -30,26 +30,34 @@
         }
 
         .gallery-container {
-            flex-grow: 1; /* Laisse la galerie occuper tout l'espace disponible */
+            flex-grow: 1;
             overflow-y: auto;
             padding: 20px;
             box-sizing: border-box;
-            scroll-behavior: smooth; /* Active un défilement fluide */
+            scroll-behavior: smooth;
         }
 
         .gallery {
             display: flex;
-            flex-direction: column;
+            flex-wrap: wrap; /* Retour à une disposition en grille sur grand écran */
             gap: 15px;
-            width: 100%;
+            justify-content: center; /* Centre les images */
         }
 
         .gallery img {
-            width: 100%;
+            width: 100%; /* Comportement par défaut pour mobile */
             height: auto;
             object-fit: contain;
-            border: 1px solid #ddd; /* Bordure discrète */
+            border: 1px solid #ddd;
             cursor: pointer;
+        }
+
+        /* Limitation des tailles sur les écrans plus grands */
+        @media (min-width: 769px) {
+            .gallery img {
+                width: calc(33.33% - 20px); /* 3 images par ligne avec espace entre elles */
+                max-width: 300px; /* Limite maximale pour les images */
+            }
         }
 
         /* Modal (lightbox) */
@@ -82,9 +90,9 @@
             bottom: 0;
             left: 0;
             width: 100%;
-            background-color: white; /* Fond blanc */
+            background-color: white;
             padding: 10px;
-            box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1); /* Ombre discrète */
+            box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
             text-align: center;
             display: flex;
             justify-content: center;
@@ -102,14 +110,10 @@
             text-decoration: underline;
         }
 
-        /* Responsive pour la version mobile */
+        /* Espace sous la galerie sur mobile */
         @media (max-width: 768px) {
             .gallery-container {
-                margin-bottom: 60px; /* Espace pour ne pas masquer les images */
-            }
-
-            .footer {
-                padding: 10px;
+                margin-bottom: 60px;
             }
         }
     </style>
@@ -172,4 +176,5 @@
     </script>
 </body>
 </html>
+
 
