@@ -12,32 +12,29 @@
             background-color: white;
             color: black;
             display: flex;
-            height: 100vh;
-            overflow: hidden; /* Empêche le défilement global */
+            flex-direction: column; /* Permet une meilleure gestion sur mobile */
+            min-height: 100vh; /* Hauteur minimale plutôt que fixe */
+            overscroll-behavior-y: none; /* Évite les rebonds intempestifs */
+            -webkit-overflow-scrolling: touch; /* Active le défilement fluide */
         }
 
         .text-container {
-            width: 50%; /* Colonne gauche avec texte */
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
+            width: 100%; /* Utilisation sur toute la largeur */
             padding: 20px;
             box-sizing: border-box;
+            text-align: center; /* Centre le texte */
         }
 
         .text-container .header {
             font-size: 1.2em;
-            text-align: left;
         }
 
         .gallery-container {
-            width: 50%; /* Colonne des images */
-            display: flex;
-            flex-direction: column;
-            align-items: flex-end; /* Images alignées à droite */
+            flex-grow: 1; /* Laisse la galerie occuper tout l'espace disponible */
             overflow-y: auto;
             padding: 20px;
             box-sizing: border-box;
+            scroll-behavior: smooth; /* Active un défilement fluide */
         }
 
         .gallery {
@@ -107,40 +104,12 @@
 
         /* Responsive pour la version mobile */
         @media (max-width: 768px) {
-            body {
-                flex-direction: column;
-                min-height: auto; /* Supprimer la hauteur fixe */
-            }
-
-            .text-container {
-                width: 100%; /* Utilisation sur toute la largeur */
-                padding: 20px;
-                box-sizing: border-box;
-                text-align: center; /* Centre le texte */
-            }
-
             .gallery-container {
-                flex-grow: 1; /* Laisse la galerie occuper tout l'espace disponible */
-                overflow-y: auto;
-                padding: 20px;
-                box-sizing: border-box;
-                scroll-behavior: smooth; /* Active un défilement fluide */
-                margin-bottom: 60px; /* Pour éviter que le footer cache les images */
+                margin-bottom: 60px; /* Espace pour ne pas masquer les images */
             }
 
             .footer {
-                position: fixed;
-                bottom: 0;
-                left: 0;
-                width: 100%;
-                background-color: white; /* Fond blanc */
                 padding: 10px;
-                box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1); /* Ombre discrète */
-                text-align: center;
-                display: flex;
-                justify-content: center;
-                gap: 20px;
-                z-index: 1000;
             }
         }
     </style>
