@@ -115,28 +115,29 @@
                 margin-bottom: 10px;
                 text-align: center;
             }
+    .gallery-container {
+        width: 100%;
+        align-items: center;
+        padding: 10px;
+        overflow-y: auto;
+        flex-grow: 1;
+        margin-bottom: 60px; /* Ajoute de l'espace en bas pour éviter la superposition */
+    }
 
-            .gallery-container {
-                width: 100%;
-                align-items: center;
-                padding: 10px;
-                overflow-y: auto;
-                flex-grow: 1;
-            }
-
-            .footer {
-                position: fixed; /* Fixe les boutons en bas de l'écran */
-                bottom: 0;
-                left: 0;
-                width: 100%;
-                background-color: white; /* Fond blanc */
-                padding: 10px;
-                box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1); /* Ombre pour démarcation */
-                text-align: center;
-                display: flex;
-                justify-content: center;
-                gap: 20px;
-            }
+    .footer {
+        position: fixed; /* Fixe les boutons en bas de l'écran */
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        background-color: white; /* Fond blanc */
+        padding: 10px;
+        box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1); /* Ombre pour démarcation */
+        text-align: center;
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        z-index: 1000; /* S'assure que le bandeau est au-dessus des autres éléments */
+}
         }
     </style>
 </head>
