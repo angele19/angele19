@@ -70,8 +70,9 @@
         .footer {
             text-align: center;
             display: flex;
-            gap: 20px;
-            justify-content: center;
+            flex-direction: column;  /* Change pour une disposition verticale */
+            align-items: flex-start;  /* Aligne les éléments à gauche */
+            gap: 10px;  /* Espacement entre les liens */
             padding: 10px;
             background-color: white;
             position: fixed;
@@ -120,8 +121,8 @@
 
             .footer {
                 position: static;
-                justify-content: flex-start;
                 padding: 20px 0;
+                justify-content: flex-start;  /* Aligne les liens à gauche */
             }
 
             .footer a {
