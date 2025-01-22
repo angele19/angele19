@@ -176,29 +176,34 @@
         <a href="contact.html">CONTACT</a>
     </div>
 
-    <!-- Modal pour afficher l'image en plein écran -->
-    <div id="modal" class="modal" onclick="closeModal()">
-        <img id="modal-img" src="" alt="Image en plein écran">
+   <div class="lightbox" id="lightbox">
+        <span class="close-lightbox" id="close-lightbox">&times;</span>
+        <img id="lightbox-img" src="" alt="Image agrandie">
     </div>
-
     <script>
-        // Fonction pour ouvrir le modal
-        function openModal(img) {
-            const modal = document.getElementById("modal");
-            const modalImg = document.getElementById("modal-img");
-            modalImg.src = img.src; // Met l'image de la galerie dans le modal
-            modal.style.display = "flex"; // Affiche le modal
-        }
+        const images = document.querySelectorAll('.gallery img');
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImg = document.getElementById('lightbox-img');
+        const closeLightbox = document.getElementById('close-lightbox');
 
-        // Fonction pour fermer le modal
-        function closeModal() {
-            const modal = document.getElementById("modal");
-            modal.style.display = "none"; // Masque le modal
-        }
+        images.forEach(image => {
+            image.addEventListener('click', () => {
+                lightboxImg.src = image.src;
+                lightbox.classList.add('active');
+            });
+        });
+
+        closeLightbox.addEventListener('click', () => {
+            lightbox.classList.remove('active');
+        });
+
+        lightbox.addEventListener('click', (e) => {
+            if (e.target === lightbox) {
+                lightbox.classList.remove('active');
+            }
+        });
     </script>
 </body>
 </html>
-
-
 
 
