@@ -70,8 +70,9 @@
         .footer {
             text-align: center;
             display: flex;
-            flex-direction: row;  /* Change pour une disposition verticale */
-            align-items: center;  /* Aligne les éléments à gauche */
+            flex-direction: column;  /* Change pour une disposition verticale */
+            align-items: flex-start;
+            justify-content: center;
             gap: 10px;  /* Espacement entre les liens */
             padding: 10px;
             background-color: white;
@@ -91,6 +92,16 @@
         .footer a:hover {
             text-decoration: underline;
         }
+        
+        @media (max-width: 768px) {
+    .footer {
+        display: flex;
+        flex-direction: row; /* Disposition horizontale */
+        justify-content: center; /* Aligne les liens au centre horizontalement */
+        align-items: center; /* Aligne les liens au centre verticalement */
+    }
+}
+
 
         /* Bureau */
         @media (min-width: 769px) {
