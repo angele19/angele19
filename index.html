@@ -119,18 +119,22 @@
             }
 
             .footer {
-        position: static;
-        justify-content: center; /* Centrer les éléments */
+        position: absolute;
+        bottom: 0; /* Fixer en bas de la page */
+        left: 0; /* Aligner à gauche */
+        width: 100%;
+        display: flex;
+        justify-content: flex-start; /* Alignement à gauche */
         padding: 20px 0;
-        background-color: none; /* Exemple : couleur différente */
+        background-color: white;
+        gap: 20px;
         box-shadow: none;
-        flex-direction: column; /* Empiler les liens verticalement */
-        align-items: left; /* Centrer les éléments */
+        z-index: 1000;
     }
 
     .footer a {
-        margin-bottom: 10px; /* Ajouter un espacement entre les liens */
-        font-size: 1.2em;
+        font-size: 0.9em;
+        margin-bottom: 0; /* Retirer l'espace entre les liens */
     }
         }
     </style>
