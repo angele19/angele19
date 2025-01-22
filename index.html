@@ -12,52 +12,67 @@
             background-color: white;
             color: black;
             display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-            overscroll-behavior-y: none;
-            -webkit-overflow-scrolling: touch;
+            justify-content: space-between;
+            height: 100vh;
+            overflow: hidden; /* Empêche le défilement global */
         }
 
         .text-container {
-            width: 100%;
+            width: 50%; /* Colonne gauche avec texte */
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
             padding: 20px;
             box-sizing: border-box;
-            text-align: center;
         }
 
         .text-container .header {
             font-size: 1.2em;
+            text-align: left;
         }
 
         .gallery-container {
-            flex-grow: 1;
+            width: 50%; /* Colonne des images */
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end; /* Images alignées à droite */
             overflow-y: auto;
             padding: 20px;
             box-sizing: border-box;
-            scroll-behavior: smooth;
         }
 
         .gallery {
             display: flex;
-            flex-wrap: wrap; /* Retour à une disposition en grille sur grand écran */
+            flex-direction: column;
             gap: 15px;
-            justify-content: center; /* Centre les images */
+            width: 100%;
         }
 
         .gallery img {
-            width: 100%; /* Comportement par défaut pour mobile */
+            width: 100%;
             height: auto;
             object-fit: contain;
-            border: 1px solid #ddd;
+            border: 1px solid #ddd; /* Bordure discrète */
             cursor: pointer;
         }
 
-        /* Limitation des tailles sur les écrans plus grands */
-        @media (min-width: 769px) {
-            .gallery img {
-                width: calc(33.33% - 20px); /* 3 images par ligne avec espace entre elles */
-                max-width: 300px; /* Limite maximale pour les images */
-            }
+        .footer {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .footer a {
+            text-decoration: none;
+            color: black;
+            font-size: 1em;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
         }
 
         /* Modal (lightbox) */
@@ -77,43 +92,43 @@
         .modal img {
             max-width: 90%;
             max-height: 90%;
-            object-fit: contain;
         }
 
         .modal.active {
             display: flex;
         }
 
-        /* Bandeau fixe en bas */
-        .footer {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            background-color: white;
-            padding: 10px;
-            box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
-            text-align: center;
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            z-index: 1000;
-        }
-
-        .footer a {
-            text-decoration: none;
-            color: black;
-            font-size: 1em;
-        }
-
-        .footer a:hover {
-            text-decoration: underline;
-        }
-
-        /* Espace sous la galerie sur mobile */
+        /* Responsive pour la version mobile */
         @media (max-width: 768px) {
+            body {
+                flex-direction: column;
+                justify-content: flex-start;
+                height: auto;
+            }
+
+            .text-container {
+                width: 100%;
+                align-items: center;
+                padding: 10px;
+            }
+
             .gallery-container {
-                margin-bottom: 60px;
+                width: 100%;
+                align-items: center;
+                padding: 10px;
+            }
+
+            .footer {
+                position: fixed; /* Fixe les boutons en bas de l'écran */
+                bottom: 0;
+                left: 0;
+                width: 100%;
+                background-color: white;
+                padding: 10px;
+                display: flex;
+                justify-content: center;
+                gap: 20px;
+                z-index: 1000;
             }
         }
     </style>
