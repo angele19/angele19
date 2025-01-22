@@ -96,6 +96,10 @@
             object-fit: contain;
         }
 
+        .modal.active {
+            display: flex;
+        }
+
         /* Responsive pour la version mobile */
         @media (max-width: 768px) {
             body {
@@ -115,30 +119,31 @@
                 margin-bottom: 10px;
                 text-align: center;
             }
-    .gallery-container {
-        width: 100%;
-        align-items: center;
-        padding: 10px;
-        overflow-y: auto;
-        flex-grow: 1;
-        margin-bottom: 60px; /* Ajoute de l'espace en bas pour éviter la superposition */
-         -webkit-overflow-scrolling: touch;
-    }
 
-    .footer {
-        position: fixed; /* Fixe les boutons en bas de l'écran */
-        bottom: 0;
-        left: 0;
-        width: 100%;
-        background-color: white; /* Fond blanc */
-        padding: 10px;
-        box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1); /* Ombre pour démarcation */
-        text-align: center;
-        display: flex;
-        justify-content: center;
-        gap: 20px;
-        z-index: 1000; /* S'assure que le bandeau est au-dessus des autres éléments */
-}
+            .gallery-container {
+                width: 100%;
+                align-items: center;
+                padding: 10px;
+                overflow-y: auto;
+                flex-grow: 1;
+                margin-bottom: 60px; /* Ajoute de l'espace en bas pour éviter la superposition */
+                -webkit-overflow-scrolling: touch;
+            }
+
+            .footer {
+                position: fixed; /* Fixe les boutons en bas de l'écran */
+                bottom: 0;
+                left: 0;
+                width: 100%;
+                background-color: white; /* Fond blanc */
+                padding: 10px;
+                box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1); /* Ombre pour démarcation */
+                text-align: center;
+                display: flex;
+                justify-content: center;
+                gap: 20px;
+                z-index: 1000; /* S'assure que le bandeau est au-dessus des autres éléments */
+            }
         }
     </style>
 </head>
@@ -168,7 +173,7 @@
                 <img src="https://i.imgur.com/FjyCio7.jpeg" alt="Photo 17">
                 <img src="https://i.imgur.com/MC0CKfW.jpeg" alt="Photo 18">
                 <img src="https://i.imgur.com/Aq3mk0C.jpeg" alt="Photo 19">
-        </div>
+           </div>
     </div>
 
     <div class="footer">
@@ -176,34 +181,28 @@
         <a href="contact.html">CONTACT</a>
     </div>
 
-   <div class="lightbox" id="lightbox">
-        <span class="close-lightbox" id="close-lightbox">&times;</span>
-        <img id="lightbox-img" src="" alt="Image agrandie">
+    <div class="modal" id="modal">
+        <img id="modal-img" src="" alt="Image agrandie">
     </div>
-    <script>
-        const images = document.querySelectorAll('.gallery img');
-        const lightbox = document.getElementById('lightbox');
-        const lightboxImg = document.getElementById('lightbox-img');
-        const closeLightbox = document.getElementById('close-lightbox');
 
-        images.forEach(image => {
+    <script>
+        const galleryImages = document.querySelectorAll('.gallery img');
+        const modal = document.getElementById('modal');
+        const modalImg = document.getElementById('modal-img');
+
+        // Ouvrir le modal au clic sur une image
+        galleryImages.forEach(image => {
             image.addEventListener('click', () => {
-                lightboxImg.src = image.src;
-                lightbox.classList.add('active');
+                modalImg.src = image.src;
+                modal.classList.add('active');
             });
         });
 
-        closeLightbox.addEventListener('click', () => {
-            lightbox.classList.remove('active');
-        });
-
-        lightbox.addEventListener('click', (e) => {
-            if (e.target === lightbox) {
-                lightbox.classList.remove('active');
-            }
+        // Fermer le modal en cliquant à l'extérieur
+        modal.addEventListener('click', () => {
+            modal.classList.remove('active');
         });
     </script>
 </body>
 </html>
-
 
