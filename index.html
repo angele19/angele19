@@ -12,7 +12,6 @@
             background-color: white;
             color: black;
             display: flex;
-            justify-content: space-between;
             height: 100vh;
             overflow: hidden; /* Empêche le défilement global */
         }
@@ -56,25 +55,6 @@
             cursor: pointer;
         }
 
-        .footer {
-            position: absolute;
-            bottom: 20px;
-            left: 20px;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        .footer a {
-            text-decoration: none;
-            color: black;
-            font-size: 1em;
-        }
-
-        .footer a:hover {
-            text-decoration: underline;
-        }
-
         /* Modal (lightbox) */
         .modal {
             display: none;
@@ -92,50 +72,75 @@
         .modal img {
             max-width: 90%;
             max-height: 90%;
+            object-fit: contain;
         }
 
         .modal.active {
             display: flex;
         }
 
+        /* Bandeau fixe en bas */
+        .footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: white; /* Fond blanc */
+            padding: 10px;
+            box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1); /* Ombre discrète */
+            text-align: center;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            z-index: 1000;
+        }
+
+        .footer a {
+            text-decoration: none;
+            color: black;
+            font-size: 1em;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+
         /* Responsive pour la version mobile */
         @media (max-width: 768px) {
             body {
                 flex-direction: column;
-                justify-content: flex-start;
-                height: auto;
+                min-height: auto; /* Supprimer la hauteur fixe */
             }
 
             .text-container {
-                width: 100%;
-                align-items: center;
-                padding: 10px;
+                width: 100%; /* Utilisation sur toute la largeur */
+                padding: 20px;
+                box-sizing: border-box;
+                text-align: center; /* Centre le texte */
             }
 
             .gallery-container {
-                width: 100%;
-                align-items: center;
-                padding: 10px;
+                flex-grow: 1; /* Laisse la galerie occuper tout l'espace disponible */
                 overflow-y: auto;
-                flex-grow: 1;
-                margin-bottom: 60px; /* Ajoute de l'espace en bas pour éviter la superposition */
-                -webkit-overflow-scrolling: touch; /* Améliore la fluidité sur mobile */
+                padding: 20px;
+                box-sizing: border-box;
                 scroll-behavior: smooth; /* Active un défilement fluide */
+                margin-bottom: 60px; /* Pour éviter que le footer cache les images */
             }
 
             .footer {
-                position: fixed; /* Fixe les boutons en bas de l'écran */
+                position: fixed;
                 bottom: 0;
                 left: 0;
                 width: 100%;
                 background-color: white; /* Fond blanc */
                 padding: 10px;
-                box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1); /* Ombre pour démarcation */
+                box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1); /* Ombre discrète */
                 text-align: center;
                 display: flex;
                 justify-content: center;
                 gap: 20px;
-                z-index: 1000; /* S'assure que le bandeau est au-dessus des autres éléments */
+                z-index: 1000;
             }
         }
     </style>
@@ -198,5 +203,6 @@
     </script>
 </body>
 </html>
+
 
 
