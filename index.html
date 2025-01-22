@@ -19,11 +19,11 @@
         }
 
         .text-container .header {
-            font-size: 1.2em;
+            font-size: 1em;
         }
 
         .gallery-container {
-            padding: 20px;
+            padding: 40px;
             box-sizing: border-box;
             overflow-y: auto;
         }
@@ -83,8 +83,9 @@
         }
 
         .footer a {
-            text-decoration: none;
+            text-decoration: underline;
             color: black;
+            font-size: 1em;
         }
 
         .footer a:hover {
@@ -108,8 +109,8 @@
             }
 
             .gallery-container {
-                width: 50%;
-                padding: 20px 10px;
+                width: 70%;
+                padding: 20px 80px;
                 overflow-y: auto;
             }
 
@@ -118,9 +119,14 @@
                 max-height: 1500px;
             }
 
-            /* Masque le footer sur la version bureau */
             .footer {
-                display: none;
+                position: static;
+                justify-content: flex-start;
+                padding: 20px 0;
+            }
+
+            .footer a {
+                margin-right: 20px;
             }
         }
     </style>
@@ -181,4 +187,5 @@
     </script>
 </body>
 </html>
+
 
