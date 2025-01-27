@@ -57,7 +57,7 @@
         }
 
         .bottom-link a {
-            font-size: 1vw; /* Taille responsive pour les boutons */
+            font-size: 1.5vw; /* Taille responsive pour les boutons */
             color: white;
             text-decoration: underline;
             padding: 8px 16px;
@@ -116,21 +116,17 @@
                 font-size: 4.5vw; /* Ajuster la taille du texte */
             }
 
-            .bottom-text-container {
-                bottom: 20%; /* Remonter les textes et le bouton pour mobiles */
+              .bottom-text-container {
+                bottom: 10%; /* Ajuster pour que le bouton "CONTACT" soit plus bas */
+                flex-direction: column; /* Organiser les éléments de bas en haut */
+                align-items: center; /* Centrer les éléments */
+                justify-content: center; /* Centrer verticalement */
             }
 
-            .bottom-left-text,
             .contact-button-right {
-                font-size: 3vw; /* Adapter la taille des textes en bas */
-            }
-
-            /* Déplacer le bouton CONTACT vers le bas sur mobile */
-            .contact-button-right {
-                position: absolute;
-                bottom: 10px; /* Ajuster la valeur pour le placer plus bas */
-                right: 20px;  /* Ajuster selon tes préférences */
-                font-size: 3vw; /* Taille responsive pour le texte */
+                font-size: 3vw; /* Ajuster la taille du texte */
+                margin-top: 10px; /* Ajouter un espace entre "STILLS" et "CONTACT" */
+                text-align: center; /* Centrer le texte */
             }
         }
     </style>
