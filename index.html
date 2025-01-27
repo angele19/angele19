@@ -128,15 +128,12 @@
     </style>
 </head>
 <body>
-    <div class="video-container">
-   <iframe title="demoreel1601compressed" width="560" height="315" src="https://vhsky.cz/videos/embed/3109a9f4-4227-4708-96a0-b04160e7a1fb" frameborder="0" allowfullscreen="" sandbox="allow-same-origin allow-scripts allow-popups allow-forms"></iframe>
+   <div class="video-container">
+    <video autoplay muted loop playsinline style="width: 100%; height: 100%; object-fit: cover;">
+    <source src="demoreel-25.mp4" type="video/mp4">
+    Votre navigateur ne supporte pas les vidéos HTML5.
+</video>
 </div>
- <script>
-        function playVideo() {
-            var iframe = document.querySelector('iframe');
-            iframe.contentWindow.postMessage('{"event":"command","func":"play"}', '*');
-        }
-    </script>
         <!-- Texte superposé -->
         <div class="text-overlay">
             <h1>Angèle Ronach</h1>
