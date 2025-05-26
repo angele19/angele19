@@ -1,260 +1,259 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta name="robots" content="noindex, nofollow">
-<meta property="og:title" content="Angèle Ronach - Portfolio" />
-<meta property="og:description" content="Portfolio de photographie et de vidéo." />
-<meta property="og:image" content="https://i.imgur.com/jJ6zVH6.jpeg" />
-<meta property="og:url" content="https://angeleronach.com/" />
+  <meta charset="UTF-8">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Angèle Ronach</title>
+  
+  <!-- Meta Open Graph -->
+  <meta property="og:title" content="Angèle Ronach - Portfolio" />
+  <meta property="og:description" content="Portfolio de photographie et de vidéo." />
+  <meta property="og:image" content="https://i.imgur.com/jJ6zVH6.jpeg" />
+  <meta property="og:url" content="https://angeleronach.com/" />
 
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Angele Ronach</title>
-    <style>
-        /* Reset de base */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-        /* Conteneur principal */
-        .container {
-            position: relative;
-            width: 100%;
-            height: 100vh; /* Utiliser toute la hauteur de la fenêtre */
-            overflow: hidden;
-        }
+    .container {
+      position: relative;
+      width: 100%;
+      height: 100vh;
+      overflow: hidden;
+    }
 
-        /* Vidéo en arrière-plan */
-        .background-video {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: cover; /* Pour que la vidéo couvre tout l'écran */
-        }
+    .background-video {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
 
-        /* Texte superposé à la vidéo */
-        .text-overlay {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            color: white;
-            text-align: center;
-        }
+    .text-overlay {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: white;
+      text-align: center;
+    }
 
-        .text-overlay h1 {
-            font-family: Impact, sans-serif;
-            font-size: 5vw; /* Utilisation de vw pour rendre le texte responsive */
-            font-weight: normal;
-            font-stretch: condensed;
-        }
+    .text-overlay h1 {
+      font-family: Impact, sans-serif;
+      font-size: 5vw;
+      font-weight: normal;
+      font-stretch: condensed;
+    }
 
-        /* Bouton en bas */
-        .bottom-link {
-            position: absolute;
-            bottom: 10%; /* Positionner au-dessus des textes en bas */
-            left: 50%;
-            transform: translateX(-50%);
-        }
+    .bottom-link {
+      position: absolute;
+      bottom: 10%;
+      left: 50%;
+      transform: translateX(-50%);
+    }
 
-        .bottom-link a {
-            font-size: 2vw; /* Taille responsive pour les boutons */
-            color: white;
-            text-decoration: underline;
-            padding: 8px 16px;
-            border-radius: 10px;
-            background-color: transparent;
-            transition: background-color 0.3s;
-        }
+    .bottom-link a {
+      font-size: 2vw;
+      color: white;
+      text-decoration: underline;
+      padding: 8px 16px;
+      border-radius: 10px;
+      background-color: transparent;
+      transition: background-color 0.3s;
+    }
 
-        .bottom-link a:hover {
-            background-color: transparent;
-        }
+    .bottom-link a:hover {
+      background-color: transparent;
+    }
 
-        /* Conteneur commun pour les textes en bas */
-        .bottom-text-container {
-            position: absolute;
-            bottom: 20px;
-            width: 100%; /* Prend toute la largeur */
-            display: flex; /* Utilise flexbox */
-            justify-content: space-between; /* Place un élément à gauche, l'autre à droite */
-            align-items: center; /* Aligne verticalement */
-            padding: 0 20px; /* Ajoute un espace interne sur les côtés */
-            box-sizing: border-box; /* Inclut le padding dans la largeur totale */
-        }
+    .bottom-text-container {
+      position: absolute;
+      bottom: 20px;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 20px;
+      box-sizing: border-box;
+    }
 
-        /* Bouton contact en bas à droite */
-        .contact-button-right {
-            font-size: 1vw; /* Texte responsive */
-            color: white;
-            text-decoration: underline;
-            padding: 10px 20px;
-            border-radius: 5px;
-            background-color: transparent;
-            transition: background-color 0.3s;
-        }
+    .contact-button-right {
+      font-size: 1vw;
+      color: white;
+      text-decoration: underline;
+      padding: 10px 20px;
+      border-radius: 5px;
+      background-color: transparent;
+      transition: background-color 0.3s;
+    }
 
-        .contact-button-right:hover {
-            background-color: rgba(255, 255, 255, 0.3);
-        }
+    .contact-button-right:hover {
+      background-color: rgba(255, 255, 255, 0.3);
+    }
 
-        /* Styles pour les petits écrans */
-        @media (max-width: 768px) {
-            .text-overlay h1 {
-                font-size: 11vw; /* Ajuster la taille pour les petits écrans */
-                font-family: Apple Chancery, cursive;
-                font-color: white; 
-                margin-top: 10px; /* Déplacer le texte vers le bas */
-            }
-            .text-overlay {
-                top: 40%; /* Déplacer "MOTION" plus haut sur mobile */
-            }
+    /* MENU BURGER STYLES */
+    .menu-container {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      z-index: 10;
+    }
 
-            .bottom-link {
-                bottom: 40%; /* Ajuster la hauteur du bouton "STILLS" */
-            }
+    .menu-burger {
+      background: none;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      height: 24px;
+      width: 30px;
+    }
 
-            .bottom-link a {
-                font-size: 5vw; /* Ajuster la taille du texte */
-            }
+    .burger-line {
+      width: 100%;
+      height: 3px;
+      background-color: white;
+      border-radius: 2px;
+      transition: transform 0.3s, opacity 0.3s;
+    }
 
-              .bottom-text-container {
-                bottom: 30%; /* Ajuster pour que le bouton "CONTACT" soit plus bas */
-                flex-direction: column; /* Organiser les éléments de bas en haut */
-                align-items: center; /* Centrer les éléments */
-                justify-content: center; /* Centrer verticalement */
-            }
+    .menu {
+      display: none;
+      position: absolute;
+      top: 60px;
+      left: 20px;
+      background-color: rgba(0, 0, 0, 0.8);
+      padding: 20px;
+      border-radius: 10px;
+    }
 
-            .contact-button-right {
-                font-size: 3.5vw; /* Ajuster la taille du texte */
-                margin-top: 10px; /* Ajouter un espace entre "STILLS" et "CONTACT" */
-                text-align: center; /* Centrer le texte */
-            }
-            /* MENU BURGER STYLES */
-.menu-container {
-    position: absolute;
-    top: 20px;
-    left: 20px;
-    z-index: 10;
-}
+    .menu ul {
+      list-style: none;
+    }
 
-.menu-burger {
-    background: none;
-    border: none;
-    cursor: pointer;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    height: 24px;
-    width: 30px;
-}
+    .menu li {
+      margin: 10px 0;
+    }
 
-.burger-line {
-    width: 100%;
-    height: 3px;
-    background-color: white;
-    border-radius: 2px;
-    transition: transform 0.3s, opacity 0.3s;
-}
+    .menu a {
+      color: white;
+      text-decoration: none;
+      font-size: 18px;
+      font-family: Arial, sans-serif;
+    }
 
-/* Menu masqué par défaut */
-.menu {
-    display: none;
-    position: absolute;
-    top: 60px;
-    left: 20px;
-    background-color: rgba(0, 0, 0, 0.8);
-    padding: 20px;
-    border-radius: 10px;
-}
+    .menu a:hover {
+      text-decoration: underline;
+    }
 
-.menu ul {
-    list-style: none;
-}
+    .menu.active {
+      display: block;
+    }
 
-.menu li {
-    margin: 10px 0;
-}
+    .menu-burger.open .burger-line:nth-child(1) {
+      transform: rotate(45deg) translateY(8px);
+    }
 
-.menu a {
-    color: white;
-    text-decoration: none;
-    font-size: 18px;
-    font-family: Arial, sans-serif;
-}
+    .menu-burger.open .burger-line:nth-child(2) {
+      opacity: 0;
+    }
 
-.menu a:hover {
-    text-decoration: underline;
-}
+    .menu-burger.open .burger-line:nth-child(3) {
+      transform: rotate(-45deg) translateY(-8px);
+    }
 
-/* Menu visible quand actif */
-.menu.active {
-    display: block;
-}
+    @media (max-width: 768px) {
+      .text-overlay h1 {
+        font-size: 11vw;
+        font-family: Apple Chancery, cursive;
+        color: white;
+        margin-top: 10px;
+      }
 
-/* Animation croix */
-.menu-burger.open .burger-line:nth-child(1) {
-    transform: rotate(45deg) translateY(8px);
-}
-.menu-burger.open .burger-line:nth-child(2) {
-    opacity: 0;
-}
-.menu-burger.open .burger-line:nth-child(3) {
-    transform: rotate(-45deg) translateY(-8px);
-}
-        }
-    </style>
+      .text-overlay {
+        top: 40%;
+      }
+
+      .bottom-link {
+        bottom: 40%;
+      }
+
+      .bottom-link a {
+        font-size: 5vw;
+      }
+
+      .bottom-text-container {
+        bottom: 30%;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .contact-button-right {
+        font-size: 3.5vw;
+        margin-top: 10px;
+        text-align: center;
+      }
+    }
+  </style>
 </head>
 <body>
-  <div class="menu-container">
-    <button class="menu-burger" id="burger-button" aria-label="Menu">
-      <span class="burger-line"></span>
-      <span class="burger-line"></span>
-      <span class="burger-line"></span>
-    </button>
-    <nav class="menu" id="menu">
-      <ul class="main-menu">
-        <li><a href="index.html">Accueil</a></li>
-        <li><a href="stills.html">Photography</a></li>
-        <li><a href="Contact.html">Contact</a></li>
-        <!-- Ajoute d'autres liens ici si besoin -->
-      </ul>
-    </nav>
-  </div>
-   <div class="video-container">
-    <video autoplay muted loop playsinline poster="https://i.imgur.com/JZj6Qob.jpeg" style="width: 100%; height: 100%; object-fit: cover;">
-        <source src="videodemosite.mp4" type="video/mp4">
-        Votre navigateur ne supporte pas les vidéos HTML5.
-    </video>
-</div>
-        <!-- Texte superposé -->
-        <div class="text-overlay">
-            <h1></h1>
-        </div>
-
-        <!-- Bouton Photography -->
-        <div class="bottom-link">
-            <a href="stills.html">PHOTOGRAPHY</a>
-        </div>
-
-        <!-- Texte et bouton en bas -->
-        <div class="bottom-text-container">
-            <a href="Contact.html" class="contact-button-right">CONTACT</a>
-        </div>
+  <div class="container">
+    <!-- Menu burger -->
+    <div class="menu-container">
+      <button class="menu-burger" id="burger-button" aria-label="Menu">
+        <span class="burger-line"></span>
+        <span class="burger-line"></span>
+        <span class="burger-line"></span>
+      </button>
+      <nav class="menu" id="menu">
+        <ul class="main-menu">
+          <li><a href="index.html">Accueil</a></li>
+          <li><a href="stills.html">Photography</a></li>
+          <li><a href="Contact.html">Contact</a></li>
+        </ul>
+      </nav>
     </div>
-     <script>
-  const burgerButton = document.getElementById('burger-button');
-  const menu = document.getElementById('menu');
 
-  burgerButton.addEventListener('click', () => {
-    menu.classList.toggle('active');
-    burgerButton.classList.toggle('open');
-  });
-</script>
+    <!-- Vidéo de fond -->
+    <video autoplay muted loop playsinline poster="https://i.imgur.com/JZj6Qob.jpeg" class="background-video">
+      <source src="videodemosite.mp4" type="video/mp4">
+      Votre navigateur ne supporte pas les vidéos HTML5.
+    </video>
+
+    <!-- Texte superposé -->
+    <div class="text-overlay">
+      <h1></h1>
+    </div>
+
+    <!-- Lien vers Photography -->
+    <div class="bottom-link">
+      <a href="stills.html">PHOTOGRAPHY</a>
+    </div>
+
+    <!-- Lien vers Contact -->
+    <div class="bottom-text-container">
+      <a href="Contact.html" class="contact-button-right">CONTACT</a>
+    </div>
+  </div>
+
+  <!-- Script JS -->
+  <script>
+    const burgerButton = document.getElementById('burger-button');
+    const menu = document.getElementById('menu');
+
+    burgerButton.addEventListener('click', () => {
+      menu.classList.toggle('active');
+      burgerButton.classList.toggle('open');
+    });
+  </script>
 </body>
 </html>
 
