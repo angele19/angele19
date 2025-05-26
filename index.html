@@ -134,45 +134,97 @@
                 margin-top: 10px; /* Ajouter un espace entre "STILLS" et "CONTACT" */
                 text-align: center; /* Centrer le texte */
             }
+            /* MENU BURGER STYLES */
+.menu-container {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    z-index: 10;
+}
+
+.menu-burger {
+    background: none;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 24px;
+    width: 30px;
+}
+
+.burger-line {
+    width: 100%;
+    height: 3px;
+    background-color: white;
+    border-radius: 2px;
+    transition: transform 0.3s, opacity 0.3s;
+}
+
+/* Menu masqué par défaut */
+.menu {
+    display: none;
+    position: absolute;
+    top: 60px;
+    left: 20px;
+    background-color: rgba(0, 0, 0, 0.8);
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.menu ul {
+    list-style: none;
+}
+
+.menu li {
+    margin: 10px 0;
+}
+
+.menu a {
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
+    font-family: Arial, sans-serif;
+}
+
+.menu a:hover {
+    text-decoration: underline;
+}
+
+/* Menu visible quand actif */
+.menu.active {
+    display: block;
+}
+
+/* Animation croix */
+.menu-burger.open .burger-line:nth-child(1) {
+    transform: rotate(45deg) translateY(8px);
+}
+.menu-burger.open .burger-line:nth-child(2) {
+    opacity: 0;
+}
+.menu-burger.open .burger-line:nth-child(3) {
+    transform: rotate(-45deg) translateY(-8px);
+}
         }
     </style>
 </head>
 <body>
-    <div class="menu-container">
-  <button class="menu-burger hamburger" type="button">
-    <span class="hamburger-inner"></span>
-  </button>
-  <nav class="menu">
+  <div class="menu-container">
+    <button class="menu-burger" id="burger-button" aria-label="Menu">
+      <span class="burger-line"></span>
+      <span class="burger-line"></span>
+      <span class="burger-line"></span>
+    </button>
+    <nav class="menu" id="menu">
       <ul class="main-menu">
-          {% for item in menu_items %}
-          {% case item.type %}
-              {% when 'category' %}
-                  <li class="category{% if item.id == page.category_id %} selected{% endif %}">
-                      <a>{{ item.name }}</a>
-                      <ul class="category-list category-list-hidden">
-                          {% for nested in item.pages %}
-                              <li class="item{% if nested.id == page.id %} selected{% endif %}">
-                                  <a href="{{ nested.href }}"{% if nested.type == 'link' and nested.open_in_new_window %} target='_blank'{% endif %}>
-                                      {{ nested.name }}
-                                  </a>
-                              </li>
-                          {% endfor %}
-                      </ul>
-                  </li>
-              {% else %}
-                  <li class="item{% if item.id == page.id %} selected{% endif %}">
-                      <a href="{{ item.href }}" {% if item.type == 'link' and item.open_in_new_window %} target="_blank"{% endif %}>{{ item.name }}</a>
-                  </li>
-          {% endcase %}
-          {% endfor %}
-          <li class="overlay-social">
-            {% theme_include 'partials/social' %}
-          </li>
+        <li><a href="index.html">Accueil</a></li>
+        <li><a href="stills.html">Photography</a></li>
+        <li><a href="Contact.html">Contact</a></li>
+        <!-- Ajoute d'autres liens ici si besoin -->
       </ul>
-
-  </nav>
-</div>
-
+    </nav>
+  </div>
    <div class="video-container">
     <video autoplay muted loop playsinline poster="https://i.imgur.com/JZj6Qob.jpeg" style="width: 100%; height: 100%; object-fit: cover;">
         <source src="videodemosite.mp4" type="video/mp4">
@@ -194,6 +246,15 @@
             <a href="Contact.html" class="contact-button-right">CONTACT</a>
         </div>
     </div>
+     <script>
+  const burgerButton = document.getElementById('burger-button');
+  const menu = document.getElementById('menu');
+
+  burgerButton.addEventListener('click', () => {
+    menu.classList.toggle('active');
+    burgerButton.classList.toggle('open');
+  });
+</script>
 </body>
 </html>
 
