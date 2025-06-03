@@ -5,7 +5,7 @@
   <meta name="robots" content="noindex, nofollow">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Angèle Ronach</title>
-  
+
   <!-- Meta Open Graph -->
   <meta property="og:title" content="Angèle Ronach - Portfolio" />
   <meta property="og:description" content="Portfolio de photographie et de vidéo." />
@@ -169,6 +169,11 @@
       transform: rotate(-45deg) translateY(-8px);
     }
 
+    /* Responsive vidéo */
+    .mobile-video {
+      display: none;
+    }
+
     @media (max-width: 768px) {
       .text-overlay h1 {
         font-size: 11vw;
@@ -201,19 +206,15 @@
         margin-top: 10px;
         text-align: center;
       }
-      .mobile-video {
-  display: none;
-}
 
-@media (max-width: 768px) {
-  .desktop-video {
-    display: none;
-  }
-  .mobile-video {
-    display: block;
-  }
-}
-      
+      .desktop-video {
+        display: none;
+      }
+
+      .mobile-video {
+        display: block;
+      }
+    }
   </style>
 </head>
 <body>
@@ -234,22 +235,22 @@
       </nav>
     </div>
 
-    <!-- Vidéo de fond -->
-<video autoplay muted loop playsinline poster="https://i.imgur.com/JZj6Qob.jpeg" class="background-video desktop-video">
-  <source src="videodemosite.mp4" type="video/mp4">
-  Votre navigateur ne supporte pas les vidéos HTML5.
-</video>
-    
+    <!-- Vidéo de fond version desktop -->
+    <video autoplay muted loop playsinline poster="https://i.imgur.com/JZj6Qob.jpeg" class="background-video desktop-video">
+      <source src="videodemosite.mp4" type="video/mp4">
+      Votre navigateur ne supporte pas les vidéos HTML5.
+    </video>
+
+    <!-- Vidéo de fond version mobile -->
     <video autoplay muted loop playsinline poster="https://i.imgur.com/JZj6Qob.jpeg" class="background-video mobile-video">
-  <source src="videomobilesite.mp4" type="video/mp4">
-  Votre navigateur ne supporte pas les vidéos HTML5.
+      <source src="videomobilesite.mp4" type="video/mp4">
+      Votre navigateur ne supporte pas les vidéos HTML5.
     </video>
 
     <!-- Texte superposé -->
     <div class="text-overlay">
       <h1></h1>
     </div>
-
   </div>
 
   <!-- Script JS -->
