@@ -201,7 +201,19 @@
         margin-top: 10px;
         text-align: center;
       }
-    }
+      .mobile-video {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .desktop-video {
+    display: none;
+  }
+  .mobile-video {
+    display: block;
+  }
+}
+      
   </style>
 </head>
 <body>
@@ -226,6 +238,11 @@
     <video autoplay muted loop playsinline poster="https://i.imgur.com/JZj6Qob.jpeg" class="background-video">
       <source src="videodemosite.mp4" type="video/mp4">
       Votre navigateur ne supporte pas les vidéos HTML5.
+    </video>
+    
+    <video autoplay muted loop playsinline poster="https://i.imgur.com/JZj6Qob.jpeg" class="background-video mobile-video">
+  <source src="videomobilesite.mp4" type="video/mp4">
+  Votre navigateur ne supporte pas les vidéos HTML5.
     </video>
 
     <!-- Texte superposé -->
