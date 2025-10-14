@@ -139,9 +139,67 @@
             .footer a {
                 margin-right: 20px;
             }
+            .carousel {
+  position: relative;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+}
+
+.gallery {
+  display: flex;
+  transition: transform 0.4s ease-in-out;
+  gap: 10px;
+}
+
+.gallery img {
+  width: 100%;
+  max-width: 400px;
+  height: auto;
+  border: 1px solid #ddd;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(255,255,255,0.8);
+  border: none;
+  font-size: 2rem;
+  cursor: pointer;
+  padding: 5px 10px;
+  z-index: 10;
+}
+
+.arrow.left {
+  left: 5px;
+}
+
+.arrow.right {
+  right: 5px;
+}
         }
     </style>
 </head>
+    <script>
+  const carousel = document.querySelector('.carousel');
+  const gallery = carousel.querySelector('.gallery');
+  const leftArrow = carousel.querySelector('.arrow.left');
+  const rightArrow = carousel.querySelector('.arrow.right');
+
+  let scrollAmount = 0;
+  const scrollStep = 400; // défilement horizontal en pixels
+
+  rightArrow.addEventListener('click', () => {
+    gallery.scrollBy({ left: scrollStep, behavior: 'smooth' });
+  });
+
+  leftArrow.addEventListener('click', () => {
+    gallery.scrollBy({ left: -scrollStep, behavior: 'smooth' });
+  });
+</script>
 <body>
     <div class="text-container">
         <div class="header">ANGÈLE RONACH</div>
@@ -151,7 +209,9 @@
         </div>
     </div>
     <div class="gallery-container">
-        <div class="gallery"> Photography
+  <div class="carousel">
+    <button class="arrow left">&#10094;</button>
+    <div class="gallery">
             <img src="000012.jpg" alt="Photo importée depuis GitHub">
             <img src="00004.jpg" alt="Photo importée depuis GitHub">
             <img src="https://i.imgur.com/jJ6zVH6.jpeg" alt="Photo 1">
@@ -171,8 +231,9 @@
             <img src="https://i.imgur.com/JvShV4K.jpeg" alt="Photo 16">
             <img src="https://i.imgur.com/FjyCio7.jpeg" alt="Photo 17">
             <img src="https://i.imgur.com/MC0CKfW.jpeg" alt="Photo 18">
-
       </div>
+    <button class="arrow right">&#10095;</button>
+  </div>
     </div>
 
     <div class="modal" id="modal">
