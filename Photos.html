@@ -29,7 +29,7 @@
             overflow-y: auto;
             display: flex;
             flex-direction: column;
-            gap: 60px;
+            gap: 30px; /* ↓ Réduction de l’espace entre les séries */
         }
 
         /* --- Carrousel horizontal par série --- */
@@ -61,20 +61,28 @@
             flex-shrink: 0;
         }
 
+        /* --- Flèches discrètes --- */
         .arrow {
             position: absolute;
             top: 50%;
             transform: translateY(-50%);
-            background: rgba(255,255,255,0.8);
+            background: transparent; /* plus de fond blanc */
             border: none;
-            font-size: 2rem;
+            color: black; /* flèches noires */
+            font-size: 1.5rem; /* plus petites */
             cursor: pointer;
-            padding: 5px 10px;
+            padding: 5px;
             z-index: 10;
+            opacity: 0.6;
+            transition: opacity 0.2s ease;
         }
 
-        .arrow.left { left: 5px; }
-        .arrow.right { right: 5px; }
+        .arrow:hover {
+            opacity: 1;
+        }
+
+        .arrow.left { left: 0; }
+        .arrow.right { right: 0; }
 
         /* --- Modal (lightbox) --- */
         .modal {
