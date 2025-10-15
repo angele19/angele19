@@ -22,17 +22,17 @@
             font-size: 1em;
         }
 
-        /* --- Conteneur général des séries --- */
+        /* --- Conteneur général --- */
         .gallery-container {
             padding: 40px;
             box-sizing: border-box;
             overflow-y: auto;
             display: flex;
             flex-direction: column;
-            gap: 30px; /* ↓ Réduction de l’espace entre les séries */
+            gap: 25px; /* espacement réduit */
         }
 
-        /* --- Carrousel horizontal par série --- */
+        /* --- Carrousel par série --- */
         .carousel {
             position: relative;
             display: flex;
@@ -51,11 +51,12 @@
             display: none;
         }
 
+        /* --- Images uniformisées --- */
         .gallery img {
-            width: 100%;
-            max-width: 400px;
-            height: auto;
-            object-fit: contain;
+            height: 350px;          /* Hauteur fixe pour uniformiser */
+            width: auto;
+            aspect-ratio: 4 / 3;    /* Maintient une proportion cohérente */
+            object-fit: cover;      /* Remplit le cadre sans déformation */
             border: 1px solid #ddd;
             cursor: pointer;
             flex-shrink: 0;
@@ -66,10 +67,10 @@
             position: absolute;
             top: 50%;
             transform: translateY(-50%);
-            background: transparent; /* plus de fond blanc */
+            background: transparent;
             border: none;
-            color: black; /* flèches noires */
-            font-size: 1.5rem; /* plus petites */
+            color: black;
+            font-size: 1.4rem;
             cursor: pointer;
             padding: 5px;
             z-index: 10;
@@ -77,10 +78,7 @@
             transition: opacity 0.2s ease;
         }
 
-        .arrow:hover {
-            opacity: 1;
-        }
-
+        .arrow:hover { opacity: 1; }
         .arrow.left { left: 0; }
         .arrow.right { right: 0; }
 
@@ -160,11 +158,6 @@
                 overflow-y: auto;
             }
 
-            .gallery img {
-                max-width: 100%;
-                max-height: 1500px;
-            }
-
             .footer {
                 position: static;
                 padding: 20px 0;
@@ -186,7 +179,7 @@
 
     <div class="gallery-container">
 
-        <!-- === Série 1 === -->
+        <!-- Série 1 -->
         <div class="carousel">
             <button class="arrow left">&#10094;</button>
             <div class="gallery">
@@ -198,7 +191,7 @@
             <button class="arrow right">&#10095;</button>
         </div>
 
-        <!-- === Série 2 === -->
+        <!-- Série 2 -->
         <div class="carousel">
             <button class="arrow left">&#10094;</button>
             <div class="gallery">
@@ -210,7 +203,7 @@
             <button class="arrow right">&#10095;</button>
         </div>
 
-        <!-- === Série 3 === -->
+        <!-- Série 3 -->
         <div class="carousel">
             <button class="arrow left">&#10094;</button>
             <div class="gallery">
@@ -222,18 +215,6 @@
             <button class="arrow right">&#10095;</button>
         </div>
 
-        <!-- === Série 4 === -->
-        <div class="carousel">
-            <button class="arrow left">&#10094;</button>
-            <div class="gallery">
-                <img src="https://i.imgur.com/mre1hjG.jpeg" alt="Série 4 - Photo 1">
-                <img src="https://i.imgur.com/2qzLomd.jpeg" alt="Série 4 - Photo 2">
-                <img src="https://i.imgur.com/6xaqc7q.jpeg" alt="Série 4 - Photo 3">
-                <img src="https://i.imgur.com/nit7MQD.jpeg" alt="Série 4 - Photo 4">
-            </div>
-            <button class="arrow right">&#10095;</button>
-        </div>
-
     </div>
 
     <div class="modal" id="modal">
@@ -241,7 +222,7 @@
     </div>
 
     <script>
-        // --- Lightbox ---
+        // Lightbox
         const galleryImages = document.querySelectorAll('.gallery img');
         const modal = document.getElementById('modal');
         const modalImg = document.getElementById('modal-img');
@@ -257,7 +238,7 @@
             modal.classList.remove('active');
         });
 
-        // --- Carrousels indépendants ---
+        // Carrousels indépendants
         const carousels = document.querySelectorAll('.carousel');
 
         carousels.forEach(carousel => {
