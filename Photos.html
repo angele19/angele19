@@ -22,27 +22,57 @@
             font-size: 1em;
         }
 
+        /* --- Galerie / Carrousel --- */
         .gallery-container {
             padding: 40px;
             box-sizing: border-box;
             overflow-y: auto;
         }
 
+        .carousel {
+            position: relative;
+            display: flex;
+            align-items: center;
+            overflow: hidden;
+        }
+
         .gallery {
             display: flex;
-            flex-direction: column;
             gap: 15px;
+            transition: transform 0.4s ease-in-out;
         }
 
         .gallery img {
             width: 100%;
+            max-width: 400px;
             height: auto;
             object-fit: contain;
             border: 1px solid #ddd;
             cursor: pointer;
+            flex-shrink: 0;
         }
 
-        /* Modal (lightbox) */
+        .arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255,255,255,0.8);
+            border: none;
+            font-size: 2rem;
+            cursor: pointer;
+            padding: 5px 10px;
+            z-index: 10;
+        }
+
+        .arrow.left {
+            left: 5px;
+        }
+
+        .arrow.right {
+            right: 5px;
+        }
+
+        /* --- Modal (lightbox) --- */
         .modal {
             display: none;
             position: fixed;
@@ -66,14 +96,14 @@
             display: flex;
         }
 
-        /* Footer */
+        /* --- Footer --- */
         .footer {
             text-align: center;
             display: flex;
-            flex-direction: column;  /* Change pour une disposition verticale */
+            flex-direction: column;
             align-items: flex-start;
             justify-content: center;
-            gap: 10px;  /* Espacement entre les liens */
+            gap: 10px;
             padding: 10px;
             background-color: white;
             position: fixed;
@@ -92,18 +122,16 @@
         .footer a:hover {
             text-decoration: underline;
         }
-        
+
         @media (max-width: 768px) {
-    .footer {
-        display: flex;
-        flex-direction: row; /* Disposition horizontale */
-        justify-content: center; /* Aligne les liens au centre horizontalement */
-        align-items: center; /* Aligne les liens au centre verticalement */
-    }
-}
+            .footer {
+                flex-direction: row;
+                justify-content: center;
+                align-items: center;
+            }
+        }
 
-
-        /* Bureau */
+        /* --- Bureau --- */
         @media (min-width: 769px) {
             body {
                 display: flex;
@@ -133,73 +161,15 @@
             .footer {
                 position: static;
                 padding: 20px 0;
-                justify-content: flex-start;  /* Aligne les liens à gauche */
+                justify-content: flex-start;
             }
 
             .footer a {
                 margin-right: 20px;
             }
-            .carousel {
-  position: relative;
-  display: flex;
-  align-items: center;
-  overflow: hidden;
-}
-
-.gallery {
-  display: flex;
-  transition: transform 0.4s ease-in-out;
-  gap: 10px;
-}
-
-.gallery img {
-  width: 100%;
-  max-width: 400px;
-  height: auto;
-  border: 1px solid #ddd;
-  cursor: pointer;
-  flex-shrink: 0;
-}
-
-.arrow {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  background: rgba(255,255,255,0.8);
-  border: none;
-  font-size: 2rem;
-  cursor: pointer;
-  padding: 5px 10px;
-  z-index: 10;
-}
-
-.arrow.left {
-  left: 5px;
-}
-
-.arrow.right {
-  right: 5px;
-}
         }
     </style>
 </head>
-    <script>
-  const carousel = document.querySelector('.carousel');
-  const gallery = carousel.querySelector('.gallery');
-  const leftArrow = carousel.querySelector('.arrow.left');
-  const rightArrow = carousel.querySelector('.arrow.right');
-
-  let scrollAmount = 0;
-  const scrollStep = 400; // défilement horizontal en pixels
-
-  rightArrow.addEventListener('click', () => {
-    gallery.scrollBy({ left: scrollStep, behavior: 'smooth' });
-  });
-
-  leftArrow.addEventListener('click', () => {
-    gallery.scrollBy({ left: -scrollStep, behavior: 'smooth' });
-  });
-</script>
 <body>
     <div class="text-container">
         <div class="header">ANGÈLE RONACH</div>
@@ -208,32 +178,33 @@
             <a href="Contact.html">CONTACT</a>
         </div>
     </div>
+
     <div class="gallery-container">
-  <div class="carousel">
-    <button class="arrow left">&#10094;</button>
-    <div class="gallery">
-            <img src="000012.jpg" alt="Photo importée depuis GitHub">
-            <img src="00004.jpg" alt="Photo importée depuis GitHub">
-            <img src="https://i.imgur.com/jJ6zVH6.jpeg" alt="Photo 1">
-            <img src="https://i.imgur.com/JZj6Qob.jpeg" alt="Photo 2">
-            <img src="IMG_2607.jpg" alt="Photo importée depuis GitHub">
-            <img src="https://i.imgur.com/HpyO7d2.jpeg" alt="Photo 3">
-            <img src="https://i.imgur.com/9m6ICXN.jpeg" alt="Photo 5">
-            <img src="CNV000001 copy.jpg" alt="Photo importée depuis GitHub">
-            <img src="https://i.imgur.com/5efmHZb.jpeg" alt="Photo 6">
-            <img src="https://i.imgur.com/mbpPSkk.jpeg" alt="Photo 7">
-            <img src="https://i.imgur.com/BQJ5sH1.jpeg" alt="Photo 8">
-            <img src="https://i.imgur.com/1DDQ5Eq.jpeg" alt="Photo 9">
-            <img src="https://i.imgur.com/mre1hjG.jpeg" alt="Photo 10">
-            <img src="https://i.imgur.com/2qzLomd.jpeg" alt="Photo 11">
-            <img src="https://i.imgur.com/6xaqc7q.jpeg" alt="Photo 12">
-            <img src="https://i.imgur.com/nit7MQD.jpeg" alt="Photo 14">
-            <img src="https://i.imgur.com/JvShV4K.jpeg" alt="Photo 16">
-            <img src="https://i.imgur.com/FjyCio7.jpeg" alt="Photo 17">
-            <img src="https://i.imgur.com/MC0CKfW.jpeg" alt="Photo 18">
-      </div>
-    <button class="arrow right">&#10095;</button>
-  </div>
+        <div class="carousel">
+            <button class="arrow left">&#10094;</button>
+            <div class="gallery"> 
+                <img src="000012.jpg" alt="Photo 1">
+                <img src="00004.jpg" alt="Photo 2">
+                <img src="https://i.imgur.com/jJ6zVH6.jpeg" alt="Photo 3">
+                <img src="https://i.imgur.com/JZj6Qob.jpeg" alt="Photo 4">
+                <img src="IMG_2607.jpg" alt="Photo 5">
+                <img src="https://i.imgur.com/HpyO7d2.jpeg" alt="Photo 6">
+                <img src="https://i.imgur.com/9m6ICXN.jpeg" alt="Photo 7">
+                <img src="CNV000001 copy.jpg" alt="Photo 8">
+                <img src="https://i.imgur.com/5efmHZb.jpeg" alt="Photo 9">
+                <img src="https://i.imgur.com/mbpPSkk.jpeg" alt="Photo 10">
+                <img src="https://i.imgur.com/BQJ5sH1.jpeg" alt="Photo 11">
+                <img src="https://i.imgur.com/1DDQ5Eq.jpeg" alt="Photo 12">
+                <img src="https://i.imgur.com/mre1hjG.jpeg" alt="Photo 13">
+                <img src="https://i.imgur.com/2qzLomd.jpeg" alt="Photo 14">
+                <img src="https://i.imgur.com/6xaqc7q.jpeg" alt="Photo 15">
+                <img src="https://i.imgur.com/nit7MQD.jpeg" alt="Photo 16">
+                <img src="https://i.imgur.com/JvShV4K.jpeg" alt="Photo 17">
+                <img src="https://i.imgur.com/FjyCio7.jpeg" alt="Photo 18">
+                <img src="https://i.imgur.com/MC0CKfW.jpeg" alt="Photo 19">
+            </div>
+            <button class="arrow right">&#10095;</button>
+        </div>
     </div>
 
     <div class="modal" id="modal">
@@ -241,11 +212,11 @@
     </div>
 
     <script>
+        // --- Lightbox ---
         const galleryImages = document.querySelectorAll('.gallery img');
         const modal = document.getElementById('modal');
         const modalImg = document.getElementById('modal-img');
 
-        // Ouvrir le modal au clic sur une image
         galleryImages.forEach(image => {
             image.addEventListener('click', () => {
                 modalImg.src = image.src;
@@ -253,14 +224,28 @@
             });
         });
 
-        // Fermer le modal en cliquant à l'extérieur
         modal.addEventListener('click', () => {
             modal.classList.remove('active');
+        });
+
+        // --- Carrousel horizontal ---
+        const carousel = document.querySelector('.carousel');
+        const gallery = carousel.querySelector('.gallery');
+        const leftArrow = carousel.querySelector('.arrow.left');
+        const rightArrow = carousel.querySelector('.arrow.right');
+
+        const scrollStep = 400; // distance de défilement en pixels
+
+        rightArrow.addEventListener('click', () => {
+            gallery.scrollBy({ left: scrollStep, behavior: 'smooth' });
+        });
+
+        leftArrow.addEventListener('click', () => {
+            gallery.scrollBy({ left: -scrollStep, behavior: 'smooth' });
         });
     </script>
 </body>
 </html>
-
 
 
 
