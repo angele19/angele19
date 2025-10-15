@@ -273,51 +273,40 @@
         // === Carrousels indépendants : navigation par "page" (1 image = 1 page) ===
         const carousels = document.querySelectorAll('.carousel');
 
-        carousels.forEach(carousel => {
-            const leftBtn = carousel.querySelector('.arrow.left');
-            const rightBtn = carousel.querySelector('.arrow.right');
-            const viewport = carousel.querySelector('.viewport');
-            const gallery = carousel.querySelector('.gallery');
+       carousels.forEach(carousel => {
+    const leftBtn = carousel.querySelector('.arrow.left');
+    const rightBtn = carousel.querySelector('.arrow.right');
+    const viewport = carousel.querySelector('.viewport'); // <-- scroller la viewport
+    const gallery = carousel.querySelector('.gallery');
 
-            // ensure images will be exactly viewport width (already via min-width:100%)
-            // but we need to compute page width from viewport
-            function getPageWidth() {
-                return viewport.clientWidth;
-            }
+    function getPageWidth() {
+        return viewport.clientWidth;
+    }
 
-            // Go to next "page"
-            rightBtn.addEventListener('click', () => {
-                const scrollAmount = getPageWidth();
-                // scroll the gallery by exactly the page width
-                // if gallery is not scrollable via scrollLeft due to structure, we use gallery.parentElement.scrollLeft or gallery.scrollBy depending on browser.
-                gallery.scrollBy({ left: scrollAmount, behavior: 'smooth' });
-            });
+    rightBtn.addEventListener('click', () => {
+        const scrollAmount = getPageWidth();
+        viewport.scrollBy({ left: scrollAmount, behavior: 'smooth' }); // <-- scroll viewport
+    });
 
-            leftBtn.addEventListener('click', () => {
-                const scrollAmount = getPageWidth();
-                gallery.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
-            });
+    leftBtn.addEventListener('click', () => {
+        const scrollAmount = getPageWidth();
+        viewport.scrollBy({ left: -scrollAmount, behavior: 'smooth' }); // <-- scroll viewport
+    });
 
-            // Optional: hide left button on first slide, hide right on last slide
-            function updateButtons() {
-                const maxScrollLeft = gallery.scrollWidth - gallery.clientWidth;
-                // small tolerance
-                const cur = Math.round(gallery.scrollLeft);
-                if (cur <= 5) leftBtn.style.visibility = 'hidden'; else leftBtn.style.visibility = 'visible';
-                if (cur >= maxScrollLeft - 5) rightBtn.style.visibility = 'hidden'; else rightBtn.style.visibility = 'visible';
-            }
+    function updateButtons() {
+        const maxScrollLeft = gallery.scrollWidth - viewport.clientWidth; // <-- utiliser viewport.clientWidth
+        const cur = Math.round(viewport.scrollLeft); // <-- viewport.scrollLeft
+        leftBtn.style.visibility = (cur <= 5) ? 'hidden' : 'visible';
+        rightBtn.style.visibility = (cur >= maxScrollLeft - 5) ? 'hidden' : 'visible';
+    }
 
-            // init
-            updateButtons();
+    updateButtons();
+    viewport.addEventListener('scroll', () => {
+        window.requestAnimationFrame(updateButtons);
+    });
+    window.addEventListener('resize', updateButtons);
+});
 
-            // update on scroll/resize
-            gallery.addEventListener('scroll', () => {
-                // use rAF for smoother updates
-                window.requestAnimationFrame(updateButtons);
-            });
-            window.addEventListener('resize', () => {
-                // when viewport width changes, ensure gallery snaps to integer multiples (optional)
-                // but we simply update buttons
                 updateButtons();
             });
         });
