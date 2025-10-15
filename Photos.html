@@ -1,118 +1,326 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Galerie photo</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #fff;
-      margin: 0;
-      padding: 40px;
-    }
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Angèle Ronach</title>
+    <style>
+        /* ===== Reset / Base ===== */
+        * { box-sizing: border-box; }
+        html, body { height: 100%; }
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Didot, serif;
+            background: white;
+            color: black;
+        }
 
-    .carousel {
-      position: relative;
-      margin-bottom: 30px; /* espace réduit entre les galeries */
-    }
+        /* ===== Layout général ===== */
+        .text-container {
+            padding: 20px;
+        }
+        .text-container .header {
+            font-size: 1em;
+        }
 
-    .gallery {
-      display: flex;
-      gap: 0;
-      overflow: hidden; /* empêche qu’on voie la suivante */
-      scroll-snap-type: x mandatory; /* effet de “crantage” */
-    }
+        /* ===== Conteneur des galeries (colonne de séries) ===== */
+        .gallery-container {
+            padding: 40px;
+            box-sizing: border-box;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 25px; /* espacement réduit entre séries */
+        }
 
-    .gallery img {
-      width: 100%;
-      height: 350px; /* même hauteur pour tout le monde */
-      object-fit: cover; /* garde le cadrage harmonieux */
-      flex-shrink: 0;
-      scroll-snap-align: start;
-      border: none;
-      cursor: pointer;
-    }
+        /* ===== Carrousel (chaque série) ===== */
+        .carousel {
+            position: relative;
+            display: block;
+            width: 100%;
+            margin: 0 auto;
+        }
 
-    .arrow {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      background: transparent;
-      border: none;
-      color: black;
-      font-size: 1.4rem; /* flèches plus petites */
-      cursor: pointer;
-      z-index: 10;
-      opacity: 0.6;
-    }
+        /* zone visible : la "fenêtre" qui contiendra exactement 1 image */
+        .viewport {
+            width: 100%;
+            overflow: hidden; /* masque toute image dépassante */
+        }
 
-    .arrow:hover {
-      opacity: 1;
-    }
+        .gallery {
+            display: flex;
+            gap: 0;
+            /* important : pas d'overflow ici (la viewport gère), mais on utilisera transform/scroll */
+            scroll-behavior: smooth;
+            /* scroll-snap pour garantir un arrêt net sur chaque image si l'utilisateur scroll */
+            scroll-snap-type: x mandatory;
+            -webkit-overflow-scrolling: touch;
+            /* masquer la scrollbar si la propriété est utilisée (backup) */
+            scrollbar-width: none;
+        }
+        .gallery::-webkit-scrollbar { display: none; }
 
-    .arrow.left {
-      left: 5px;
-    }
+        /* chaque image prend toute la largeur de la viewport */
+        .gallery img {
+            min-width: 100%;   /* clé : 1 image visible = largeur entière */
+            height: 350px;     /* hauteur uniforme (ajustable) */
+            object-fit: cover; /* crop centré sans déformation */
+            display: block;
+            scroll-snap-align: start;
+            border: 1px solid #ddd;
+            cursor: pointer;
+            flex-shrink: 0;
+            background: #f8f8f8; /* secours si image lente à charger */
+        }
 
-    .arrow.right {
-      right: 5px;
-    }
-  </style>
+        /* ===== Flèches ===== */
+        .arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: transparent; /* transparent */
+            border: none;
+            color: black;
+            font-size: 1.4rem; /* plus petites */
+            padding: 6px;
+            cursor: pointer;
+            z-index: 20;
+            opacity: 0.6;
+            transition: opacity 0.18s ease, transform 0.12s ease;
+            user-select: none;
+        }
+        .arrow:hover { opacity: 1; transform: translateY(-50%) scale(1.05); }
+        .arrow.left { left: 8px; }
+        .arrow.right { right: 8px; }
+
+        /* Option : rendre les flèches discrètes sur mobile aussi */
+        @media (max-width: 600px) {
+            .gallery img { height: 260px; }
+            .arrow { font-size: 1.1rem; padding: 4px; }
+        }
+
+        /* ===== Modal / Lightbox ===== */
+        .modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.92);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        .modal.active { display: flex; }
+        .modal img {
+            max-width: 92%;
+            max-height: 92%;
+            object-fit: contain;
+        }
+
+        /* ===== Footer (conserve ton style) ===== */
+        .footer {
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: center;
+            gap: 10px;
+            padding: 10px;
+            background-color: white;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+        }
+        .footer a { text-decoration: underline; color: black; font-size: 1em; }
+        .footer a:hover { text-decoration: underline; }
+
+        @media (max-width: 768px) {
+            .footer { flex-direction: row; justify-content: center; align-items: center; }
+        }
+
+        /* ===== Desktop layout: texte à gauche, gallery à droite ===== */
+        @media (min-width: 769px) {
+            body {
+                display: flex;
+                justify-content: space-between;
+                height: 100vh;
+                overflow: hidden;
+            }
+            .text-container {
+                width: 50%;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                padding: 30px;
+            }
+            .gallery-container {
+                width: 70%;
+                padding: 20px 80px;
+                overflow-y: auto;
+            }
+            .footer { position: static; padding: 20px 0; justify-content: flex-start; }
+            .footer a { margin-right: 20px; }
+        }
+    </style>
 </head>
-
 <body>
-  <!-- Premier carrousel -->
-  <div class="carousel">
-    <button class="arrow left">&#10094;</button>
-    <div class="gallery">
-      <img src="image1a.jpg" alt="Image 1a">
-      <img src="image1b.jpg" alt="Image 1b">
-      <img src="image1c.jpg" alt="Image 1c">
+    <div class="text-container">
+        <div class="header">ANGÈLE RONACH</div>
+
+        <div class="footer">
+            <a href="index.html">MOTION</a>
+            <a href="Contact.html">CONTACT</a>
+        </div>
     </div>
-    <button class="arrow right">&#10095;</button>
-  </div>
 
-  <!-- Deuxième carrousel -->
-  <div class="carousel">
-    <button class="arrow left">&#10094;</button>
-    <div class="gallery">
-      <img src="image2a.jpg" alt="Image 2a">
-      <img src="image2b.jpg" alt="Image 2b">
-      <img src="image2c.jpg" alt="Image 2c">
+    <div class="gallery-container">
+
+        <!-- === Série 1 === -->
+        <div class="carousel">
+            <button class="arrow left" aria-label="Précédent">&#10094;</button>
+            <div class="viewport">
+                <div class="gallery">
+                    <img src="000012.jpg" alt="Série 1 - Photo 1">
+                    <img src="00004.jpg" alt="Série 1 - Photo 2">
+                    <img src="https://i.imgur.com/jJ6zVH6.jpeg" alt="Série 1 - Photo 3">
+                    <img src="https://i.imgur.com/JZj6Qob.jpeg" alt="Série 1 - Photo 4">
+                </div>
+            </div>
+            <button class="arrow right" aria-label="Suivant">&#10095;</button>
+        </div>
+
+        <!-- === Série 2 === -->
+        <div class="carousel">
+            <button class="arrow left" aria-label="Précédent">&#10094;</button>
+            <div class="viewport">
+                <div class="gallery">
+                    <img src="IMG_2607.jpg" alt="Série 2 - Photo 1">
+                    <img src="https://i.imgur.com/HpyO7d2.jpeg" alt="Série 2 - Photo 2">
+                    <img src="https://i.imgur.com/9m6ICXN.jpeg" alt="Série 2 - Photo 3">
+                    <img src="CNV000001 copy.jpg" alt="Série 2 - Photo 4">
+                </div>
+            </div>
+            <button class="arrow right" aria-label="Suivant">&#10095;</button>
+        </div>
+
+        <!-- === Série 3 === -->
+        <div class="carousel">
+            <button class="arrow left" aria-label="Précédent">&#10094;</button>
+            <div class="viewport">
+                <div class="gallery">
+                    <img src="https://i.imgur.com/5efmHZb.jpeg" alt="Série 3 - Photo 1">
+                    <img src="https://i.imgur.com/mbpPSkk.jpeg" alt="Série 3 - Photo 2">
+                    <img src="https://i.imgur.com/BQJ5sH1.jpeg" alt="Série 3 - Photo 3">
+                    <img src="https://i.imgur.com/1DDQ5Eq.jpeg" alt="Série 3 - Photo 4">
+                </div>
+            </div>
+            <button class="arrow right" aria-label="Suivant">&#10095;</button>
+        </div>
+
+        <!-- === Série 4 === -->
+        <div class="carousel">
+            <button class="arrow left" aria-label="Précédent">&#10094;</button>
+            <div class="viewport">
+                <div class="gallery">
+                    <img src="https://i.imgur.com/mre1hjG.jpeg" alt="Série 4 - Photo 1">
+                    <img src="https://i.imgur.com/2qzLomd.jpeg" alt="Série 4 - Photo 2">
+                    <img src="https://i.imgur.com/6xaqc7q.jpeg" alt="Série 4 - Photo 3">
+                    <img src="https://i.imgur.com/nit7MQD.jpeg" alt="Série 4 - Photo 4">
+                </div>
+            </div>
+            <button class="arrow right" aria-label="Suivant">&#10095;</button>
+        </div>
+
     </div>
-    <button class="arrow right">&#10095;</button>
-  </div>
 
-  <!-- Troisième carrousel -->
-  <div class="carousel">
-    <button class="arrow left">&#10094;</button>
-    <div class="gallery">
-      <img src="image3a.jpg" alt="Image 3a">
-      <img src="image3b.jpg" alt="Image 3b">
-      <img src="image3c.jpg" alt="Image 3c">
+    <!-- Modal / Lightbox -->
+    <div id="modal" class="modal" role="dialog" aria-hidden="true">
+        <img id="modal-img" src="" alt="Image agrandie">
     </div>
-    <button class="arrow right">&#10095;</button>
-  </div>
 
-  <script>
-    const carousels = document.querySelectorAll('.carousel');
+    <script>
+        // === Lightbox ===
+        const modal = document.getElementById('modal');
+        const modalImg = document.getElementById('modal-img');
 
-    carousels.forEach(carousel => {
-      const gallery = carousel.querySelector('.gallery');
-      const leftArrow = carousel.querySelector('.arrow.left');
-      const rightArrow = carousel.querySelector('.arrow.right');
+        // Delegate click on any gallery image
+        document.addEventListener('click', (e) => {
+            const img = e.target.closest('.gallery img');
+            if (!img) return;
+            modalImg.src = img.src;
+            modal.classList.add('active');
+            modal.setAttribute('aria-hidden', 'false');
+        });
 
-      rightArrow.addEventListener('click', () => {
-        const scrollStep = gallery.clientWidth;
-        gallery.scrollBy({ left: scrollStep, behavior: 'smooth' });
-      });
+        // Close modal on click outside image or on Escape
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal || e.target === modalImg) {
+                modal.classList.remove('active');
+                modal.setAttribute('aria-hidden', 'true');
+                modalImg.src = '';
+            }
+        });
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && modal.classList.contains('active')) {
+                modal.classList.remove('active');
+                modal.setAttribute('aria-hidden', 'true');
+                modalImg.src = '';
+            }
+        });
 
-      leftArrow.addEventListener('click', () => {
-        const scrollStep = gallery.clientWidth;
-        gallery.scrollBy({ left: -scrollStep, behavior: 'smooth' });
-      });
-    });
-  </script>
+        // === Carrousels indépendants : navigation par "page" (1 image = 1 page) ===
+        const carousels = document.querySelectorAll('.carousel');
+
+        carousels.forEach(carousel => {
+            const leftBtn = carousel.querySelector('.arrow.left');
+            const rightBtn = carousel.querySelector('.arrow.right');
+            const viewport = carousel.querySelector('.viewport');
+            const gallery = carousel.querySelector('.gallery');
+
+            // ensure images will be exactly viewport width (already via min-width:100%)
+            // but we need to compute page width from viewport
+            function getPageWidth() {
+                return viewport.clientWidth;
+            }
+
+            // Go to next "page"
+            rightBtn.addEventListener('click', () => {
+                const scrollAmount = getPageWidth();
+                // scroll the gallery by exactly the page width
+                // if gallery is not scrollable via scrollLeft due to structure, we use gallery.parentElement.scrollLeft or gallery.scrollBy depending on browser.
+                gallery.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+            });
+
+            leftBtn.addEventListener('click', () => {
+                const scrollAmount = getPageWidth();
+                gallery.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+            });
+
+            // Optional: hide left button on first slide, hide right on last slide
+            function updateButtons() {
+                const maxScrollLeft = gallery.scrollWidth - gallery.clientWidth;
+                // small tolerance
+                const cur = Math.round(gallery.scrollLeft);
+                if (cur <= 5) leftBtn.style.visibility = 'hidden'; else leftBtn.style.visibility = 'visible';
+                if (cur >= maxScrollLeft - 5) rightBtn.style.visibility = 'hidden'; else rightBtn.style.visibility = 'visible';
+            }
+
+            // init
+            updateButtons();
+
+            // update on scroll/resize
+            gallery.addEventListener('scroll', () => {
+                // use rAF for smoother updates
+                window.requestAnimationFrame(updateButtons);
+            });
+            window.addEventListener('resize', () => {
+                // when viewport width changes, ensure gallery snaps to integer multiples (optional)
+                // but we simply update buttons
+                updateButtons();
+            });
+        });
+    </script>
 </body>
 </html>
