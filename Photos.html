@@ -33,13 +33,18 @@
             position: relative;
             display: flex;
             align-items: center;
-            overflow: hidden;
         }
 
         .gallery {
             display: flex;
             gap: 15px;
-            transition: transform 0.4s ease-in-out;
+            overflow-x: auto; /* ✅ clé pour le défilement horizontal */
+            scroll-behavior: smooth;
+            scrollbar-width: none; /* cache la barre de défilement (Firefox) */
+        }
+
+        .gallery::-webkit-scrollbar {
+            display: none; /* cache la barre (Chrome, Safari) */
         }
 
         .gallery img {
@@ -49,7 +54,7 @@
             object-fit: contain;
             border: 1px solid #ddd;
             cursor: pointer;
-            flex-shrink: 0;
+            flex-shrink: 0; /* ✅ empêche les images de se redimensionner */
         }
 
         .arrow {
@@ -246,7 +251,3 @@
     </script>
 </body>
 </html>
-
-
-
-
