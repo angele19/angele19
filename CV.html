@@ -57,6 +57,15 @@
     <!-- Intégration directe du PDF -->
  <img src="CV_2025.jpg" alt="CV" style="width:100%; height:auto;" />
   </div>
+   <script>
+    const burgerButton = document.getElementById('burger-button');
+    const menu = document.getElementById('menu');
+
+    burgerButton.addEventListener('click', () => {
+      menu.classList.toggle('active');
+      burgerButton.classList.toggle('open');
+    });
+  </script>
 
  
 </body>
