@@ -19,6 +19,11 @@
       box-sizing: border-box;
     }
 
+    body, html {
+      height: 100%;
+      overflow: hidden;
+    }
+
     .container {
       position: relative;
       width: 100%;
@@ -51,53 +56,31 @@
       font-stretch: condensed;
     }
 
-    .bottom-link {
+    /* Bouton son */
+    .sound-toggle {
       position: absolute;
-      bottom: 10%;
-      left: 50%;
-      transform: translateX(-50%);
-    }
-
-    .bottom-link a {
-      font-size: 2vw;
+      bottom: 30px;
+      right: 30px;
+      background-color: rgba(0, 0, 0, 0.5);
       color: white;
-      text-decoration: underline;
-      padding: 8px 16px;
-      border-radius: 10px;
-      background-color: transparent;
-      transition: background-color 0.3s;
-    }
-
-    .bottom-link a:hover {
-      background-color: transparent;
-    }
-
-    .bottom-text-container {
-      position: absolute;
-      bottom: 20px;
-      width: 100%;
+      border: none;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      font-size: 20px;
+      cursor: pointer;
       display: flex;
-      justify-content: space-between;
       align-items: center;
-      padding: 0 20px;
-      box-sizing: border-box;
-    }
-
-    .contact-button-right {
-      font-size: 1vw;
-      color: white;
-      text-decoration: underline;
-      padding: 10px 20px;
-      border-radius: 5px;
-      background-color: transparent;
+      justify-content: center;
       transition: background-color 0.3s;
+      z-index: 20;
     }
 
-    .contact-button-right:hover {
+    .sound-toggle:hover {
       background-color: rgba(255, 255, 255, 0.3);
     }
 
-    /* MENU BURGER STYLES */
+    /* MENU BURGER */
     .menu-container {
       position: absolute;
       top: 20px;
@@ -175,44 +158,17 @@
     }
 
     @media (max-width: 768px) {
-      .text-overlay h1 {
-        font-size: 11vw;
-        font-family: Apple Chancery, cursive;
-        color: white;
-        margin-top: 10px;
-      }
-
-      .text-overlay {
-        top: 40%;
-      }
-
-      .bottom-link {
-        bottom: 40%;
-      }
-
-      .bottom-link a {
-        font-size: 5vw;
-      }
-
-      .bottom-text-container {
-        bottom: 30%;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-      }
-
-      .contact-button-right {
-        font-size: 3.5vw;
-        margin-top: 10px;
-        text-align: center;
-      }
-
       .desktop-video {
         display: none;
       }
 
       .mobile-video {
         display: block;
+      }
+
+      .text-overlay h1 {
+        font-size: 11vw;
+        font-family: Apple Chancery, cursive;
       }
     }
   </style>
@@ -235,17 +191,19 @@
       </nav>
     </div>
 
-    <!-- Vidéo de fond version desktop -->
-    <video autoplay muted loop playsinline poster="https://i.imgur.com/JZj6Qob.jpeg" class="background-video desktop-video">
+    <!-- Vidéos -->
+    <video autoplay muted loop playsinline poster="https://i.imgur.com/JZj6Qob.jpeg" class="background-video desktop-video" id="videoDesktop">
       <source src="videopresentation_2025.mp4" type="video/mp4">
       Votre navigateur ne supporte pas les vidéos HTML5.
     </video>
 
-    <!-- Vidéo de fond version mobile -->
-    <video autoplay muted loop playsinline poster="https://i.imgur.com/JZj6Qob.jpeg" class="background-video mobile-video">
-      <source src="videopresentationmobile_2025.mp4" type="video/mp4">
+    <video autoplay muted loop playsinline poster="https://i.imgur.com/JZj6Qob.jpeg" class="background-video mobile-video" id="videoMobile">
+      <source src="demoreel2025.mp4" type="video/mp4">
       Votre navigateur ne supporte pas les vidéos HTML5.
     </video>
+
+    <!-- Bouton son -->
+    <button class="sound-toggle" id="soundToggle" aria-label="Activer/désactiver le son">🔇</button>
 
     <!-- Texte superposé -->
     <div class="text-overlay">
@@ -257,12 +215,26 @@
   <script>
     const burgerButton = document.getElementById('burger-button');
     const menu = document.getElementById('menu');
+    const soundToggle = document.getElementById('soundToggle');
+    const videoDesktop = document.getElementById('videoDesktop');
+    const videoMobile = document.getElementById('videoMobile');
 
     burgerButton.addEventListener('click', () => {
       menu.classList.toggle('active');
       burgerButton.classList.toggle('open');
     });
+
+    // Contrôle du son
+    soundToggle.addEventListener('click', () => {
+      const activeVideo = window.innerWidth <= 768 ? videoMobile : videoDesktop;
+      if (activeVideo.muted) {
+        activeVideo.muted = false;
+        soundToggle.textContent = '🔊';
+      } else {
+        activeVideo.muted = true;
+        soundToggle.textContent = '🔇';
+      }
+    });
   </script>
 </body>
 </html>
-
