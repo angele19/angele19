@@ -57,28 +57,32 @@
     }
 
     /* Bouton son */
-    .sound-toggle {
-      position: absolute;
-      bottom: 30px;
-      right: 30px;
-      background-color: rgba(0, 0, 0, 0.5);
-      color: white;
-      border: none;
-      border-radius: 50%;
-      width: 50px;
-      height: 50px;
-      font-size: 20px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: background-color 0.3s;
-      z-index: 20;
-    }
+   .sound-toggle {
+  position: absolute;
+  bottom: 30px;
+  right: 30px;
+  background: rgba(0, 0, 0, 0.25);
+  backdrop-filter: blur(6px);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  border-radius: 50%;
+  width: 48px;
+  height: 48px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.3s, transform 0.2s;
+  z-index: 20;
+}
 
-    .sound-toggle:hover {
-      background-color: rgba(255, 255, 255, 0.3);
-    }
+.sound-toggle:hover {
+  background: rgba(255, 255, 255, 0.15);
+  transform: scale(1.05);
+}
+
+.sound-toggle svg {
+  transition: opacity 0.3s ease;
+}
 
     /* MENU BURGER */
     .menu-container {
@@ -202,8 +206,13 @@
       Votre navigateur ne supporte pas les vidéos HTML5.
     </video>
 
-    <!-- Bouton son -->
-    <button class="sound-toggle" id="soundToggle" aria-label="Activer/désactiver le son">🔇</button>
+<!-- Bouton son -->
+<button class="sound-toggle" id="soundToggle" aria-label="Activer/désactiver le son">
+  <svg id="soundIcon" xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path id="soundWave" d="M19 5c1.5 2 2 4 2 7s-.5 5-2 7"></path>
+  </svg>
+</button>
 
     <!-- Texte superposé -->
     <div class="text-overlay">
@@ -211,30 +220,37 @@
     </div>
   </div>
 
-  <!-- Script JS -->
-  <script>
-    const burgerButton = document.getElementById('burger-button');
-    const menu = document.getElementById('menu');
-    const soundToggle = document.getElementById('soundToggle');
-    const videoDesktop = document.getElementById('videoDesktop');
-    const videoMobile = document.getElementById('videoMobile');
+ <script>
+  const burgerButton = document.getElementById('burger-button');
+  const menu = document.getElementById('menu');
+  const soundToggle = document.getElementById('soundToggle');
+  const soundWave = document.getElementById('soundWave');
+  const videoDesktop = document.getElementById('videoDesktop');
+  const videoMobile = document.getElementById('videoMobile');
 
-    burgerButton.addEventListener('click', () => {
-      menu.classList.toggle('active');
-      burgerButton.classList.toggle('open');
-    });
+  burgerButton.addEventListener('click', () => {
+    menu.classList.toggle('active');
+    burgerButton.classList.toggle('open');
+  });
 
-    // Contrôle du son
-    soundToggle.addEventListener('click', () => {
-      const activeVideo = window.innerWidth <= 768 ? videoMobile : videoDesktop;
+  // Contrôle du son
+  soundToggle.addEventListener('click', async () => {
+    const activeVideo = window.innerWidth <= 768 ? videoMobile : videoDesktop;
+
+    try {
       if (activeVideo.muted) {
         activeVideo.muted = false;
-        soundToggle.textContent = '🔊';
+        await activeVideo.play();
+        soundWave.style.opacity = '1'; // affiche les ondes
       } else {
         activeVideo.muted = true;
-        soundToggle.textContent = '🔇';
+        soundWave.style.opacity = '0'; // cache les ondes
       }
-    });
+    } catch (err) {
+      console.error('Erreur lors de l’activation du son :', err);
+    }
+  });
+</script>
   </script>
 </body>
 </html>
