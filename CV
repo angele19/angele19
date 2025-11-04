@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CV – Angèle Ronach</title>
+  <link rel="stylesheet" href="style.css"> <!-- si tu as un fichier commun -->
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: black;
+      color: white;
+      font-family: Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
+
+    h1 {
+      margin-bottom: 20px;
+      font-size: 3vw;
+    }
+
+    .cv-container {
+      width: 80%;
+      max-width: 900px;
+      height: 80vh;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+    .download-link {
+      margin-top: 20px;
+      color: white;
+      text-decoration: underline;
+      font-size: 1.2em;
+    }
+
+    .download-link:hover {
+      color: #aaa;
+    }
+  </style>
+</head>
+<body>
+  <h1>Mon CV</h1>
+
+  <div class="cv-container">
+    <!-- Intégration directe du PDF -->
+    <iframe src="CV_2025.pdf"></iframe>
+  </div>
+
+ 
+</body>
+</html>
