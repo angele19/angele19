@@ -162,18 +162,34 @@
     }
 
     @media (max-width: 768px) {
-      .desktop-video {
-        display: none;
-      }
+  .desktop-video {
+    display: none;
+  }
 
-      .mobile-video {
-        display: block;
-      }
+  .mobile-video {
+    display: block;
+  }
 
-      .text-overlay h1 {
-        font-size: 11vw;
-        font-family: Apple Chancery, cursive;
-      }
+  .text-overlay h1 {
+    font-size: 11vw;
+    font-family: Apple Chancery, cursive;
+  }
+
+  /* Bouton son repositionné pour mobile */
+  .sound-toggle {
+    bottom: auto;
+    top: 20px;
+    right: 20px;
+    width: 40px;
+    height: 40px;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+  }
+
+  .sound-toggle svg {
+    width: 18px;
+    height: 18px;
+  }
+}
     }
   </style>
 </head>
