@@ -1,3 +1,6 @@
+<!-- ============================= -->
+<!-- FICHIER 1 — index.html       -->
+<!-- ============================= -->
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -8,118 +11,113 @@
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body { font-family: Didot, serif; background: white; color: black; }
 
-    /* ----- Layout global ----- */
-    .layout {
-      display: flex;
-      height: 100vh;
-      padding: 40px;
-      justify-content: space-between;
-    }
+    .layout { display: flex; height: 100vh; padding: 40px; justify-content: space-between; }
+    .sidebar { width: 30%; display: flex; flex-direction: column; justify-content: space-between; }
+    .name { font-size: 2.5rem; line-height: 1.2; }
+    .menu { display: flex; flex-direction: column; gap: 12px; margin-top: 40px; }
+    .menu a { color: black; text-decoration: underline; font-size: 1.1rem; }
 
-    /* ----- Bloc gauche : nom + menu ----- */
-    .sidebar {
-      width: 30%;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-    }
-
-    .name {
-      font-size: 2.5rem;
-      line-height: 1.2;
-    }
-
-    .menu {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      margin-top: 40px;
-    }
-
-    .menu a {
-      color: black;
-      text-decoration: underline;
-      font-size: 1.1rem;
-    }
-
-    /* ----- Page d'accueil : grid d’images ----- */
-    .grid {
-      width: 65%;
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 40px;
-      overflow-y: auto;
-      padding-right: 20px;
-    }
-
-    .grid img {
-      width: 100%;
-      height: auto;
-      display: block;
-      cursor: pointer;
-    }
-
-    /* ----- Page projet : horizontal scroll ----- */
-    .hscroll-container {
-      width: 65%;
-      overflow-x: auto;
-      overflow-y: hidden;
-      white-space: nowrap;
-      scroll-behavior: smooth;
-    }
-
-    .hscroll-container::-webkit-scrollbar { display: none; }
-
-    .hscroll img {
-      width: 100vw;
-      height: 90vh;
-      object-fit: cover;
-      display: inline-block;
-    }
-
-    @media (max-width: 800px) {
-      .layout { flex-direction: column; height: auto; }
-      .sidebar { width: 100%; margin-bottom: 20px; }
-      .grid, .hscroll-container { width: 100%; height: auto; }
-    }
-      .grid img:hover {
-      transform: scale(1.02);
-      transition: transform 0.25s ease;
-    }
-
-    .hscroll img {
-      transition: transform 0.3s ease;
-    }
-
-    .hscroll img:hover {
-      transform: scale(1.02);
-    }
+    .grid { width: 65%; display: grid; grid-template-columns: 1fr; gap: 40px; overflow-y: auto; padding-right: 20px; }
+    .grid img { width: 100%; cursor: pointer; transition: transform .25s ease; }
+    .grid img:hover { transform: scale(1.02); }
   </style>
 </head>
-
 <body>
-
   <div class="layout">
-
-    <!-- ***** COLONNE GAUCHE ***** -->
     <div class="sidebar">
       <div>
         <div class="name">Angèle<br>Ronach</div>
         <div class="menu">
           <a href="index.html">Accueil</a>
+          <a href="concert.html">Concert</a>
           <a href="about.html">About</a>
         </div>
       </div>
     </div>
 
-    <!-- ***** PAGE D'ACCUEIL (exemple) ***** -->
+    <!-- Accueil → 2 photos -->
     <div class="grid">
-      <a href="projet1.html"><img src="image1.jpg" alt="Projet 1"></a>
-      <a href="projet2.html"><img src="image2.jpg" alt="Projet 2"></a>
+      <a href="concert.html"><img src="image_noir_blanc.jpg"></a>
+      <a href="concert.html"><img src="image_rouge.jpg"></a>
+    </div>
+  </div>
+</body>
+</html>
+
+
+
+<!-- ============================= -->
+<!-- FICHIER 2 — concert.html      -->
+<!-- ============================= -->
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Concert – Angèle Ronach</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: Didot, serif; background: white; color: black; }
+
+    .layout { display: flex; height: 100vh; padding: 40px; justify-content: space-between; }
+    .sidebar { width: 30%; display: flex; flex-direction: column; justify-content: space-between; }
+    .name { font-size: 2.5rem; line-height: 1.2; }
+    .menu { display: flex; flex-direction: column; gap: 12px; margin-top: 40px; }
+    .menu a { color: black; text-decoration: underline; font-size: 1.1rem; }
+
+    .list { width: 65%; display: flex; flex-direction: column; gap: 40px; overflow-y: auto; padding-right: 20px; }
+    .list img { width: 100%; cursor: pointer; transition: transform .25s ease; }
+    .list img:hover { transform: scale(1.02); }
+
+    /* Modal pleine page */
+    #modal { position: fixed; inset:0; background: rgba(0,0,0,0.95); display:none; justify-content:center; align-items:center; }
+    #modal.active { display:flex; }
+    .hscroll { display:flex; gap:0; overflow-x:auto; white-space:nowrap; scroll-behavior:smooth; width:100%; height:100%; }
+    .hscroll img { width:100vw; height:100vh; object-fit:cover; display:inline-block; }
+    .hscroll::-webkit-scrollbar { display:none; }
+  </style>
+</head>
+<body>
+  <div class="layout">
+    <div class="sidebar">
+      <div>
+        <div class="name">Angèle<br>Ronach</div>
+        <div class="menu">
+          <a href="index.html">Accueil</a>
+          <a href="concert.html">Concert</a>
+          <a href="about.html">About</a>
+        </div>
+      </div>
     </div>
 
+    <!-- Page CONCERT → 2 photos -->
+    <div class="list">
+      <img src="Reuben01.jpg" class="open-gallery">
+      <img src="Goya01.jpg" class="open-gallery">
+    </div>
   </div>
 
+  <!-- Modal → galerie horizontale -->
+  <div id="modal">
+    <div class="hscroll">
+      <img src="Reuben01.jpg">
+      <img src="Reuben02.jpg">
+      <img src="Reuben03.jpg">
+    </div>
+  </div>
+
+  <script>
+    const modal = document.getElementById("modal");
+    const triggers = document.querySelectorAll('.open-gallery');
+
+    triggers.forEach(t => t.addEventListener('click', ()=>{
+      modal.classList.add('active');
+    }));
+
+    modal.addEventListener('click', e=>{
+      if(e.target === modal) modal.classList.remove('active');
+    });
+  </script>
 </body>
 </html>
 
