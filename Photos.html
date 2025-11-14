@@ -1,244 +1,126 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Angèle Ronach - Carrousels corrigés</title>
-<style>
-    * { box-sizing: border-box; }
-    html, body { height: 100%; margin:0; padding:0; font-family: Didot, serif; background: white; color: black; }
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Angèle Ronach</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: Didot, serif; background: white; color: black; }
 
-    .text-container { padding: 20px; }
-    .header { font-size: 1em; }
-
-    .gallery-container { padding: 40px; display: flex; flex-direction: column; gap: 25px; }
-
-    .carousel { position: relative; width: 100%; margin: 0 auto; }
-
-    /* IMPORTANT: viewport scrollable horizontally (programmatic + user) */
-    .viewport {
-        width: 100%;
-        overflow-x: auto;   /* <-- allow horizontal scrolling */
-        overflow-y: hidden;
-        -webkit-overflow-scrolling: touch;
-        scroll-behavior: smooth;
+    /* ----- Layout global ----- */
+    .layout {
+      display: flex;
+      height: 100vh;
+      padding: 40px;
+      justify-content: space-between;
     }
 
-    /* hide scrollbar visually */
-    .viewport::-webkit-scrollbar { display: none; }
-    .viewport { scrollbar-width: none; -ms-overflow-style: none; }
-
-    .gallery {
-        display: flex;
-        gap: 0;
-        scroll-snap-type: x mandatory;
+    /* ----- Bloc gauche : nom + menu ----- */
+    .sidebar {
+      width: 30%;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
     }
 
-    .gallery img {
-        min-width: 100%;
-        height: 450px;
-        object-fit: cover;
-        display: block;
-        scroll-snap-align: start;
-        border: 1px solid #ddd;
-        cursor: pointer;
-        flex-shrink: 0;
-        background: #f8f8f8;
+    .name {
+      font-size: 2.5rem;
+      line-height: 1.2;
     }
 
-   .arrow {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  background: transparent;
-  color: black;
-  border: none;
-  font-size: 32px;
-  cursor: pointer;
-  z-index: 2;
-  opacity: 0.7;
-  transition: opacity 0.2s;
-}
-.arrow:hover {
-  opacity: 1;
-}
-    .arrow.left { left: 8px; }
-    .arrow.right { right: 8px; }
-
-    @media (max-width: 600px) {
-        .gallery img { height: 260px; }
-        .arrow { font-size: 1.1rem; padding: 4px; }
+    .menu {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-top: 40px;
     }
 
-    .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.92); justify-content: center; align-items: center; z-index: 1000; }
-    .modal.active { display: flex; }
-    .modal img { max-width: 92%; max-height: 92%; object-fit: contain; }
-
-    .footer { text-align: center; display: flex; flex-direction: column; align-items: flex-start; justify-content: center; gap: 10px; padding: 10px; background-color: white; position: fixed; bottom: 0; left: 0; width: 100%; z-index: 1000; }
-    .footer a { text-decoration: underline; color: black; font-size: 1em; }
-    .footer a:hover { text-decoration: underline; }
-
-    @media (min-width: 769px) {
-        body { display: flex; justify-content: space-between; height: 100vh; overflow: hidden; }
-        .text-container { width: 50%; display: flex; flex-direction: column; justify-content: space-between; padding: 30px; }
-        .gallery-container { width: 70%; padding: 20px 80px; overflow-y: auto; }
-        .footer { position: static; padding: 20px 0; justify-content: flex-start; }
-        .footer a { margin-right: 20px; }
+    .menu a {
+      color: black;
+      text-decoration: underline;
+      font-size: 1.1rem;
     }
-</style>
+
+    /* ----- Page d'accueil : grid d’images ----- */
+    .grid {
+      width: 65%;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 40px;
+      overflow-y: auto;
+      padding-right: 20px;
+    }
+
+    .grid img {
+      width: 100%;
+      height: auto;
+      display: block;
+      cursor: pointer;
+    }
+
+    /* ----- Page projet : horizontal scroll ----- */
+    .hscroll-container {
+      width: 65%;
+      overflow-x: auto;
+      overflow-y: hidden;
+      white-space: nowrap;
+      scroll-behavior: smooth;
+    }
+
+    .hscroll-container::-webkit-scrollbar { display: none; }
+
+    .hscroll img {
+      width: 100vw;
+      height: 90vh;
+      object-fit: cover;
+      display: inline-block;
+    }
+
+    @media (max-width: 800px) {
+      .layout { flex-direction: column; height: auto; }
+      .sidebar { width: 100%; margin-bottom: 20px; }
+      .grid, .hscroll-container { width: 100%; height: auto; }
+    }
+      .grid img:hover {
+      transform: scale(1.02);
+      transition: transform 0.25s ease;
+    }
+
+    .hscroll img {
+      transition: transform 0.3s ease;
+    }
+
+    .hscroll img:hover {
+      transform: scale(1.02);
+    }
+  </style>
 </head>
+
 <body>
 
-<div class="text-container">
-    <div class="header">ANGÈLE RONACH</div>
-    <div class="footer">
-        <a href="index.html">ACCUEIL</a>
-        <a href="Contact.html">CONTACT</a>
-    </div>
-</div>
+  <div class="layout">
 
-<div class="gallery-container">
-
-    <!-- Série 1 -->
-    <div class="carousel">
-        <button class="arrow left" aria-label="Précédent">&#10094;</button>
-        <div class="viewport">
-            <div class="gallery">
-                <img src="000012.jpg" alt="Série 1 - Photo 1">
-                <img src="00004.jpg" alt="Série 1 - Photo 2">
-                <img src="000022.jpg" alt="Série 1 - Photo 2">
-               <img src="00008.jpg" alt="Série 1 - Photo 2">
-            </div>
+    <!-- ***** COLONNE GAUCHE ***** -->
+    <div class="sidebar">
+      <div>
+        <div class="name">Angèle<br>Ronach</div>
+        <div class="menu">
+          <a href="index.html">Accueil</a>
+          <a href="about.html">About</a>
         </div>
-        <button class="arrow right" aria-label="Suivant">&#10095;</button>
+      </div>
     </div>
 
-    <!-- Série 2 -->
-    <div class="carousel">
-        <button class="arrow left" aria-label="Précédent">&#10094;</button>
-        <div class="viewport">
-            <div class="gallery">
-                <img src="CNV000001.jpg" alt="Série 2 - Photo 1">
-               <img src="20241217-CNV000027.jpg" alt="Série 2 - Photo 1">
-               <img src="20241217-CNV000006.jpg" alt="Série 2 - Photo 1">
-               <img src="20241217-CNV000026.jpg" alt="Série 2 - Photo 1">  
-            </div>
-        </div>
-        <button class="arrow right" aria-label="Suivant">&#10095;</button>
+    <!-- ***** PAGE D'ACCUEIL (exemple) ***** -->
+    <div class="grid">
+      <a href="projet1.html"><img src="image1.jpg" alt="Projet 1"></a>
+      <a href="projet2.html"><img src="image2.jpg" alt="Projet 2"></a>
     </div>
-      <!-- Série 3 -->
-     
-            <div class="gallery">
-            <img src="DSC00638.jpg" alt="Série 2 - Photo 1"> 
-            <img src="20241217-CNV000029.jpg" alt="Série 2 - Photo 1"> 
-            <img src="000055020024.jpg" alt="Série 2 - Photo 1">
-            <img src="DSC00104.jpg" alt="Série 2 - Photo 1">
-            <img src="DSC00154.jpg" alt="Série 2 - Photo 1"> 
-            <img src="20200106-DSC00717 copy.jpg" alt="Série 2 - Photo 1"> 
-            <img src="DSC00555.jpg" alt="Série 2 - Photo 1"> 
-            <img src="DSC00646 copy.jpg" alt="Série 2 - Photo 1">  
-            </div>
-   
-</div>
 
-<!-- Modal -->
-<div id="modal" class="modal" role="dialog" aria-hidden="true">
-    <img id="modal-img" src="" alt="Image agrandie">
-</div>
+  </div>
 
-<script>
-/* Lightbox (inchangé) */
-const modal = document.getElementById('modal');
-const modalImg = document.getElementById('modal-img');
-
-document.addEventListener('click', e => {
-    const img = e.target.closest('.gallery img');
-    if (!img) return;
-    modalImg.src = img.src;
-    modal.classList.add('active');
-    modal.setAttribute('aria-hidden','false');
-});
-modal.addEventListener('click', e => {
-    if (e.target === modal || e.target === modalImg) {
-        modal.classList.remove('active');
-        modal.setAttribute('aria-hidden','true');
-        modalImg.src = '';
-    }
-});
-document.addEventListener('keydown', e => {
-    if (e.key === 'Escape' && modal.classList.contains('active')) {
-        modal.classList.remove('active');
-        modal.setAttribute('aria-hidden','true');
-        modalImg.src = '';
-    }
-});
-
-/* Carrousels */
-document.querySelectorAll('.carousel').forEach(carousel => {
-    const leftBtn = carousel.querySelector('.arrow.left');
-    const rightBtn = carousel.querySelector('.arrow.right');
-    const viewport = carousel.querySelector('.viewport');        // élément scrollable
-    const gallery = carousel.querySelector('.gallery');
-    const imgs = Array.from(gallery.querySelectorAll('img'));
-
-    let index = 0;
-
-    function pageWidth() {
-        // largeur réelle de la "fenêtre" visible
-        return viewport.clientWidth;
-    }
-
-    function updateButtons() {
-        leftBtn.style.visibility = index <= 0 ? 'hidden' : 'visible';
-        rightBtn.style.visibility = index >= imgs.length - 1 ? 'hidden' : 'visible';
-    }
-
-    function scrollToIndex(i, smooth = true) {
-        i = Math.max(0, Math.min(i, imgs.length - 1));
-        const left = i * pageWidth();
-        // use behaviour smooth; some browsers ignore if same value
-        viewport.scrollTo({ left, behavior: smooth ? 'smooth' : 'auto' });
-        index = i;
-        updateButtons();
-    }
-
-    rightBtn.addEventListener('click', () => {
-        scrollToIndex(index + 1);
-    });
-    leftBtn.addEventListener('click', () => {
-        scrollToIndex(index - 1);
-    });
-
-    // keep index in sync if user scrolls by touch/trackpad
-    let scrollTimeout;
-    viewport.addEventListener('scroll', () => {
-        // debounce to detect settled position
-        if (scrollTimeout) clearTimeout(scrollTimeout);
-        scrollTimeout = setTimeout(() => {
-            const w = pageWidth();
-            // round to nearest index
-            const newIndex = Math.round(viewport.scrollLeft / (w || 1));
-            if (newIndex !== index) {
-                index = newIndex;
-                updateButtons();
-            }
-        }, 80);
-    });
-
-    // on resize, snap to current index (recalc widths)
-    window.addEventListener('resize', () => {
-        // immediate reposition without smooth to avoid inertia mismatch
-        scrollToIndex(index, false);
-    });
-
-    // init: ensure gallery lays out then snap
-    // small timeout ensures images have computed sizes if loading
-    setTimeout(() => {
-        scrollToIndex(0, false);
-        updateButtons();
-    }, 50);
-});
-</script>
 </body>
 </html>
+
 
