@@ -1,385 +1,223 @@
+<!-- I will prepare a modular structure with multiple galleries (albums) per thumbnail. User will need to integrate images. Placeholder. -->
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Angèle Ronach</title>
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-    body {
-      font-family: Didot, serif;
-      background: white;
-      color: black;
-      overflow-x: hidden;
-    }
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Angèle Ronach</title>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:Didot, serif; background:white; color:black; }
 
-    .layout {
-      display: flex;
-      height: 100vh;
-      padding: 40px;
-      justify-content: flex-start;
-    }
+  .layout { display:flex; height:100vh; padding:40px; }
 
-    .sidebar {
-      width: 30%;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      user-select: none;
-      position: fixed;
-      top: 40px;
-      bottom: 40px;
-      left: 40px;
-      font-size: 1.1rem;
-      height: calc(100vh - 80px);
-      background: white;
-      transition: opacity 0.3s ease;
-      z-index: 10;
-    }
-    .sidebar.hidden {
-      opacity: 0;
-      pointer-events: none;
-      user-select: none;
-    }
+  .sidebar {
+    width:30%;
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+    position:fixed;
+    top:40px; bottom:40px; left:40px;
+    background:white;
+  }
 
-    .top-menu {
-      display: flex;
-      flex-direction: column;
-    }
-    .name {
-      font-size: 2.5rem;
-      line-height: 1.2;
-      margin-bottom: 20px;
-    }
-    .menu-top {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      margin-bottom: 20px;
-    }
-    .menu-top a {
-      color: black;
-      text-decoration: underline;
-      cursor: pointer;
-    }
-    .menu-bottom {
-      display: flex;
-      gap: 20px;
-      font-size: 1.1rem;
-    }
-    .menu-bottom a {
-      color: black;
-      text-decoration: underline;
-      cursor: pointer;
-    }
+  .name { font-size:2.5rem; line-height:1.2; margin-bottom:20px; }
+  .menu-top { display:flex; flex-direction:column; gap:12px; margin-bottom:20px; }
+  .menu-top a { text-decoration:underline; color:black; cursor:pointer; }
+  .menu-bottom { display:flex; gap:20px; }
+  .menu-bottom a { text-decoration:underline; color:black; cursor:pointer; }
 
-    .grid {
-      margin-left: 30%;
-      width: 70%;
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 40px;
-      overflow-y: auto;
-      padding-right: 20px;
-      transition: margin-left 0.3s ease, width 0.3s ease;
-    }
-    .grid.fullwidth {
-      margin-left: 0;
-      width: 100%;
-    }
-    .grid img {
-      width: 100%;
-      cursor: pointer;
-      transition: transform 0.25s ease;
-    }
-    .grid img:hover {
-      transform: scale(1.02);
-    }
+  .grid {
+    margin-left:30%;
+    width:70%;
+    display:grid;
+    grid-template-columns:1fr;
+    gap:40px;
+    padding-right:20px;
+    overflow-y:auto;
+  }
+  .grid img { width:100%; cursor:pointer; transition:0.25s; }
+  .grid img:hover { transform:scale(1.02); }
 
-    #modal {
-      position: fixed;
-      top: 40px;
-      bottom: 40px;
-      left: 0;
-      right: 0;
-      background: white;
-      display: none;
-      flex-direction: column;
-      z-index: 1000;
-      box-sizing: border-box;
-      outline: none;
-      user-select: none;
-    }
-    #modal.active {
-      display: flex;
-    }
+  /* Modal */
+  #modal {
+    position:fixed;
+    top:40px; bottom:40px; left:0; right:0;
+    background:white;
+    display:none;
+    flex-direction:column;
+    z-index:1000;
+  }
+  #modal.active { display:flex; }
 
-    .modal-header {
-      font-family: Didot, serif;
-      font-size: 2rem;
-      font-weight: 700;
-      color: black;
-      line-height: 1.2;
-      padding: 20px 40px;
-      user-select: none;
-      border-bottom: 1px solid #eee;
-      flex-shrink: 0;
-    }
-    .modal-gallery {
-      flex: 1;
-      display: flex;
-      overflow-x: auto;
-      gap: 10px;
-      scroll-behavior: smooth;
-      align-items: center;
-      justify-content: center;
-      padding: 20px 40px;
-    }
-    .modal-gallery img {
-      max-height: 100%;
-      max-width: 90vw;
-      border-radius: 4px;
-      pointer-events: auto;
-      user-select: none;
-      cursor: pointer;
-      transition: transform 0.3s ease;
-    }
-    .modal-gallery img:hover {
-      transform: scale(1.05);
-    }
-    .modal-footer {
-      display: flex;
-      gap: 20px;
-      font-family: Didot, serif;
-      font-size: 1rem;
-      color: black;
-      user-select: none;
-      border-top: 1px solid #eee;
-      padding: 20px 40px;
-      flex-shrink: 0;
-    }
-    .modal-footer a {
-      color: black;
-      text-decoration: underline;
-      cursor: pointer;
-    }
+  .modal-header {
+    font-size:2rem; font-weight:700;
+    padding:20px 40px;
+    border-bottom:1px solid #eee;
+  }
 
-    /* Overlay agrandissement */
-    #overlay {
-      position: fixed;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background: rgba(0,0,0,0.85);
-      display: none;
-      align-items: center;
-      justify-content: center;
-      z-index: 2000;
-      cursor: zoom-out;
-    }
-    #overlay.active {
-      display: flex;
-    }
-    #overlay img {
-      max-width: 90vw;
-      max-height: 90vh;
-      border-radius: 6px;
-      box-shadow: 0 0 20px rgba(0,0,0,0.9);
-      user-select: none;
-      pointer-events: none;
-    }
-  </style>
+  .modal-gallery {
+    flex:1;
+    display:flex;
+    overflow-x:auto;
+    gap:10px;
+    padding:20px 40px;
+    align-items:center;
+    scroll-behavior:smooth;
+  }
+  .modal-gallery img {
+    max-height:100%;
+    max-width:90vw;
+    cursor:pointer;
+    transition:0.3s;
+  }
+  .modal-gallery img:hover { transform:scale(1.05); }
+
+  .modal-footer {
+    padding:20px 40px;
+    border-top:1px solid #eee;
+    display:flex;
+    gap:20px;
+  }
+  .modal-footer a { text-decoration:underline; color:black; cursor:pointer; }
+
+  /* Overlay zoom */
+  #overlay {
+    position:fixed; inset:0;
+    background:rgba(0,0,0,0.85);
+    display:none;
+    align-items:center;
+    justify-content:center;
+    z-index:2000;
+  }
+  #overlay.active { display:flex; }
+  #overlay img { max-width:90vw; max-height:90vh; }
+</style>
 </head>
 <body>
-  <div class="layout">
-    <div class="sidebar" aria-label="Menu principal">
-      <div class="top-menu">
-        <div class="name">Angèle<br>Ronach</div>
-        <nav class="menu-top" aria-label="Onglets">
-          <a href="#" id="tab-concert" role="tab" aria-selected="true">Concert</a>
-          <a href="#" id="tab-projet" role="tab" aria-selected="false">Projet Personnel</a>
-        </nav>
+<div class="layout">
+
+  <div class="sidebar">
+    <div>
+      <div class="name">Angèle<br>Ronach</div>
+      <div class="menu-top">
+        <a id="tab-concert">Concert</a>
+        <a id="tab-projet">Projet Personnel</a>
       </div>
-
-      <nav class="menu-bottom" aria-label="Liens bas de page">
-        <a href="#" id="go-accueil">Accueil</a>
-        <a href="#" id="go-about">About</a>
-      </nav>
     </div>
-
-    <main class="grid" id="gallery" role="main" aria-live="polite" aria-label="Galerie de photos">
-      <!-- Images chargées ici -->
-    </main>
+    <div class="menu-bottom">
+      <a id="go-accueil">Accueil</a>
+      <a id="go-about">About</a>
+    </div>
   </div>
 
-  <!-- Modal -->
-  <div id="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title" tabindex="-1">
-    <header class="modal-header" id="modal-title">Angèle<br>Ronach</header>
+  <div class="grid" id="gallery"></div>
 
-    <div class="modal-gallery" tabindex="0" aria-label="Galerie photos agrandie"></div>
+</div>
 
-    <footer class="modal-footer">
-      <a href="#" id="modal-accueil">Accueil</a>
-      <a href="#" id="modal-about">About</a>
-    </footer>
+<!-- Modal -->
+<div id="modal">
+  <div class="modal-header">Angèle<br>Ronach</div>
+  <div class="modal-gallery" id="modal-gallery"></div>
+  <div class="modal-footer">
+    <a id="modal-accueil">Accueil</a>
+    <a id="modal-about">About</a>
   </div>
+</div>
 
-  <!-- Overlay agrandissement -->
-  <div id="overlay" role="dialog" aria-modal="true" tabindex="-1">
-    <img src="" alt="Image agrandie" />
-  </div>
+<!-- Overlay zoom -->
+<div id="overlay"><img /></div>
 
-  <script>
-    const concertPhotos = [
-      "Reuben01.jpg",
-      "Reuben02.jpg",
-      "Reuben03.jpg"
-    ];
+<script>
+/* ALBUMS pour CONCERT */
+const concertAlbums = [
+  {
+    thumb: "Reuben01.jpg",
+    images: ["Reuben01.jpg", "Reuben02.jpg", "Reuben03.jpg"]
+  },
+  {
+    thumb: "Goya01.jpg",
+    images: ["Goya01.jpg", "Goya02.jpg", "Goya03.jpg"]
+  }
+];
 
-    const projetPhotos = [
-      "Mael01.jpg",
-      "Mael02.jpg",
-      "Mael03.jpg"
-    ];
+/* ALBUMS pour PROJET PERSONNEL */
+const projetAlbums = [
+  {
+    thumb: "Projet01.jpg",
+    images: ["Projet01.jpg", "Projet02.jpg", "Projet03.jpg"]
+  },
+  {
+    thumb: "ProjetA.jpg",
+    images: ["ProjetA.jpg", "ProjetA2.jpg", "ProjetA3.jpg"]
+  }
+];
 
-    const gallery = document.getElementById("gallery");
-    const tabConcert = document.getElementById("tab-concert");
-    const tabProjet = document.getElementById("tab-projet");
-    const modal = document.getElementById("modal");
-    const modalGallery = modal.querySelector(".modal-gallery");
-    const sidebar = document.querySelector(".sidebar");
-    const overlay = document.getElementById("overlay");
-    const overlayImg = overlay.querySelector("img");
+const gallery = document.getElementById("gallery");
+const modal = document.getElementById("modal");
+const modalGallery = document.getElementById("modal-gallery");
+const overlay = document.getElementById("overlay");
+const overlayImg = overlay.querySelector("img");
 
-    function loadGallery(tab) {
-      gallery.innerHTML = '';
-      let photos = [];
-      if (tab === "concert") photos = concertPhotos;
-      else if (tab === "projet") photos = projetPhotos;
+let currentTab = "concert";
 
-      photos.forEach((src, i) => {
-        const a = document.createElement('a');
-        a.href = "#";
-        a.className = "open-gallery";
-        a.dataset.tab = tab;
-        a.dataset.index = i;
-        const img = document.createElement('img');
-        img.src = src;
-        img.alt = `Photo ${tab} ${i + 1}`;
-        a.appendChild(img);
-        gallery.appendChild(a);
-      });
+function loadThumbnails() {
+  gallery.innerHTML = "";
+  const albums = currentTab === "concert" ? concertAlbums : projetAlbums;
 
-      tabConcert.setAttribute("aria-selected", tab === "concert" ? "true" : "false");
-      tabProjet.setAttribute("aria-selected", tab === "projet" ? "true" : "false");
-    }
+  albums.forEach((album, index) => {
+    const img = document.createElement("img");
+    img.src = album.thumb;
+    img.dataset.index = index;
+    img.className = "album-thumb";
+    gallery.appendChild(img);
+  });
+}
 
-    loadGallery("concert");
+loadThumbnails();
 
-    tabConcert.addEventListener("click", e => {
-      e.preventDefault();
-      loadGallery("concert");
-    });
-    tabProjet.addEventListener("click", e => {
-      e.preventDefault();
-      loadGallery("projet");
-    });
+/* Onglets */
+document.getElementById("tab-concert").onclick = () => {
+  currentTab = "concert";
+  loadThumbnails();
+};
 
-    // Ouvrir modal
-    gallery.addEventListener("click", e => {
-      const target = e.target.closest('.open-gallery');
-      if (!target) return;
-      e.preventDefault();
+document.getElementById("tab-projet").onclick = () => {
+  currentTab = "projet";
+  loadThumbnails();
+};
 
-      const tab = target.dataset.tab;
-      const index = Number(target.dataset.index);
-      let photos = (tab === "concert") ? concertPhotos : projetPhotos;
+/* OUVERTURE MODAL sur miniature */
+gallery.onclick = e => {
+  if (!e.target.classList.contains("album-thumb")) return;
 
-      modalGallery.innerHTML = '';
-      photos.forEach(src => {
-        const img = document.createElement('img');
-        img.src = src;
-        img.alt = "Photo agrandie";
-        modalGallery.appendChild(img);
-      });
+  const index = e.target.dataset.index;
+  const album = currentTab === "concert" ? concertAlbums[index] : projetAlbums[index];
 
-      const imgs = modalGallery.querySelectorAll('img');
-      if (imgs.length > 0) {
-        imgs[index].scrollIntoView({ behavior: "smooth", inline: "center" });
-      }
+  modalGallery.innerHTML = "";
+  album.images.forEach(src => {
+    const img = document.createElement("img");
+    img.src = src;
+    modalGallery.appendChild(img);
+  });
 
-      sidebar.classList.add('hidden');
-      gallery.classList.add('fullwidth');
+  modal.classList.add("active");
+};
 
-      modal.classList.add('active');
-      modal.focus();
-    });
+/* FERMETURE MODAL */
+modal.onclick = e => { if (e.target === modal) modal.classList.remove("active"); };
 
-    // Fermer modal au clic en dehors de la galerie (clic sur fond)
-    modal.addEventListener('click', e => {
-      if (e.target === modal) {
-        modal.classList.remove('active');
-        sidebar.classList.remove('hidden');
-        gallery.classList.remove('fullwidth');
-        // Fermer overlay si ouvert
-        overlay.classList.remove('active');
-      }
-    });
+/* ZOOM */
+modalGallery.onclick = e => {
+  if (e.target.tagName !== "IMG") return;
+  overlayImg.src = e.target.src;
+  overlay.classList.add("active");
+};
 
-    // Fermer modal via liens
-    function closeModalAndSidebar() {
-      modal.classList.remove('active');
-      sidebar.classList.remove('hidden');
-      gallery.classList.remove('fullwidth');
-      overlay.classList.remove('active');
-    }
+overlay.onclick = () => overlay.classList.remove("active");
 
-    document.getElementById("go-accueil").addEventListener("click", e => {
-      e.preventDefault();
-      alert("Redirection Accueil");
-    });
-    document.getElementById("go-about").addEventListener("click", e => {
-      e.preventDefault();
-      alert("Redirection About");
-    });
-    document.getElementById("modal-accueil").addEventListener("click", e => {
-      e.preventDefault();
-      closeModalAndSidebar();
-      alert("Redirection Accueil");
-    });
-    document.getElementById("modal-about").addEventListener("click", e => {
-      e.preventDefault();
-      closeModalAndSidebar();
-      alert("Redirection About");
-    });
-
-    // Agrandir image dans modal gallery au clic
-    modalGallery.addEventListener("click", e => {
-      if (e.target.tagName === "IMG") {
-        overlayImg.src = e.target.src;
-        overlay.classList.add('active');
-        overlay.focus();
-      }
-    });
-
-    // Fermer overlay au clic
-    overlay.addEventListener("click", () => {
-      overlay.classList.remove('active');
-    });
-
-    // Gestion clavier : échap ferme overlay/modal
-    document.addEventListener("keydown", e => {
-      if (e.key === "Escape") {
-        if (overlay.classList.contains('active')) {
-          overlay.classList.remove('active');
-        } else if (modal.classList.contains('active')) {
-          closeModalAndSidebar();
-        }
-      }
-    });
-  </script>
+</script>
 </body>
 </html>
+
 
