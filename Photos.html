@@ -8,17 +8,57 @@
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body { font-family: Didot, serif; background: white; color: black; }
 
-    .layout { display: flex; height: 100vh; padding: 40px; justify-content: space-between; }
-    .sidebar { width: 30%; display: flex; flex-direction: column; justify-content: space-between; }
-    .name { font-size: 2.5rem; line-height: 1.2; }
-    .menu { display: flex; flex-direction: column; gap: 12px; margin-top: 40px; }
-    .menu a { color: black; text-decoration: underline; font-size: 1.1rem; }
+    .layout {
+      display: flex;
+      height: 100vh;
+      padding: 40px;
+      justify-content: space-between;
+      position: relative;
+    }
 
-    .list { width: 65%; display: flex; flex-direction: column; gap: 40px; overflow-y: auto; padding-right: 20px; }
-    .list img { width: 100%; cursor: pointer; transition: transform .25s ease; }
-    .list img:hover { transform: scale(1.02); }
+    /* Sidebar à gauche avec nom et menu Concert/Projet Personnel */
+    .sidebar {
+      width: 30%;
+      display: flex;
+      flex-direction: column;
+      /* Pas d’espace entre nom et menu, on gère avec marge */
+    }
+    .name {
+      font-size: 2.5rem;
+      line-height: 1.2;
+      margin-bottom: 20px;
+    }
+    .menu {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      font-size: 1.1rem;
+    }
+    .menu a {
+      color: black;
+      text-decoration: underline;
+      cursor: pointer;
+    }
 
-    /* Modal centrée, taille limitée, fond blanc, avec espace autour */
+    /* Liste des photos à droite */
+    .list {
+      width: 65%;
+      display: flex;
+      flex-direction: column;
+      gap: 40px;
+      overflow-y: auto;
+      padding-right: 20px;
+    }
+    .list img {
+      width: 100%;
+      cursor: pointer;
+      transition: transform .25s ease;
+    }
+    .list img:hover {
+      transform: scale(1.02);
+    }
+
+    /* Modal centrée */
     #modal {
       position: fixed;
       inset: 0;
@@ -26,10 +66,12 @@
       display: none;
       justify-content: center;
       align-items: center;
-      padding: 60px 0; /* espaces blancs haut/bas */
+      padding: 60px 0;
       z-index: 1000;
     }
-    #modal.active { display: flex; }
+    #modal.active {
+      display: flex;
+    }
 
     .modal-content {
       background: white;
@@ -42,8 +84,6 @@
       box-shadow: 0 0 20px rgba(0,0,0,0.3);
       position: relative;
     }
-
-    /* Bandeau en haut avec nom */
     .modal-header {
       padding: 15px 20px;
       font-family: Didot, serif;
@@ -54,8 +94,6 @@
       align-items: center;
       color: black;
     }
-
-    /* Bandeau en bas avec liens */
     .modal-footer {
       padding: 12px 20px;
       border-top: 1px solid #ccc;
@@ -70,8 +108,6 @@
       text-decoration: underline;
       cursor: pointer;
     }
-
-    /* Galerie photos au centre */
     .modal-gallery {
       flex: 1;
       overflow-x: auto;
@@ -89,32 +125,46 @@
       user-select: none;
       pointer-events: none;
     }
-    .modal-gallery::-webkit-scrollbar { display: none; }
+    .modal-gallery::-webkit-scrollbar {
+      display: none;
+    }
+
+    /* Barre en bas à gauche fixe pour Accueil et About */
+    .bottom-left-menu {
+      position: fixed;
+      bottom: 20px;
+      left: 20px;
+      display: flex;
+      gap: 20px;
+      font-family: Didot, serif;
+      font-size: 1rem;
+    }
+    .bottom-left-menu a {
+      color: black;
+      text-decoration: underline;
+      cursor: pointer;
+    }
   </style>
 </head>
 <body>
   <div class="layout">
     <div class="sidebar">
-      <div>
-        <div class="name">Angèle<br>Ronach</div>
-        <div class="menu">
-          <a href="index.html">Accueil</a>
-          <a href="concert.html">Concert</a>
-          <a href="about.html">About</a>
-        </div>
-      </div>
+      <div class="name">Angèle<br>Ronach</div>
+      <nav class="menu">
+        <a href="concert.html">Concert</a>
+        <a href="projet-personnel.html">Projet Personnel</a>
+      </nav>
     </div>
 
-    <!-- Page CONCERT → 2 photos -->
     <div class="list">
-      <img src="Reuben01.jpg" class="open-gallery" data-gallery="reuben">
-      <img src="Goya01.jpg" class="open-gallery" data-gallery="goya">
+      <img src="Reuben01.jpg" class="open-gallery" data-gallery="reuben" alt="Photo Reuben 01">
+      <img src="Goya01.jpg" class="open-gallery" data-gallery="goya" alt="Photo Goya 01">
     </div>
   </div>
 
-  <!-- Modal centrée -->
-  <div id="modal">
-    <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+  <!-- Modal -->
+  <div id="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <div class="modal-content">
       <div class="modal-header" id="modal-title">Angèle Ronach</div>
       <div class="modal-gallery"></div>
       <div class="modal-footer">
@@ -124,11 +174,16 @@
     </div>
   </div>
 
+  <!-- Barre Accueil + About fixe en bas à gauche -->
+  <nav class="bottom-left-menu" aria-label="Navigation secondaire">
+    <a href="index.html">Accueil</a>
+    <a href="about.html">About</a>
+  </nav>
+
   <script>
     const modal = document.getElementById('modal');
     const galleryContainer = modal.querySelector('.modal-gallery');
 
-    // Données des galeries
     const galleries = {
       reuben: [
         "Reuben01.jpg",
@@ -142,16 +197,12 @@
       ]
     };
 
-    // Ouvre le modal avec la galerie correspondante
     document.querySelectorAll('.open-gallery').forEach(img => {
       img.addEventListener('click', () => {
         const galleryKey = img.dataset.gallery;
         if (!galleryKey || !galleries[galleryKey]) return;
 
-        // Vide la galerie actuelle
         galleryContainer.innerHTML = '';
-
-        // Ajoute toutes les images de la galerie dans le modal
         galleries[galleryKey].forEach(src => {
           const image = document.createElement('img');
           image.src = src;
@@ -162,7 +213,6 @@
       });
     });
 
-    // Ferme le modal si on clique en dehors du contenu
     modal.addEventListener('click', e => {
       if (e.target === modal) {
         modal.classList.remove('active');
