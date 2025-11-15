@@ -2,8 +2,7 @@
 <html lang="fr">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Concert – Angèle Ronach</title>
+  <title>Galeries – Angèle Ronach</title>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body { font-family: Didot, serif; background: white; color: black; }
@@ -16,12 +15,11 @@
       position: relative;
     }
 
-    /* Sidebar à gauche avec nom et menu Concert/Projet Personnel */
+    /* Sidebar avec nom + menu onglets */
     .sidebar {
       width: 30%;
       display: flex;
       flex-direction: column;
-      /* Pas d’espace entre nom et menu, on gère avec marge */
     }
     .name {
       font-size: 2.5rem;
@@ -34,27 +32,40 @@
       gap: 12px;
       font-size: 1.1rem;
     }
-    .menu a {
+    .menu button {
+      background: none;
+      border: none;
       color: black;
+      text-align: left;
       text-decoration: underline;
       cursor: pointer;
+      font-family: Didot, serif;
+      font-size: 1.1rem;
+      padding: 0;
+    }
+    .menu button.active {
+      font-weight: bold;
+      text-decoration: none;
     }
 
-    /* Liste des photos à droite */
-    .list {
+    /* Galerie à droite */
+    .gallery {
       width: 65%;
-      display: flex;
+      display: none;
       flex-direction: column;
       gap: 40px;
       overflow-y: auto;
       padding-right: 20px;
     }
-    .list img {
+    .gallery.active {
+      display: flex;
+    }
+    .gallery img {
       width: 100%;
       cursor: pointer;
       transition: transform .25s ease;
     }
-    .list img:hover {
+    .gallery img:hover {
       transform: scale(1.02);
     }
 
@@ -150,15 +161,20 @@
   <div class="layout">
     <div class="sidebar">
       <div class="name">Angèle<br>Ronach</div>
-      <nav class="menu">
-        <a href="concert.html">Concert</a>
-        <a href="projet-personnel.html">Projet Personnel</a>
+      <nav class="menu" role="tablist" aria-label="Sélection des galeries">
+        <button class="active" role="tab" aria-selected="true" aria-controls="concert-gallery" id="concert-tab">Concert</button>
+        <button role="tab" aria-selected="false" aria-controls="projet-gallery" id="projet-tab">Projet Personnel</button>
       </nav>
     </div>
 
-    <div class="list">
+    <div id="concert-gallery" class="gallery active" role="tabpanel" aria-labelledby="concert-tab">
       <img src="Reuben01.jpg" class="open-gallery" data-gallery="reuben" alt="Photo Reuben 01">
       <img src="Goya01.jpg" class="open-gallery" data-gallery="goya" alt="Photo Goya 01">
+    </div>
+
+    <div id="projet-gallery" class="gallery" role="tabpanel" aria-labelledby="projet-tab">
+      <img src="Projet01.jpg" class="open-gallery" data-gallery="projet" alt="Photo Projet 01">
+      <img src="Projet02.jpg" class="open-gallery" data-gallery="projet" alt="Photo Projet 02">
     </div>
   </div>
 
@@ -181,10 +197,30 @@
   </nav>
 
   <script>
-    const modal = document.getElementById('modal');
-    const galleryContainer = modal.querySelector('.modal-gallery');
+    // Gestion onglets
+    const tabs = document.querySelectorAll('.menu button');
+    const galleries = document.querySelectorAll('.gallery');
 
-    const galleries = {
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        tabs.forEach(t => {
+          t.classList.remove('active');
+          t.setAttribute('aria-selected', 'false');
+        });
+        galleries.forEach(g => g.classList.remove('active'));
+
+        tab.classList.add('active');
+        tab.setAttribute('aria-selected', 'true');
+        const id = tab.getAttribute('aria-controls');
+        document.getElementById(id).classList.add('active');
+      });
+    });
+
+    // Gestion modal
+    const modal = document.getElementById('modal');
+    const modalGallery = modal.querySelector('.modal-gallery');
+
+    const galleryImages = {
       reuben: [
         "Reuben01.jpg",
         "Reuben02.jpg",
@@ -194,19 +230,24 @@
         "Goya01.jpg",
         "Goya02.jpg",
         "Goya03.jpg"
+      ],
+      projet: [
+        "Projet01.jpg",
+        "Projet02.jpg",
+        "Projet03.jpg"
       ]
     };
 
     document.querySelectorAll('.open-gallery').forEach(img => {
       img.addEventListener('click', () => {
-        const galleryKey = img.dataset.gallery;
-        if (!galleryKey || !galleries[galleryKey]) return;
+        const key = img.dataset.gallery;
+        if (!key || !galleryImages[key]) return;
 
-        galleryContainer.innerHTML = '';
-        galleries[galleryKey].forEach(src => {
+        modalGallery.innerHTML = '';
+        galleryImages[key].forEach(src => {
           const image = document.createElement('img');
           image.src = src;
-          galleryContainer.appendChild(image);
+          modalGallery.appendChild(image);
         });
 
         modal.classList.add('active');
@@ -216,12 +257,13 @@
     modal.addEventListener('click', e => {
       if (e.target === modal) {
         modal.classList.remove('active');
-        galleryContainer.innerHTML = '';
+        modalGallery.innerHTML = '';
       }
     });
   </script>
 </body>
 </html>
+
 
 
 
