@@ -5,15 +5,38 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Angèle Ronach</title>
   <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: Didot, serif; background: white; color: black; }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: Didot, serif;
+      background: white;
+      color: black;
+      overflow-x: hidden; /* empêcher scroll horizontal */
+    }
 
-    .layout { display: flex; height: 100vh; padding: 40px; justify-content: space-between; }
+    .layout {
+      display: flex;
+      height: 100vh;
+      padding: 40px;
+      justify-content: flex-start; /* à gauche */
+    }
+
+    /* Sidebar fixe en largeur */
     .sidebar {
       width: 30%;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
+      user-select: none;
+      position: fixed;
+      top: 40px;
+      bottom: 40px;
+      left: 40px;
+      font-size: 1.1rem;
+      height: calc(100vh - 80px);
     }
     .top-menu {
       display: flex;
@@ -23,7 +46,6 @@
       font-size: 2.5rem;
       line-height: 1.2;
       margin-bottom: 20px;
-      user-select: none;
     }
     .menu-top {
       display: flex;
@@ -34,14 +56,12 @@
     .menu-top a {
       color: black;
       text-decoration: underline;
-      font-size: 1.1rem;
       cursor: pointer;
     }
     .menu-bottom {
       display: flex;
       gap: 20px;
       font-size: 1.1rem;
-      user-select: none;
     }
     .menu-bottom a {
       color: black;
@@ -49,8 +69,10 @@
       cursor: pointer;
     }
 
+    /* Galerie principale à droite de la sidebar, prend tout l'espace restant */
     .grid {
-      width: 65%;
+      margin-left: 30%;
+      width: 70%;
       display: grid;
       grid-template-columns: 1fr;
       gap: 40px;
@@ -60,48 +82,107 @@
     .grid img {
       width: 100%;
       cursor: pointer;
-      transition: transform .25s ease;
+      transition: transform 0.25s ease;
     }
     .grid img:hover {
       transform: scale(1.02);
+    }
+
+    /* Modal pleine largeur à droite, sans décalage */
+    #modal {
+      position: fixed;
+      top: 40px;
+      bottom: 40px;
+      left: 30%; /* juste à droite de la sidebar fixe */
+      right: 40px;
+      background: white;
+      display: none;
+      flex-direction: column;
+      z-index: 1000;
+      box-sizing: border-box;
+      outline: none;
+    }
+    #modal.active {
+      display: flex;
+    }
+
+    .modal-header {
+      font-family: Didot, serif;
+      font-size: 2rem;
+      font-weight: 700;
+      color: black;
+      line-height: 1.2;
+      padding-bottom: 20px;
+      user-select: none;
+      border-bottom: 1px solid #eee;
+    }
+    .modal-gallery {
+      flex: 1;
+      display: flex;
+      overflow-x: auto;
+      gap: 10px;
+      scroll-behavior: smooth;
+      align-items: center;
+      justify-content: center;
+      padding-top: 20px;
+      padding-bottom: 20px;
+    }
+    .modal-gallery img {
+      max-height: 100%;
+      max-width: 90vw;
+      border-radius: 4px;
+      pointer-events: none;
+      user-select: none;
+    }
+    .modal-footer {
+      display: flex;
+      gap: 20px;
+      font-family: Didot, serif;
+      font-size: 1rem;
+      color: black;
+      user-select: none;
+      border-top: 1px solid #eee;
+      padding-top: 20px;
+    }
+    .modal-footer a {
+      color: black;
+      text-decoration: underline;
+      cursor: pointer;
     }
   </style>
 </head>
 <body>
   <div class="layout">
-    <div class="sidebar">
+    <div class="sidebar" aria-label="Menu principal">
       <div class="top-menu">
         <div class="name">Angèle<br>Ronach</div>
-        <nav class="menu-top">
-          <a href="#" id="tab-concert">Concert</a>
-          <a href="#" id="tab-projet">Projet Personnel</a>
+        <nav class="menu-top" aria-label="Onglets">
+          <a href="#" id="tab-concert" role="tab" aria-selected="true">Concert</a>
+          <a href="#" id="tab-projet" role="tab" aria-selected="false">Projet Personnel</a>
         </nav>
       </div>
 
-      <nav class="menu-bottom">
+      <nav class="menu-bottom" aria-label="Liens bas de page">
         <a href="#" id="go-accueil">Accueil</a>
         <a href="#" id="go-about">About</a>
       </nav>
     </div>
 
-    <div class="grid" id="gallery">
-      <a href="#" class="open-gallery" data-tab="concert"><img src="image_noir_blanc.jpg" alt="Photo concert 1"></a>
-      <a href="#" class="open-gallery" data-tab="concert"><img src="image_rouge.jpg" alt="Photo concert 2"></a>
-    </div>
+    <main class="grid" id="gallery" role="main" aria-live="polite" aria-label="Galerie de photos">
+      <!-- Les images seront chargées ici -->
+    </main>
   </div>
 
   <!-- Modal -->
   <div id="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title" tabindex="-1">
-    <div class="modal-container">
-      <header class="modal-header" id="modal-title">Angèle<br>Ronach</header>
+    <header class="modal-header" id="modal-title">Angèle<br>Ronach</header>
 
-      <div class="modal-gallery"></div>
+    <div class="modal-gallery" tabindex="0" aria-label="Galerie photos agrandie"></div>
 
-      <footer class="modal-footer">
-        <a href="#" id="modal-accueil">Accueil</a>
-        <a href="#" id="modal-about">About</a>
-      </footer>
-    </div>
+    <footer class="modal-footer">
+      <a href="#" id="modal-accueil">Accueil</a>
+      <a href="#" id="modal-about">About</a>
+    </footer>
   </div>
 
   <script>
@@ -123,7 +204,7 @@
     const modal = document.getElementById("modal");
     const modalGallery = modal.querySelector(".modal-gallery");
 
-    // Fonction pour charger les images dans la galerie principale selon l'onglet
+    // Charger les images de la galerie selon l'onglet
     function loadGallery(tab) {
       gallery.innerHTML = '';
       let photos = [];
@@ -142,17 +223,21 @@
         a.appendChild(img);
         gallery.appendChild(a);
       });
+
+      // Mise à jour attributs aria-selected
+      tabConcert.setAttribute("aria-selected", tab === "concert" ? "true" : "false");
+      tabProjet.setAttribute("aria-selected", tab === "projet" ? "true" : "false");
     }
 
-    // Au chargement, afficher l'onglet Concert
+    // Initial : onglet Concert
     loadGallery("concert");
 
-    // Changement d'onglet
-    tabConcert.addEventListener("click", (e) => {
+    // Événements onglets
+    tabConcert.addEventListener("click", e => {
       e.preventDefault();
       loadGallery("concert");
     });
-    tabProjet.addEventListener("click", (e) => {
+    tabProjet.addEventListener("click", e => {
       e.preventDefault();
       loadGallery("projet");
     });
@@ -167,30 +252,30 @@
       const index = Number(target.dataset.index);
       let photos = (tab === "concert") ? concertPhotos : projetPhotos;
 
-      // Vider la galerie modale
       modalGallery.innerHTML = '';
-
-      // Ajouter les images à la modale
       photos.forEach(src => {
         const img = document.createElement('img');
         img.src = src;
         modalGallery.appendChild(img);
       });
 
-      // Scroll sur l'image cliquée
-      const imgWidth = modalGallery.querySelector('img').clientWidth || window.innerWidth * 0.7;
-      modalGallery.scrollLeft = imgWidth * index;
+      // Faire défiler horizontalement sur l'image cliquée
+      const imgs = modalGallery.querySelectorAll('img');
+      if (imgs.length > 0) {
+        // On attend le chargement image pour calculer taille
+        imgs[index].scrollIntoView({ behavior: "smooth", inline: "center" });
+      }
 
       modal.classList.add('active');
       modal.focus();
     });
 
-    // Fermer modal au clic hors images
+    // Fermer modal au clic en dehors des images
     modal.addEventListener('click', e => {
       if (e.target === modal) modal.classList.remove('active');
     });
 
-    // Liens bas de page dans modal et sidebar
+    // Liens Accueil et About (alert temporaire)
     document.getElementById("go-accueil").addEventListener("click", e => {
       e.preventDefault();
       alert("Redirection Accueil");
@@ -210,76 +295,6 @@
       alert("Redirection About");
     });
   </script>
-
-  <style>
-    /* Styles pour modal */
-    #modal {
-      position: fixed;
-      inset: 0;
-      background: white;
-      display: none;
-      justify-content: center;
-      align-items: center;
-      padding-left: 30%;
-      padding-top: 80px;
-      padding-bottom: 60px;
-      box-sizing: border-box;
-      z-index: 1000;
-    }
-    #modal.active {
-      display: flex;
-    }
-    .modal-container {
-      width: 70vw;
-      height: calc(100vh - 140px);
-      display: flex;
-      flex-direction: column;
-      background: transparent;
-    }
-    .modal-header {
-      font-family: Didot, serif;
-      font-size: 2rem;
-      font-weight: 700;
-      color: black;
-      line-height: 1.2;
-      margin-bottom: 20px;
-      user-select: none;
-    }
-    .modal-gallery {
-      flex: 1;
-      display: flex;
-      overflow-x: auto;
-      gap: 10px;
-      scroll-behavior: smooth;
-      align-items: center;
-      justify-content: center;
-      padding-bottom: 10px;
-    }
-    .modal-gallery img {
-      max-height: 100%;
-      max-width: 90vw;
-      border-radius: 4px;
-      pointer-events: none;
-      user-select: none;
-    }
-    .modal-footer {
-      display: flex;
-      gap: 20px;
-      font-family: Didot, serif;
-      font-size: 1rem;
-      color: black;
-      user-select: none;
-    }
-    .modal-footer a {
-      color: black;
-      text-decoration: underline;
-      cursor: pointer;
-    }
-  </style>
 </body>
 </html>
-
-
-
-
 
