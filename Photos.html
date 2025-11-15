@@ -1,258 +1,353 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Portfolio</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Angèle Ronak</title>
   <style>
-    body {
-      margin: 0;
+    :root{
+      --header-h: 70px;
+      --bottom-gap: 40px;
+    }
+
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{
       font-family: Didot, serif;
       background: white;
       color: black;
+      min-height: 100vh;
+      overflow-x: hidden;
     }
 
-    /* --- HEADER --- */
-    #header {
+    /* ================ Header (top) ================ */
+    #header{
       position: fixed;
       top: 0;
       left: 0;
-      width: 100%;
-      height: 70px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 20px;
-      box-sizing: border-box;
+      right: 0;
+      height: var(--header-h);
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      padding: 0 28px;
+      z-index: 40; /* above modal */
       background: white;
-      z-index: 20;
+      border-bottom: 1px solid rgba(0,0,0,0.03);
     }
+    #name{ font-size: 1.8rem; font-weight:700; line-height:1; user-select:none; }
+    #top-right-menu{ display:flex; gap:22px; font-size:1.05rem; align-items:center; }
+    #top-right-menu a{ text-decoration:none; color:black; cursor:pointer; user-select:none; }
 
-    #name {
-      font-size: 2rem;
-      font-weight: bold;
-    }
-
-    #top-right-menu {
-      display: flex;
-      gap: 20px;
-      font-size: 1.2rem;
-    }
-
-    #top-right-menu a {
-      color: black;
-      text-decoration: none;
-      cursor: pointer;
-    }
-
-    /* --- BOTTOM LEFT MENU --- */
-
-    #bottom-left {
+    /* ================ Bottom-left fixed menu ================ */
+    #bottom-left{
       position: fixed;
-      bottom: 20px;
       left: 20px;
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-      font-size: 1rem;
-      z-index: 20;
+      bottom: 20px;
+      display:flex;
+      flex-direction:column;
+      gap:8px;
+      z-index:40; /* above modal */
+      user-select:none;
+    }
+    #bottom-left a{ text-decoration:none; color:black; cursor:pointer; }
+
+    /* ================ Gallery (homepage) ================ */
+    /* container pushed below header so header always visible */
+    #gallery-wrapper{
+      padding: calc(var(--header-h) + 30px) 20px 80px 20px; /* top padding to clear header, bottom for breathing */
+      min-height: calc(100vh - var(--header-h) - var(--bottom-gap));
+      display:flex;
+      align-items:flex-start;
+      justify-content:center; /* center thumbnails horizontally */
     }
 
-    #bottom-left a {
-      color: black;
-      text-decoration: none;
-    }
-
-    /* --- GALLERY --- */
-
-    #gallery-container {
-      margin-top: 120px;
-      padding: 20px;
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    /* grid centered and limited width for neat look */
+    #gallery-container{
+      width: min(1100px, 92%);
+      display:grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
       gap: 20px;
+      justify-items:center;
+      align-items:center;
     }
 
-    .thumb {
-      width: 100%;
-      cursor: pointer;
+    .thumb{
+      width:100%;
+      max-width:420px;
+      height:auto;
+      cursor:pointer;
+      display:block;
+      transition: transform .22s ease;
     }
+    .thumb:hover{ transform: scale(1.02); }
 
-    /* --- MODAL --- */
-
-    #modal {
+    /* ================ Modal carousel (collé sous header) ================ */
+    /* modal background is white and does NOT cover header/bottom-left/top-right (those have higher z-index) */
+    #modal{
       position: fixed;
-      inset: 0;
-      background: white;
+      top: var(--header-h);   /* collé directement sous le header */
+      left: 0;
+      right: 0;
+      bottom: 40px; /* leaves a visible bottom gap */
+      background: white; /* as requested */
       display: none;
       flex-direction: column;
-      z-index: 100;
+      z-index: 20; /* below header and bottom-left */
+      box-shadow: 0 8px 30px rgba(0,0,0,0.06);
+      overflow: hidden;
     }
+    #modal.active{ display:flex; }
 
-    #modal.active {
-      display: flex;
-    }
-
-    #carousel {
-      margin-top: 90px;
-      margin-bottom: 90px;
-      flex: 1;
-      display: flex;
+    /* carousel area: margin-top 0 (because modal top is header) */
+    #carousel{
+      height: 100%;
+      display:flex;
+      align-items:flex-start; /* images align near top */
       overflow-x: auto;
+      gap: 24px;
+      padding: 20px 40px; /* horizontal padding inside modal */
       scroll-behavior: smooth;
-      gap: 20px;
-      padding: 20px;
-      align-items: center;
+      -webkit-overflow-scrolling: touch;
     }
 
-    #carousel img {
-      max-height: 80vh;
+    /* images larger */
+    #carousel img{
+      max-height: calc(100vh - var(--header-h) - 120px); /* keep them large but with breathing room */
+      height: auto;
       cursor: pointer;
+      border-radius: 4px;
+      user-select: none;
+      transition: transform .18s ease;
+    }
+    #carousel img:hover{ transform: scale(1.02); }
+
+    /* small breadcrumb-like footer inside modal if needed (kept minimal) */
+    #modal-footer{
+      position: absolute;
+      right: 20px;
+      bottom: 12px;
+      font-size: 0.95rem;
+      color: #000;
+      z-index: 25;
+      user-select:none;
     }
 
-    /* FULLSCREEN IMAGE */
-    #fullscreen {
+    /* ================ Fullscreen overlay (zoom) ================ */
+    #fullscreen{
       position: fixed;
       inset: 0;
-      background: rgba(0,0,0,0.9);
+      background: rgba(0,0,0,0.92);
       display: none;
-      justify-content: center;
       align-items: center;
-      z-index: 200;
+      justify-content: center;
+      z-index: 80; /* above header */
+      cursor: zoom-out;
     }
-
-    #fullscreen.active {
-      display: flex;
-    }
-
-    #fullscreen img {
+    #fullscreen.active{ display:flex; }
+    #fullscreen img{
       max-width: 95vw;
       max-height: 95vh;
+      display:block;
+      user-select:none;
+      border-radius:6px;
+    }
+
+    /* small responsive tweaks */
+    @media (max-width:900px){
+      #carousel{ gap:16px; padding:12px; }
+      #gallery-container{ grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); }
+      #carousel img{ max-height: calc(100vh - var(--header-h) - 100px); }
     }
   </style>
 </head>
 <body>
 
   <!-- HEADER -->
-  <div id="header">
+  <header id="header" role="banner">
     <div id="name">Angèle Ronak</div>
-    <div id="top-right-menu">
+    <nav id="top-right-menu" aria-label="Catégories">
       <a id="nav-concerts">Concerts</a>
       <a id="nav-projets">Projet Personnel</a>
-    </div>
-  </div>
+    </nav>
+  </header>
 
   <!-- BOTTOM LEFT -->
-  <div id="bottom-left">
+  <nav id="bottom-left" aria-label="Liens">
     <a id="nav-accueil">Accueil</a>
     <a id="nav-about">About</a>
+  </nav>
+
+  <!-- GALLERY (centered) -->
+  <div id="gallery-wrapper">
+    <div id="gallery-container" aria-live="polite" aria-label="Galerie de vignettes"></div>
   </div>
 
-  <!-- MAIN GALLERY -->
-  <div id="gallery-container"></div>
-
-  <!-- MODAL -->
-  <div id="modal">
-    <div id="carousel"></div>
+  <!-- MODAL carousel (collé sous header, blanc) -->
+  <div id="modal" role="dialog" aria-hidden="true" aria-label="Carrousel d'images">
+    <div id="carousel" aria-live="polite"></div>
+    <div id="modal-footer" aria-hidden="true"></div>
   </div>
 
-  <!-- FULLSCREEN VIEW -->
-  <div id="fullscreen"><img id="fullscreen-img" src=""></div>
+  <!-- FULLSCREEN zoom -->
+  <div id="fullscreen" role="dialog" aria-hidden="true">
+    <img id="fullscreen-img" alt="Image agrandie">
+  </div>
 
 <script>
-
-/* ALBUMS */
+/* ===================== Data: albums ===================== */
+/* Replace these filenames with your real image paths */
 const concertAlbums = [
-  { thumb: "Reuben01.jpg", images: ["Reuben01.jpg", "Reuben02.jpg", "Reuben03.jpg"] },
-  { thumb: "Goya01.jpg", images: ["Goya01.jpg", "Goya02.jpg", "Goya03.jpg"] }
+  { thumb: "Reuben01.jpg", images: ["Reuben01.jpg","Reuben02.jpg","Reuben03.jpg"] },
+  { thumb: "Goya01.jpg",   images: ["Goya01.jpg","Goya02.jpg","Goya03.jpg"] }
 ];
 
 const projetAlbums = [
-  { thumb: "Projet01.jpg", images: ["Projet01.jpg", "Projet02.jpg", "Projet03.jpg"] },
-  { thumb: "ProjetA.jpg", images: ["ProjetA.jpg", "ProjetA2.jpg", "ProjetA3.jpg"] }
+  { thumb: "Projet01.jpg", images: ["Projet01.jpg","Projet02.jpg","Projet03.jpg"] },
+  { thumb: "ProjetA.jpg",  images: ["ProjetA.jpg","ProjetA2.jpg","ProjetA3.jpg"] }
 ];
 
-let currentCategory = "concerts";
+/* ===================== State ===================== */
+let currentCategory = "concerts"; // "concerts" or "projets"
+let currentAlbumIndex = null;
 
-/* LOAD GALLERY */
-function loadGallery() {
-  const container = document.getElementById("gallery-container");
-  container.innerHTML = "";
-  const albums = currentCategory === "concerts" ? concertAlbums : projetAlbums;
+/* ===================== DOM refs ===================== */
+const galleryContainer = document.getElementById('gallery-container');
+const modal = document.getElementById('modal');
+const carousel = document.getElementById('carousel');
+const fullscreen = document.getElementById('fullscreen');
+const fullscreenImg = document.getElementById('fullscreen-img');
+const navConcerts = document.getElementById('nav-concerts');
+const navProjets = document.getElementById('nav-projets');
+const navAccueil = document.getElementById('nav-accueil');
+const navAbout = document.getElementById('nav-about');
 
-  albums.forEach((album, index) => {
-    const img = document.createElement("img");
+/* ===================== Helpers ===================== */
+function albumsFor(category){
+  return category === 'concerts' ? concertAlbums : projetAlbums;
+}
+
+/* ========== Render thumbnails (centered) ========== */
+function renderThumbnails(){
+  const albums = albumsFor(currentCategory);
+  galleryContainer.innerHTML = '';
+  albums.forEach((album, idx) => {
+    const img = document.createElement('img');
     img.src = album.thumb;
-    img.className = "thumb";
-    img.onclick = () => openModal(index);
-    container.appendChild(img);
+    img.alt = `Vignette ${idx+1}`;
+    img.className = 'thumb';
+    img.dataset.index = idx;
+    img.addEventListener('click', () => openModal(idx));
+    galleryContainer.appendChild(img);
   });
 }
 
-/* OPEN MODAL */
-function openModal(index) {
-  const modal = document.getElementById("modal");
-  const carousel = document.getElementById("carousel");
-  carousel.innerHTML = "";
+/* ========== Open modal for a given album index ========== */
+function openModal(albumIndex){
+  currentAlbumIndex = Number(albumIndex);
+  const albums = albumsFor(currentCategory);
+  const images = albums[currentAlbumIndex].images;
 
-  const albums = currentCategory === "concerts" ? concertAlbums : projetAlbums;
-  const images = albums[index].images;
-
-  images.forEach(src => {
-    const img = document.createElement("img");
+  // build carousel images
+  carousel.innerHTML = '';
+  images.forEach((src, i) => {
+    const img = document.createElement('img');
     img.src = src;
-    img.onclick = () => openFullscreen(src);
+    img.alt = `Image ${i+1}`;
+    img.loading = 'eager';
+    img.addEventListener('click', () => openFullscreen(src));
     carousel.appendChild(img);
   });
 
-  modal.classList.add("active");
+  // show modal (it sits under header)
+  modal.classList.add('active');
+  modal.setAttribute('aria-hidden','false');
+
+  // scroll to first image
+  setTimeout(()=> {
+    const first = carousel.querySelector('img');
+    if(first) first.scrollIntoView({behavior:'instant', inline:'start'});
+  }, 50);
 }
 
-/* CLOSE MODAL ON CLICK OUTSIDE */
-document.getElementById("modal").onclick = (e) => {
-  if (e.target.id === "modal") {
-    document.getElementById("modal").classList.remove("active");
+/* ========== Close modal ========== */
+function closeModal(){
+  modal.classList.remove('active');
+  modal.setAttribute('aria-hidden','true');
+  carousel.innerHTML = '';
+  currentAlbumIndex = null;
+}
+
+/* ========== Fullscreen zoom ========== */
+function openFullscreen(src){
+  fullscreenImg.src = src;
+  fullscreen.classList.add('active');
+  fullscreen.setAttribute('aria-hidden','false');
+}
+function closeFullscreen(){
+  fullscreen.classList.remove('active');
+  fullscreen.setAttribute('aria-hidden','true');
+  fullscreenImg.src = '';
+}
+
+/* ========== Clicking outside carousel closes modal ==========
+   We listen on modal background: only close when clicking the modal container itself, not its children.
+   Here modal is full area; user clicking outside any image (on padding) should close.
+*/
+modal.addEventListener('click', (e) => {
+  if(e.target === modal){
+    closeModal();
   }
-};
+});
 
-/* FULLSCREEN */
-function openFullscreen(src) {
-  const fs = document.getElementById("fullscreen");
-  const img = document.getElementById("fullscreen-img");
-  img.src = src;
-  fs.classList.add("active");
-}
+/* fullscreen close on click */
+fullscreen.addEventListener('click', () => closeFullscreen());
 
-document.getElementById("fullscreen").onclick = () => {
-  document.getElementById("fullscreen").classList.remove("active");
-};
+/* keyboard interactions */
+document.addEventListener('keydown', (e) => {
+  if(e.key === 'Escape'){
+    if(fullscreen.classList.contains('active')) closeFullscreen();
+    else if(modal.classList.contains('active')) closeModal();
+  }
+  // Left/Right arrow: when modal open, navigate carousel
+  if(modal.classList.contains('active')){
+    if(e.key === 'ArrowRight'){
+      carousel.scrollBy({ left: window.innerWidth * 0.6, behavior: 'smooth' });
+    } else if(e.key === 'ArrowLeft'){
+      carousel.scrollBy({ left: -window.innerWidth * 0.6, behavior: 'smooth' });
+    }
+  }
+});
 
-/* NAVIGATION */
-document.getElementById("nav-concerts").onclick = () => {
-  currentCategory = "concerts";
-  loadGallery();
-  document.getElementById("modal").classList.remove("active");
-};
+/* ===================== Navigation handlers ===================== */
+navConcerts.addEventListener('click', () => {
+  currentCategory = 'concerts';
+  renderThumbnails();
+  closeModal();
+});
 
-document.getElementById("nav-projets").onclick = () => {
-  currentCategory = "projets";
-  loadGallery();
-  document.getElementById("modal").classList.remove("active");
-};
+navProjets.addEventListener('click', () => {
+  currentCategory = 'projets';
+  renderThumbnails();
+  closeModal();
+});
 
-// Accueil = Concerts
+navAccueil.addEventListener('click', () => {
+  currentCategory = 'concerts';
+  renderThumbnails();
+  closeModal();
+});
 
-document.getElementById("nav-accueil").onclick = () => {
-  currentCategory = "concerts";
-  loadGallery();
-  document.getElementById("modal").classList.remove("active");
-};
+navAbout.addEventListener('click', () => {
+  // about is decorative here — you can change behavior
+  alert('About — ajoute le lien ou la page souhaitée.');
+});
 
-// About ne change pas la galerie, reste décoratif.
+/* ===================== Init ===================== */
+renderThumbnails();
 
-/* INIT */
-loadGallery();
-
+/* Accessibility note: ensure header and bottom-left remain on top (z-index)
+   The modal is white and placed under the header, as requested. */
 </script>
 </body>
 </html>
+
