@@ -14,17 +14,17 @@
       font-family: Didot, serif;
       background: white;
       color: black;
-      overflow-x: hidden; /* empêcher scroll horizontal */
+      overflow-x: hidden;
     }
 
     .layout {
       display: flex;
       height: 100vh;
       padding: 40px;
-      justify-content: flex-start; /* à gauche */
+      justify-content: flex-start;
     }
 
-    /* Sidebar fixe en largeur */
+    /* Sidebar fixe à gauche, uniquement visible quand modal fermée */
     .sidebar {
       width: 30%;
       display: flex;
@@ -37,7 +37,16 @@
       left: 40px;
       font-size: 1.1rem;
       height: calc(100vh - 80px);
+      background: white;
+      transition: opacity 0.3s ease;
+      z-index: 10;
     }
+    .sidebar.hidden {
+      opacity: 0;
+      pointer-events: none;
+      user-select: none;
+    }
+
     .top-menu {
       display: flex;
       flex-direction: column;
@@ -69,7 +78,7 @@
       cursor: pointer;
     }
 
-    /* Galerie principale à droite de la sidebar, prend tout l'espace restant */
+    /* Galerie principale, prend toute la largeur quand modal fermée */
     .grid {
       margin-left: 30%;
       width: 70%;
@@ -78,6 +87,11 @@
       gap: 40px;
       overflow-y: auto;
       padding-right: 20px;
+      transition: margin-left 0.3s ease, width 0.3s ease;
+    }
+    .grid.fullwidth {
+      margin-left: 0;
+      width: 100%;
     }
     .grid img {
       width: 100%;
@@ -88,19 +102,20 @@
       transform: scale(1.02);
     }
 
-    /* Modal pleine largeur à droite, sans décalage */
+    /* Modal pleine largeur */
     #modal {
       position: fixed;
       top: 40px;
       bottom: 40px;
-      left: 30%; /* juste à droite de la sidebar fixe */
-      right: 40px;
+      left: 0;
+      right: 0;
       background: white;
       display: none;
       flex-direction: column;
       z-index: 1000;
       box-sizing: border-box;
       outline: none;
+      user-select: none;
     }
     #modal.active {
       display: flex;
@@ -112,9 +127,10 @@
       font-weight: 700;
       color: black;
       line-height: 1.2;
-      padding-bottom: 20px;
+      padding: 20px 40px;
       user-select: none;
       border-bottom: 1px solid #eee;
+      flex-shrink: 0;
     }
     .modal-gallery {
       flex: 1;
@@ -124,8 +140,7 @@
       scroll-behavior: smooth;
       align-items: center;
       justify-content: center;
-      padding-top: 20px;
-      padding-bottom: 20px;
+      padding: 20px 40px;
     }
     .modal-gallery img {
       max-height: 100%;
@@ -142,7 +157,8 @@
       color: black;
       user-select: none;
       border-top: 1px solid #eee;
-      padding-top: 20px;
+      padding: 20px 40px;
+      flex-shrink: 0;
     }
     .modal-footer a {
       color: black;
@@ -169,7 +185,7 @@
     </div>
 
     <main class="grid" id="gallery" role="main" aria-live="polite" aria-label="Galerie de photos">
-      <!-- Les images seront chargées ici -->
+      <!-- Images chargées ici -->
     </main>
   </div>
 
@@ -203,8 +219,9 @@
     const tabProjet = document.getElementById("tab-projet");
     const modal = document.getElementById("modal");
     const modalGallery = modal.querySelector(".modal-gallery");
+    const sidebar = document.querySelector(".sidebar");
 
-    // Charger les images de la galerie selon l'onglet
+    // Charger galerie
     function loadGallery(tab) {
       gallery.innerHTML = '';
       let photos = [];
@@ -224,15 +241,14 @@
         gallery.appendChild(a);
       });
 
-      // Mise à jour attributs aria-selected
       tabConcert.setAttribute("aria-selected", tab === "concert" ? "true" : "false");
       tabProjet.setAttribute("aria-selected", tab === "projet" ? "true" : "false");
     }
 
-    // Initial : onglet Concert
+    // Initial onglet Concert
     loadGallery("concert");
 
-    // Événements onglets
+    // Onglets
     tabConcert.addEventListener("click", e => {
       e.preventDefault();
       loadGallery("concert");
@@ -242,7 +258,7 @@
       loadGallery("projet");
     });
 
-    // Ouvrir modal au clic sur image
+    // Ouvrir modal
     gallery.addEventListener("click", e => {
       const target = e.target.closest('.open-gallery');
       if (!target) return;
@@ -259,23 +275,30 @@
         modalGallery.appendChild(img);
       });
 
-      // Faire défiler horizontalement sur l'image cliquée
+      // Scroll vers image cliquée
       const imgs = modalGallery.querySelectorAll('img');
       if (imgs.length > 0) {
-        // On attend le chargement image pour calculer taille
         imgs[index].scrollIntoView({ behavior: "smooth", inline: "center" });
       }
+
+      // Cacher sidebar et étendre galerie
+      sidebar.classList.add('hidden');
+      gallery.classList.add('fullwidth');
 
       modal.classList.add('active');
       modal.focus();
     });
 
-    // Fermer modal au clic en dehors des images
+    // Fermer modal au clic hors images
     modal.addEventListener('click', e => {
-      if (e.target === modal) modal.classList.remove('active');
+      if (e.target === modal) {
+        modal.classList.remove('active');
+        sidebar.classList.remove('hidden');
+        gallery.classList.remove('fullwidth');
+      }
     });
 
-    // Liens Accueil et About (alert temporaire)
+    // Liens Accueil About
     document.getElementById("go-accueil").addEventListener("click", e => {
       e.preventDefault();
       alert("Redirection Accueil");
@@ -287,11 +310,15 @@
     document.getElementById("modal-accueil").addEventListener("click", e => {
       e.preventDefault();
       modal.classList.remove('active');
+      sidebar.classList.remove('hidden');
+      gallery.classList.remove('fullwidth');
       alert("Redirection Accueil");
     });
     document.getElementById("modal-about").addEventListener("click", e => {
       e.preventDefault();
       modal.classList.remove('active');
+      sidebar.classList.remove('hidden');
+      gallery.classList.remove('fullwidth');
       alert("Redirection About");
     });
   </script>
