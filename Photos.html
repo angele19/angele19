@@ -3,74 +3,93 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Angèle Ronach</title>
+  <title>Concert – Angèle Ronach</title>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body { font-family: Didot, serif; background: white; color: black; }
+
     .layout { display: flex; height: 100vh; padding: 40px; justify-content: space-between; }
     .sidebar { width: 30%; display: flex; flex-direction: column; justify-content: space-between; }
     .name { font-size: 2.5rem; line-height: 1.2; }
     .menu { display: flex; flex-direction: column; gap: 12px; margin-top: 40px; }
-    .menu a {
-      color: black;
-      text-decoration: underline;
-      font-size: 1.1rem;
-      cursor: pointer;
-    }
-    .menu a.active {
-      font-weight: bold;
-      text-decoration: none;
-      cursor: default;
-    }
-    .gallery {
-      width: 65%;
-      display: flex;
-      flex-direction: column;
-      gap: 40px;
-      overflow-y: auto;
-      padding-right: 20px;
-    }
-    .gallery img {
-      width: 100%;
-      cursor: pointer;
-      transition: transform .25s ease;
-    }
-    .gallery img:hover {
-      transform: scale(1.02);
-    }
+    .menu a { color: black; text-decoration: underline; font-size: 1.1rem; }
 
-    /* Modal pleine page */
+    .list { width: 65%; display: flex; flex-direction: column; gap: 40px; overflow-y: auto; padding-right: 20px; }
+    .list img { width: 100%; cursor: pointer; transition: transform .25s ease; }
+    .list img:hover { transform: scale(1.02); }
+
+    /* Modal centrée, taille limitée, fond blanc, avec espace autour */
     #modal {
       position: fixed;
       inset: 0;
-      background: rgba(0,0,0,0.95);
+      background: rgba(0,0,0,0.4);
       display: none;
       justify-content: center;
       align-items: center;
-      z-index: 100;
+      padding: 60px 0; /* espaces blancs haut/bas */
+      z-index: 1000;
     }
-    #modal.active {
+    #modal.active { display: flex; }
+
+    .modal-content {
+      background: white;
+      width: 70vw;
+      max-width: 900px;
+      height: 70vh;
       display: flex;
+      flex-direction: column;
+      border-radius: 8px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.3);
+      position: relative;
     }
-    .hscroll {
+
+    /* Bandeau en haut avec nom */
+    .modal-header {
+      padding: 15px 20px;
+      font-family: Didot, serif;
+      font-size: 1.8rem;
+      font-weight: 700;
+      border-bottom: 1px solid #ccc;
       display: flex;
-      gap: 0;
+      align-items: center;
+      color: black;
+    }
+
+    /* Bandeau en bas avec liens */
+    .modal-footer {
+      padding: 12px 20px;
+      border-top: 1px solid #ccc;
+      display: flex;
+      gap: 20px;
+      font-size: 1rem;
+      font-family: Didot, serif;
+      color: black;
+    }
+    .modal-footer a {
+      color: black;
+      text-decoration: underline;
+      cursor: pointer;
+    }
+
+    /* Galerie photos au centre */
+    .modal-gallery {
+      flex: 1;
       overflow-x: auto;
-      white-space: nowrap;
+      display: flex;
+      gap: 10px;
       scroll-behavior: smooth;
-      width: 100vw;
-      height: 100vh;
+      padding: 20px;
+      align-items: center;
+      justify-content: center;
     }
-    .hscroll img {
-      width: 100vw;
-      height: 100vh;
-      object-fit: cover;
-      display: inline-block;
+    .modal-gallery img {
+      max-height: 100%;
+      max-width: 90vw;
+      border-radius: 4px;
       user-select: none;
+      pointer-events: none;
     }
-    .hscroll::-webkit-scrollbar {
-      display: none;
-    }
+    .modal-gallery::-webkit-scrollbar { display: none; }
   </style>
 </head>
 <body>
@@ -79,124 +98,77 @@
       <div>
         <div class="name">Angèle<br>Ronach</div>
         <div class="menu">
-          <a href="#" data-gallery="concert" class="active">Concert</a>
-          <a href="#" data-gallery="projet">Projet personnel</a>
+          <a href="index.html">Accueil</a>
+          <a href="concert.html">Concert</a>
+          <a href="about.html">About</a>
         </div>
       </div>
     </div>
 
-    <div class="gallery" id="gallery">
-      <!-- Photos chargées dynamiquement ici -->
+    <!-- Page CONCERT → 2 photos -->
+    <div class="list">
+      <img src="Reuben01.jpg" class="open-gallery" data-gallery="reuben">
+      <img src="Goya01.jpg" class="open-gallery" data-gallery="goya">
     </div>
   </div>
 
-  <!-- Modal galerie -->
+  <!-- Modal centrée -->
   <div id="modal">
-    <div class="hscroll" id="modal-images">
-      <!-- Images de la galerie sélectionnée -->
+    <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+      <div class="modal-header" id="modal-title">Angèle Ronach</div>
+      <div class="modal-gallery"></div>
+      <div class="modal-footer">
+        <a href="index.html">Accueil</a>
+        <a href="contact.html">Contact</a>
+      </div>
     </div>
   </div>
 
   <script>
-    // Données des galeries : chaque clé correspond à un onglet, avec listes des images miniatures et images en modal
+    const modal = document.getElementById('modal');
+    const galleryContainer = modal.querySelector('.modal-gallery');
+
+    // Données des galeries
     const galleries = {
-      concert: {
-        thumbnails: [
-          "Reuben01.jpg",
-          "Goya01.jpg",
-        ],
-        modalImages: [
-          "Reuben01.jpg",
-          "Reuben02.jpg",
-          "Reuben03.jpg",
-        ]
-      },
-      projet: {
-        thumbnails: [
-          "Projet01.jpg",
-          "Projet02.jpg",
-          "Projet03.jpg",
-        ],
-        modalImages: [
-          "Projet01.jpg",
-          "Projet02.jpg",
-          "Projet03.jpg",
-          "Projet04.jpg",
-        ]
-      }
+      reuben: [
+        "Reuben01.jpg",
+        "Reuben02.jpg",
+        "Reuben03.jpg"
+      ],
+      goya: [
+        "Goya01.jpg",
+        "Goya02.jpg",
+        "Goya03.jpg"
+      ]
     };
 
-    const galleryDiv = document.getElementById("gallery");
-    const modal = document.getElementById("modal");
-    const modalImagesDiv = document.getElementById("modal-images");
-    const menuLinks = document.querySelectorAll(".menu a");
+    // Ouvre le modal avec la galerie correspondante
+    document.querySelectorAll('.open-gallery').forEach(img => {
+      img.addEventListener('click', () => {
+        const galleryKey = img.dataset.gallery;
+        if (!galleryKey || !galleries[galleryKey]) return;
 
-    let currentGallery = "concert";
+        // Vide la galerie actuelle
+        galleryContainer.innerHTML = '';
 
-    // Fonction pour afficher les miniatures de la galerie sélectionnée
-    function loadGallery(name) {
-      currentGallery = name;
-      galleryDiv.innerHTML = ""; // Clear
-      const thumbs = galleries[name].thumbnails;
-
-      thumbs.forEach((src, i) => {
-        const img = document.createElement("img");
-        img.src = src;
-        img.alt = name + " photo " + (i+1);
-        img.classList.add("thumb");
-        img.dataset.index = i; // Pour savoir quel img modal ouvrir
-        galleryDiv.appendChild(img);
-      });
-
-      // Ajout des events clic sur miniatures
-      document.querySelectorAll(".thumb").forEach(img => {
-        img.addEventListener("click", e => {
-          openModal(parseInt(e.target.dataset.index));
+        // Ajoute toutes les images de la galerie dans le modal
+        galleries[galleryKey].forEach(src => {
+          const image = document.createElement('img');
+          image.src = src;
+          galleryContainer.appendChild(image);
         });
+
+        modal.classList.add('active');
       });
-    }
+    });
 
-    // Fonction pour ouvrir la modal et afficher la galerie correspondante à partir d'un index
-    function openModal(startIndex) {
-      modal.classList.add("active");
-      modalImagesDiv.innerHTML = "";
-
-      const imgs = galleries[currentGallery].modalImages;
-      imgs.forEach(src => {
-        const img = document.createElement("img");
-        img.src = src;
-        modalImagesDiv.appendChild(img);
-      });
-
-      // Scroll à l'image cliquée
-      modalImagesDiv.scrollLeft = startIndex * window.innerWidth;
-    }
-
-    // Fermer modal au clic sur fond
-    modal.addEventListener("click", e => {
+    // Ferme le modal si on clique en dehors du contenu
+    modal.addEventListener('click', e => {
       if (e.target === modal) {
-        modal.classList.remove("active");
+        modal.classList.remove('active');
+        galleryContainer.innerHTML = '';
       }
     });
-
-    // Gestion du clic sur menu onglets
-    menuLinks.forEach(link => {
-      link.addEventListener("click", e => {
-        e.preventDefault();
-
-        if (link.classList.contains("active")) return; // pas besoin de reload
-
-        // Activation onglet sélectionné
-        menuLinks.forEach(l => l.classList.remove("active"));
-        link.classList.add("active");
-
-        // Chargement galerie correspondante
-        loadGallery(link.dataset.gallery);
-      });
-    });
-
-    // Chargement initial
-    loadGallery(currentGallery);
   </script>
 </body>
 </html>
