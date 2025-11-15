@@ -2,22 +2,20 @@
 <html lang="fr">
 <head>
   <meta charset="utf-8" />
-  <title>Galeries – Angèle Ronach</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Angèle Ronach</title>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body { font-family: Didot, serif; background: white; color: black; }
 
-    .layout {
-      display: flex;
-      height: 100vh;
-      padding: 40px;
-      justify-content: space-between;
-      position: relative;
-    }
-
-    /* Sidebar avec nom + menu onglets */
+    .layout { display: flex; height: 100vh; padding: 40px; justify-content: space-between; }
     .sidebar {
       width: 30%;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .top-menu {
       display: flex;
       flex-direction: column;
     }
@@ -25,244 +23,262 @@
       font-size: 2.5rem;
       line-height: 1.2;
       margin-bottom: 20px;
+      user-select: none;
     }
-    .menu {
+    .menu-top {
       display: flex;
       flex-direction: column;
       gap: 12px;
-      font-size: 1.1rem;
+      margin-bottom: 20px;
     }
-    .menu button {
-      background: none;
-      border: none;
+    .menu-top a {
       color: black;
-      text-align: left;
+      text-decoration: underline;
+      font-size: 1.1rem;
+      cursor: pointer;
+    }
+    .menu-bottom {
+      display: flex;
+      gap: 20px;
+      font-size: 1.1rem;
+      user-select: none;
+    }
+    .menu-bottom a {
+      color: black;
       text-decoration: underline;
       cursor: pointer;
-      font-family: Didot, serif;
-      font-size: 1.1rem;
-      padding: 0;
-    }
-    .menu button.active {
-      font-weight: bold;
-      text-decoration: none;
     }
 
-    /* Galerie à droite */
-    .gallery {
+    .grid {
       width: 65%;
-      display: none;
-      flex-direction: column;
+      display: grid;
+      grid-template-columns: 1fr;
       gap: 40px;
       overflow-y: auto;
       padding-right: 20px;
     }
-    .gallery.active {
-      display: flex;
-    }
-    .gallery img {
+    .grid img {
       width: 100%;
       cursor: pointer;
       transition: transform .25s ease;
     }
-    .gallery img:hover {
+    .grid img:hover {
       transform: scale(1.02);
-    }
-
-    /* Modal centrée */
-    #modal {
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.4);
-      display: none;
-      justify-content: center;
-      align-items: center;
-      padding: 60px 0;
-      z-index: 1000;
-    }
-    #modal.active {
-      display: flex;
-    }
-
-    .modal-content {
-      background: white;
-      width: 70vw;
-      max-width: 900px;
-      height: 70vh;
-      display: flex;
-      flex-direction: column;
-      border-radius: 8px;
-      box-shadow: 0 0 20px rgba(0,0,0,0.3);
-      position: relative;
-    }
-    .modal-header {
-      padding: 15px 20px;
-      font-family: Didot, serif;
-      font-size: 1.8rem;
-      font-weight: 700;
-      border-bottom: 1px solid #ccc;
-      display: flex;
-      align-items: center;
-      color: black;
-    }
-    .modal-footer {
-      padding: 12px 20px;
-      border-top: 1px solid #ccc;
-      display: flex;
-      gap: 20px;
-      font-size: 1rem;
-      font-family: Didot, serif;
-      color: black;
-    }
-    .modal-footer a {
-      color: black;
-      text-decoration: underline;
-      cursor: pointer;
-    }
-    .modal-gallery {
-      flex: 1;
-      overflow-x: auto;
-      display: flex;
-      gap: 10px;
-      scroll-behavior: smooth;
-      padding: 20px;
-      align-items: center;
-      justify-content: center;
-    }
-    .modal-gallery img {
-      max-height: 100%;
-      max-width: 90vw;
-      border-radius: 4px;
-      user-select: none;
-      pointer-events: none;
-    }
-    .modal-gallery::-webkit-scrollbar {
-      display: none;
-    }
-
-    /* Barre en bas à gauche fixe pour Accueil et About */
-    .bottom-left-menu {
-      position: fixed;
-      bottom: 20px;
-      left: 20px;
-      display: flex;
-      gap: 20px;
-      font-family: Didot, serif;
-      font-size: 1rem;
-    }
-    .bottom-left-menu a {
-      color: black;
-      text-decoration: underline;
-      cursor: pointer;
     }
   </style>
 </head>
 <body>
   <div class="layout">
     <div class="sidebar">
-      <div class="name">Angèle<br>Ronach</div>
-      <nav class="menu" role="tablist" aria-label="Sélection des galeries">
-        <button class="active" role="tab" aria-selected="true" aria-controls="concert-gallery" id="concert-tab">Concert</button>
-        <button role="tab" aria-selected="false" aria-controls="projet-gallery" id="projet-tab">Projet Personnel</button>
+      <div class="top-menu">
+        <div class="name">Angèle<br>Ronach</div>
+        <nav class="menu-top">
+          <a href="#" id="tab-concert">Concert</a>
+          <a href="#" id="tab-projet">Projet Personnel</a>
+        </nav>
+      </div>
+
+      <nav class="menu-bottom">
+        <a href="#" id="go-accueil">Accueil</a>
+        <a href="#" id="go-about">About</a>
       </nav>
     </div>
 
-    <div id="concert-gallery" class="gallery active" role="tabpanel" aria-labelledby="concert-tab">
-      <img src="Reuben01.jpg" class="open-gallery" data-gallery="reuben" alt="Photo Reuben 01">
-      <img src="Goya01.jpg" class="open-gallery" data-gallery="goya" alt="Photo Goya 01">
-    </div>
-
-    <div id="projet-gallery" class="gallery" role="tabpanel" aria-labelledby="projet-tab">
-      <img src="Projet01.jpg" class="open-gallery" data-gallery="projet" alt="Photo Projet 01">
-      <img src="Projet02.jpg" class="open-gallery" data-gallery="projet" alt="Photo Projet 02">
+    <div class="grid" id="gallery">
+      <a href="#" class="open-gallery" data-tab="concert"><img src="image_noir_blanc.jpg" alt="Photo concert 1"></a>
+      <a href="#" class="open-gallery" data-tab="concert"><img src="image_rouge.jpg" alt="Photo concert 2"></a>
     </div>
   </div>
 
   <!-- Modal -->
-  <div id="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
-    <div class="modal-content">
-      <div class="modal-header" id="modal-title">Angèle Ronach</div>
+  <div id="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title" tabindex="-1">
+    <div class="modal-container">
+      <header class="modal-header" id="modal-title">Angèle<br>Ronach</header>
+
       <div class="modal-gallery"></div>
-      <div class="modal-footer">
-        <a href="index.html">Accueil</a>
-        <a href="contact.html">Contact</a>
-      </div>
+
+      <footer class="modal-footer">
+        <a href="#" id="modal-accueil">Accueil</a>
+        <a href="#" id="modal-about">About</a>
+      </footer>
     </div>
   </div>
 
-  <!-- Barre Accueil + About fixe en bas à gauche -->
-  <nav class="bottom-left-menu" aria-label="Navigation secondaire">
-    <a href="index.html">Accueil</a>
-    <a href="about.html">About</a>
-  </nav>
-
   <script>
-    // Gestion onglets
-    const tabs = document.querySelectorAll('.menu button');
-    const galleries = document.querySelectorAll('.gallery');
+    const concertPhotos = [
+      "Reuben01.jpg",
+      "Reuben02.jpg",
+      "Reuben03.jpg"
+    ];
 
-    tabs.forEach(tab => {
-      tab.addEventListener('click', () => {
-        tabs.forEach(t => {
-          t.classList.remove('active');
-          t.setAttribute('aria-selected', 'false');
-        });
-        galleries.forEach(g => g.classList.remove('active'));
+    const projetPhotos = [
+      "Projet01.jpg",
+      "Projet02.jpg",
+      "Projet03.jpg"
+    ];
 
-        tab.classList.add('active');
-        tab.setAttribute('aria-selected', 'true');
-        const id = tab.getAttribute('aria-controls');
-        document.getElementById(id).classList.add('active');
+    const gallery = document.getElementById("gallery");
+    const tabConcert = document.getElementById("tab-concert");
+    const tabProjet = document.getElementById("tab-projet");
+    const modal = document.getElementById("modal");
+    const modalGallery = modal.querySelector(".modal-gallery");
+
+    // Fonction pour charger les images dans la galerie principale selon l'onglet
+    function loadGallery(tab) {
+      gallery.innerHTML = '';
+      let photos = [];
+      if (tab === "concert") photos = concertPhotos;
+      else if (tab === "projet") photos = projetPhotos;
+
+      photos.forEach((src, i) => {
+        const a = document.createElement('a');
+        a.href = "#";
+        a.className = "open-gallery";
+        a.dataset.tab = tab;
+        a.dataset.index = i;
+        const img = document.createElement('img');
+        img.src = src;
+        img.alt = `Photo ${tab} ${i + 1}`;
+        a.appendChild(img);
+        gallery.appendChild(a);
       });
+    }
+
+    // Au chargement, afficher l'onglet Concert
+    loadGallery("concert");
+
+    // Changement d'onglet
+    tabConcert.addEventListener("click", (e) => {
+      e.preventDefault();
+      loadGallery("concert");
+    });
+    tabProjet.addEventListener("click", (e) => {
+      e.preventDefault();
+      loadGallery("projet");
     });
 
-    // Gestion modal
-    const modal = document.getElementById('modal');
-    const modalGallery = modal.querySelector('.modal-gallery');
+    // Ouvrir modal au clic sur image
+    gallery.addEventListener("click", e => {
+      const target = e.target.closest('.open-gallery');
+      if (!target) return;
+      e.preventDefault();
 
-    const galleryImages = {
-      reuben: [
-        "Reuben01.jpg",
-        "Reuben02.jpg",
-        "Reuben03.jpg"
-      ],
-      goya: [
-        "Goya01.jpg",
-        "Goya02.jpg",
-        "Goya03.jpg"
-      ],
-      projet: [
-        "Projet01.jpg",
-        "Projet02.jpg",
-        "Projet03.jpg"
-      ]
-    };
+      const tab = target.dataset.tab;
+      const index = Number(target.dataset.index);
+      let photos = (tab === "concert") ? concertPhotos : projetPhotos;
 
-    document.querySelectorAll('.open-gallery').forEach(img => {
-      img.addEventListener('click', () => {
-        const key = img.dataset.gallery;
-        if (!key || !galleryImages[key]) return;
+      // Vider la galerie modale
+      modalGallery.innerHTML = '';
 
-        modalGallery.innerHTML = '';
-        galleryImages[key].forEach(src => {
-          const image = document.createElement('img');
-          image.src = src;
-          modalGallery.appendChild(image);
-        });
-
-        modal.classList.add('active');
+      // Ajouter les images à la modale
+      photos.forEach(src => {
+        const img = document.createElement('img');
+        img.src = src;
+        modalGallery.appendChild(img);
       });
+
+      // Scroll sur l'image cliquée
+      const imgWidth = modalGallery.querySelector('img').clientWidth || window.innerWidth * 0.7;
+      modalGallery.scrollLeft = imgWidth * index;
+
+      modal.classList.add('active');
+      modal.focus();
     });
 
+    // Fermer modal au clic hors images
     modal.addEventListener('click', e => {
-      if (e.target === modal) {
-        modal.classList.remove('active');
-        modalGallery.innerHTML = '';
-      }
+      if (e.target === modal) modal.classList.remove('active');
+    });
+
+    // Liens bas de page dans modal et sidebar
+    document.getElementById("go-accueil").addEventListener("click", e => {
+      e.preventDefault();
+      alert("Redirection Accueil");
+    });
+    document.getElementById("go-about").addEventListener("click", e => {
+      e.preventDefault();
+      alert("Redirection About");
+    });
+    document.getElementById("modal-accueil").addEventListener("click", e => {
+      e.preventDefault();
+      modal.classList.remove('active');
+      alert("Redirection Accueil");
+    });
+    document.getElementById("modal-about").addEventListener("click", e => {
+      e.preventDefault();
+      modal.classList.remove('active');
+      alert("Redirection About");
     });
   </script>
+
+  <style>
+    /* Styles pour modal */
+    #modal {
+      position: fixed;
+      inset: 0;
+      background: white;
+      display: none;
+      justify-content: center;
+      align-items: center;
+      padding-left: 30%;
+      padding-top: 80px;
+      padding-bottom: 60px;
+      box-sizing: border-box;
+      z-index: 1000;
+    }
+    #modal.active {
+      display: flex;
+    }
+    .modal-container {
+      width: 70vw;
+      height: calc(100vh - 140px);
+      display: flex;
+      flex-direction: column;
+      background: transparent;
+    }
+    .modal-header {
+      font-family: Didot, serif;
+      font-size: 2rem;
+      font-weight: 700;
+      color: black;
+      line-height: 1.2;
+      margin-bottom: 20px;
+      user-select: none;
+    }
+    .modal-gallery {
+      flex: 1;
+      display: flex;
+      overflow-x: auto;
+      gap: 10px;
+      scroll-behavior: smooth;
+      align-items: center;
+      justify-content: center;
+      padding-bottom: 10px;
+    }
+    .modal-gallery img {
+      max-height: 100%;
+      max-width: 90vw;
+      border-radius: 4px;
+      pointer-events: none;
+      user-select: none;
+    }
+    .modal-footer {
+      display: flex;
+      gap: 20px;
+      font-family: Didot, serif;
+      font-size: 1rem;
+      color: black;
+      user-select: none;
+    }
+    .modal-footer a {
+      color: black;
+      text-decoration: underline;
+      cursor: pointer;
+    }
+  </style>
 </body>
 </html>
+
 
 
 
