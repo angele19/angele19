@@ -1,223 +1,258 @@
-<!-- I will prepare a modular structure with multiple galleries (albums) per thumbnail. User will need to integrate images. Placeholder. -->
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Angèle Ronach</title>
-<style>
-  * { margin:0; padding:0; box-sizing:border-box; }
-  body { font-family:Didot, serif; background:white; color:black; }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Portfolio</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Didot, serif;
+      background: white;
+      color: black;
+    }
 
-  .layout { display:flex; height:100vh; padding:40px; }
+    /* --- HEADER --- */
+    #header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 70px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px;
+      box-sizing: border-box;
+      background: white;
+      z-index: 20;
+    }
 
-  .sidebar {
-    width:30%;
-    display:flex;
-    flex-direction:column;
-    justify-content:space-between;
-    position:fixed;
-    top:40px; bottom:40px; left:40px;
-    background:white;
-  }
+    #name {
+      font-size: 2rem;
+      font-weight: bold;
+    }
 
-  .name { font-size:2.5rem; line-height:1.2; margin-bottom:20px; }
-  .menu-top { display:flex; flex-direction:column; gap:12px; margin-bottom:20px; }
-  .menu-top a { text-decoration:underline; color:black; cursor:pointer; }
-  .menu-bottom { display:flex; gap:20px; }
-  .menu-bottom a { text-decoration:underline; color:black; cursor:pointer; }
+    #top-right-menu {
+      display: flex;
+      gap: 20px;
+      font-size: 1.2rem;
+    }
 
-  .grid {
-    margin-left:30%;
-    width:70%;
-    display:grid;
-    grid-template-columns:1fr;
-    gap:40px;
-    padding-right:20px;
-    overflow-y:auto;
-  }
-  .grid img { width:100%; cursor:pointer; transition:0.25s; }
-  .grid img:hover { transform:scale(1.02); }
+    #top-right-menu a {
+      color: black;
+      text-decoration: none;
+      cursor: pointer;
+    }
 
-  /* Modal */
-  #modal {
-    position:fixed;
-    top:40px; bottom:40px; left:0; right:0;
-    background:white;
-    display:none;
-    flex-direction:column;
-    z-index:1000;
-  }
-  #modal.active { display:flex; }
+    /* --- BOTTOM LEFT MENU --- */
 
-  .modal-header {
-    font-size:2rem; font-weight:700;
-    padding:20px 40px;
-    border-bottom:1px solid #eee;
-  }
+    #bottom-left {
+      position: fixed;
+      bottom: 20px;
+      left: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      font-size: 1rem;
+      z-index: 20;
+    }
 
-  .modal-gallery {
-    flex:1;
-    display:flex;
-    overflow-x:auto;
-    gap:10px;
-    padding:20px 40px;
-    align-items:center;
-    scroll-behavior:smooth;
-  }
-  .modal-gallery img {
-    max-height:100%;
-    max-width:90vw;
-    cursor:pointer;
-    transition:0.3s;
-  }
-  .modal-gallery img:hover { transform:scale(1.05); }
+    #bottom-left a {
+      color: black;
+      text-decoration: none;
+    }
 
-  .modal-footer {
-    padding:20px 40px;
-    border-top:1px solid #eee;
-    display:flex;
-    gap:20px;
-  }
-  .modal-footer a { text-decoration:underline; color:black; cursor:pointer; }
+    /* --- GALLERY --- */
 
-  /* Overlay zoom */
-  #overlay {
-    position:fixed; inset:0;
-    background:rgba(0,0,0,0.85);
-    display:none;
-    align-items:center;
-    justify-content:center;
-    z-index:2000;
-  }
-  #overlay.active { display:flex; }
-  #overlay img { max-width:90vw; max-height:90vh; }
-</style>
+    #gallery-container {
+      margin-top: 120px;
+      padding: 20px;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 20px;
+    }
+
+    .thumb {
+      width: 100%;
+      cursor: pointer;
+    }
+
+    /* --- MODAL --- */
+
+    #modal {
+      position: fixed;
+      inset: 0;
+      background: white;
+      display: none;
+      flex-direction: column;
+      z-index: 100;
+    }
+
+    #modal.active {
+      display: flex;
+    }
+
+    #carousel {
+      margin-top: 90px;
+      margin-bottom: 90px;
+      flex: 1;
+      display: flex;
+      overflow-x: auto;
+      scroll-behavior: smooth;
+      gap: 20px;
+      padding: 20px;
+      align-items: center;
+    }
+
+    #carousel img {
+      max-height: 80vh;
+      cursor: pointer;
+    }
+
+    /* FULLSCREEN IMAGE */
+    #fullscreen {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.9);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 200;
+    }
+
+    #fullscreen.active {
+      display: flex;
+    }
+
+    #fullscreen img {
+      max-width: 95vw;
+      max-height: 95vh;
+    }
+  </style>
 </head>
 <body>
-<div class="layout">
 
-  <div class="sidebar">
-    <div>
-      <div class="name">Angèle<br>Ronach</div>
-      <div class="menu-top">
-        <a id="tab-concert">Concert</a>
-        <a id="tab-projet">Projet Personnel</a>
-      </div>
-    </div>
-    <div class="menu-bottom">
-      <a id="go-accueil">Accueil</a>
-      <a id="go-about">About</a>
+  <!-- HEADER -->
+  <div id="header">
+    <div id="name">Angèle Ronak</div>
+    <div id="top-right-menu">
+      <a id="nav-concerts">Concerts</a>
+      <a id="nav-projets">Projet Personnel</a>
     </div>
   </div>
 
-  <div class="grid" id="gallery"></div>
-
-</div>
-
-<!-- Modal -->
-<div id="modal">
-  <div class="modal-header">Angèle<br>Ronach</div>
-  <div class="modal-gallery" id="modal-gallery"></div>
-  <div class="modal-footer">
-    <a id="modal-accueil">Accueil</a>
-    <a id="modal-about">About</a>
+  <!-- BOTTOM LEFT -->
+  <div id="bottom-left">
+    <a id="nav-accueil">Accueil</a>
+    <a id="nav-about">About</a>
   </div>
-</div>
 
-<!-- Overlay zoom -->
-<div id="overlay"><img /></div>
+  <!-- MAIN GALLERY -->
+  <div id="gallery-container"></div>
+
+  <!-- MODAL -->
+  <div id="modal">
+    <div id="carousel"></div>
+  </div>
+
+  <!-- FULLSCREEN VIEW -->
+  <div id="fullscreen"><img id="fullscreen-img" src=""></div>
 
 <script>
-/* ALBUMS pour CONCERT */
+
+/* ALBUMS */
 const concertAlbums = [
-  {
-    thumb: "Reuben01.jpg",
-    images: ["Reuben01.jpg", "Reuben02.jpg", "Reuben03.jpg"]
-  },
-  {
-    thumb: "Goya01.jpg",
-    images: ["Goya01.jpg", "Goya02.jpg", "Goya03.jpg"]
-  }
+  { thumb: "Reuben01.jpg", images: ["Reuben01.jpg", "Reuben02.jpg", "Reuben03.jpg"] },
+  { thumb: "Goya01.jpg", images: ["Goya01.jpg", "Goya02.jpg", "Goya03.jpg"] }
 ];
 
-/* ALBUMS pour PROJET PERSONNEL */
 const projetAlbums = [
-  {
-    thumb: "Mael01.jpg",
-    images: ["Mael01.jpg", "Mael02.jpg", "Mael03.jpg"]
-  },
-  {
-    thumb: "Mael04.jpg",
-    images: ["Mael04.jpg", "Mael05.jpg", "Mael06.jpg"]
-  }
+  { thumb: "Projet01.jpg", images: ["Projet01.jpg", "Projet02.jpg", "Projet03.jpg"] },
+  { thumb: "ProjetA.jpg", images: ["ProjetA.jpg", "ProjetA2.jpg", "ProjetA3.jpg"] }
 ];
 
-const gallery = document.getElementById("gallery");
-const modal = document.getElementById("modal");
-const modalGallery = document.getElementById("modal-gallery");
-const overlay = document.getElementById("overlay");
-const overlayImg = overlay.querySelector("img");
+let currentCategory = "concerts";
 
-let currentTab = "concert";
-
-function loadThumbnails() {
-  gallery.innerHTML = "";
-  const albums = currentTab === "concert" ? concertAlbums : projetAlbums;
+/* LOAD GALLERY */
+function loadGallery() {
+  const container = document.getElementById("gallery-container");
+  container.innerHTML = "";
+  const albums = currentCategory === "concerts" ? concertAlbums : projetAlbums;
 
   albums.forEach((album, index) => {
     const img = document.createElement("img");
     img.src = album.thumb;
-    img.dataset.index = index;
-    img.className = "album-thumb";
-    gallery.appendChild(img);
+    img.className = "thumb";
+    img.onclick = () => openModal(index);
+    container.appendChild(img);
   });
 }
 
-loadThumbnails();
+/* OPEN MODAL */
+function openModal(index) {
+  const modal = document.getElementById("modal");
+  const carousel = document.getElementById("carousel");
+  carousel.innerHTML = "";
 
-/* Onglets */
-document.getElementById("tab-concert").onclick = () => {
-  currentTab = "concert";
-  loadThumbnails();
-};
+  const albums = currentCategory === "concerts" ? concertAlbums : projetAlbums;
+  const images = albums[index].images;
 
-document.getElementById("tab-projet").onclick = () => {
-  currentTab = "projet";
-  loadThumbnails();
-};
-
-/* OUVERTURE MODAL sur miniature */
-gallery.onclick = e => {
-  if (!e.target.classList.contains("album-thumb")) return;
-
-  const index = e.target.dataset.index;
-  const album = currentTab === "concert" ? concertAlbums[index] : projetAlbums[index];
-
-  modalGallery.innerHTML = "";
-  album.images.forEach(src => {
+  images.forEach(src => {
     const img = document.createElement("img");
     img.src = src;
-    modalGallery.appendChild(img);
+    img.onclick = () => openFullscreen(src);
+    carousel.appendChild(img);
   });
 
   modal.classList.add("active");
+}
+
+/* CLOSE MODAL ON CLICK OUTSIDE */
+document.getElementById("modal").onclick = (e) => {
+  if (e.target.id === "modal") {
+    document.getElementById("modal").classList.remove("active");
+  }
 };
 
-/* FERMETURE MODAL */
-modal.onclick = e => { if (e.target === modal) modal.classList.remove("active"); };
+/* FULLSCREEN */
+function openFullscreen(src) {
+  const fs = document.getElementById("fullscreen");
+  const img = document.getElementById("fullscreen-img");
+  img.src = src;
+  fs.classList.add("active");
+}
 
-/* ZOOM */
-modalGallery.onclick = e => {
-  if (e.target.tagName !== "IMG") return;
-  overlayImg.src = e.target.src;
-  overlay.classList.add("active");
+document.getElementById("fullscreen").onclick = () => {
+  document.getElementById("fullscreen").classList.remove("active");
 };
 
-overlay.onclick = () => overlay.classList.remove("active");
+/* NAVIGATION */
+document.getElementById("nav-concerts").onclick = () => {
+  currentCategory = "concerts";
+  loadGallery();
+  document.getElementById("modal").classList.remove("active");
+};
+
+document.getElementById("nav-projets").onclick = () => {
+  currentCategory = "projets";
+  loadGallery();
+  document.getElementById("modal").classList.remove("active");
+};
+
+// Accueil = Concerts
+
+document.getElementById("nav-accueil").onclick = () => {
+  currentCategory = "concerts";
+  loadGallery();
+  document.getElementById("modal").classList.remove("active");
+};
+
+// About ne change pas la galerie, reste décoratif.
+
+/* INIT */
+loadGallery();
 
 </script>
 </body>
 </html>
-
-
