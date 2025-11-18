@@ -62,23 +62,24 @@
     }
 
     /* grid centered and limited width for neat look */
-    #gallery-container{
-      width: min(1100px, 92%);
-      display:grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 20px;
-      justify-items:center;
-      align-items:center;
-    }
+  #gallery-container{
+  width: min(900px, 92%);
+  display: grid;
+  grid-template-columns: 1fr;   /* une seule colonne = images en vertical */
+  gap: 40px;                     /* espace entre chaque image */
+  justify-items: center;
+}
 
     .thumb{
-      width:100%;
-      max-width:420px;
-      height:auto;
-      cursor:pointer;
-      display:block;
-      transition: transform .22s ease;
-    }
+  width: 100%;        /* prend toute la largeur de la colonne */
+  height: auto;       /* respecte le ratio */
+  max-width: 900px;   /* limite élégante comme ton exemple */
+  display: block;
+}
+    .thumb{
+  object-fit: cover;
+  height: 600px;   /* ou la hauteur qui te convient */
+}
     .thumb:hover{ transform: scale(1.02); }
 
     /* ================ Modal carousel (collé sous header) ================ */
@@ -195,10 +196,10 @@
 
 <script>
 /* ===================== Data: albums ===================== */
-/* Replace these filenames with your real image paths */
 const concertAlbums = [
   { thumb: "Reuben01.jpg", images: ["Reuben01.jpg","Reuben02.jpg","Reuben03.jpg","Reuben04.jpg","Reuben05.jpg"] },
   { thumb: "CNV000001.jpg",   images: ["CNV000001.jpg","Goya01.jpg","Goya02.jpg","Goya03.jpg"] },
+  { thumb: "000055020025 copie.png",   images: ["000055020025 copie.png","000055020024.png","000055020038 copie.png","000055020028.jpg"] },
   { thumb: "000012.jpg",   images: ["000012.jpg","00004.jpg","000021.jpg","000017.jpg","000025.jpg","000015.jpg","00008.jpg"] },
  { 
   thumb: "Slum village-6.jpg",
