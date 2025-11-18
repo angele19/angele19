@@ -252,14 +252,19 @@ function renderThumbnails(){
 }
 
 /* ========== Open modal for a given album index ========== */
+/* ========== Open modal for a given album index ========== */
 function openModal(albumIndex){
   currentAlbumIndex = Number(albumIndex);
   const albums = albumsFor(currentCategory);
   const images = albums[currentAlbumIndex].images;
+  const videoSrc = albums[currentAlbumIndex].video;  // <-- récupération du champ vidéo
 
-  // build carousel images
+  // build carousel content
   carousel.innerHTML = '';
+
+  // 1) afficher les images
   images.forEach((src, i) => {
+    if (!src) return; // évite les chaînes vides dans les albums
     const img = document.createElement('img');
     img.src = src;
     img.alt = `Image ${i+1}`;
@@ -268,13 +273,34 @@ function openModal(albumIndex){
     carousel.appendChild(img);
   });
 
-  // show modal (it sits under header)
+  // 2) afficher la vidéo si elle existe
+  if (videoSrc) {
+    const video = document.createElement('video');
+    video.src = videoSrc;
+    video.controls = true;
+    video.preload = "metadata";
+
+    // même style que les images du carrousel
+    video.style.maxHeight = "calc(100vh - var(--header-h) - 120px)";
+    video.style.borderRadius = "4px";
+    video.style.cursor = "pointer";
+
+    // zoom fullscreen si tu veux (facultatif mais cohérent)
+    video.addEventListener('click', (e) => {
+      e.stopPropagation();
+      openFullscreen(videoSrc);
+    });
+
+    carousel.appendChild(video);
+  }
+
+  // show modal
   modal.classList.add('active');
   modal.setAttribute('aria-hidden','false');
 
-  // scroll to first image
+  // scroll to first element
   setTimeout(()=> {
-    const first = carousel.querySelector('img');
+    const first = carousel.children[0];
     if(first) first.scrollIntoView({behavior:'instant', inline:'start'});
   }, 50);
 }
