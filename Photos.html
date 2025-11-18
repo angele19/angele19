@@ -122,6 +122,12 @@
     }
     #carousel img:hover{ transform: scale(1.02); }
 
+    #carousel video{
+  height: calc(100vh - var(--header-h) - 120px);
+  width: auto;
+  object-fit: cover;
+}
+
     /* small breadcrumb-like footer inside modal if needed (kept minimal) */
     #modal-footer{
       position: absolute;
@@ -204,7 +210,7 @@ const concertAlbums = [
  { 
   thumb: "Slum village-6.jpg",
   images: ["Slum village-6.jpg","Slum village.jpg"],
-  video: "SlumVillage_Video3.mp4"
+  video: "SlumVillage_Video2.mp4"
 },
 { 
   thumb: "Colmar01.jpg",
