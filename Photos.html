@@ -207,9 +207,9 @@ const concertAlbums = [
   { thumb: "CNV000001.jpg",   images: ["CNV000001.jpg","Goya01.jpg","Goya02.jpg","Goya03.jpg"] },
   { thumb: "000055020025 copie.png",   images: ["000055020025 copie.png","000055020024.png","000055020038 copie.png","000055020028.jpg"] },
   { thumb: "000012.jpg",   images: ["000012.jpg","00004.jpg","000021.jpg","000017.jpg","000025.jpg","000015.jpg","00008.jpg"] },
- { 
+{
   thumb: "Screenshot 2025-11-18 at 17.18.09.png",
-  video: '<video src="SlumVillage_Video2.mp4" autoplay muted loop playsinline></video>',
+  video: "SlumVillage_Video2.mp4",
   images: ["Slum village-6.jpg", "Slum village.jpg"]
 },
 { 
@@ -263,48 +263,42 @@ function openModal(albumIndex){
   currentAlbumIndex = Number(albumIndex);
   const albums = albumsFor(currentCategory);
   const images = albums[currentAlbumIndex].images;
-  const videoSrc = albums[currentAlbumIndex].video;  // <-- récupération du champ vidéo
+  const videoSrc = albums[currentAlbumIndex].video;
 
-  // build carousel content
   carousel.innerHTML = '';
 
-  // 1) afficher les images
-  images.forEach((src, i) => {
-    if (!src) return; // évite les chaînes vides dans les albums
-    const img = document.createElement('img');
-    img.src = src;
-    img.alt = `Image ${i+1}`;
-    img.loading = 'eager';
-    img.addEventListener('click', () => openFullscreen(src));
-    carousel.appendChild(img);
-  });
-
-  // 2) afficher la vidéo si elle existe
+  // 1) afficher la vidéo AVANT les images
   if (videoSrc) {
     const video = document.createElement('video');
     video.src = videoSrc;
+    video.autoplay = true;
+    video.muted = true;
+    video.loop = true;
+    video.playsInline = true;
     video.controls = true;
-    video.preload = "metadata";
 
-    // même style que les images du carrousel
     video.style.maxHeight = "calc(100vh - var(--header-h) - 120px)";
     video.style.borderRadius = "4px";
-    video.style.cursor = "pointer";
 
-    // zoom fullscreen si tu veux (facultatif mais cohérent)
-    video.addEventListener('click', (e) => {
-      e.stopPropagation();
-      openFullscreen(videoSrc);
-    });
+    // évite d'ouvrir le fullscreen sur la vidéo
+    video.addEventListener('click', e => e.stopPropagation());
 
     carousel.appendChild(video);
   }
 
-  // show modal
+  // 2) puis afficher les images
+  images.forEach((src, i) => {
+    if (!src) return;
+    const img = document.createElement('img');
+    img.src = src;
+    img.alt = `Image ${i+1}`;
+    img.addEventListener('click', () => openFullscreen(src));
+    carousel.appendChild(img);
+  });
+
   modal.classList.add('active');
   modal.setAttribute('aria-hidden','false');
 
-  // scroll to first element
   setTimeout(()=> {
     const first = carousel.children[0];
     if(first) first.scrollIntoView({behavior:'instant', inline:'start'});
