@@ -34,8 +34,23 @@
       border-bottom:1px solid rgba(0,0,0,0.03);
     }
     #name{ font-size:1.8rem; font-weight:700; }
-    #top-right-menu{ display:flex; gap:22px; font-size:1.05rem; }
-    #top-right-menu a{ text-decoration:none; color:black; cursor:pointer; }
+    #top-right-menu{
+      display:flex;
+      gap:22px;
+      font-size:1.05rem;
+    }
+    #top-right-menu a{
+      text-decoration:none;
+      color:black;
+      cursor:pointer;
+      padding-bottom: 3px;
+      border-bottom: 3px solid transparent;
+      transition: border-color 0.3s;
+    }
+    #top-right-menu a.active {
+      border-bottom-color: black;
+      font-weight: 600;
+    }
 
     /* BOTTOM LEFT */
     #bottom-left{
@@ -47,7 +62,18 @@
       gap:8px;
       z-index:40;
     }
-    #bottom-left a{ text-decoration:none; color:black; cursor:pointer; }
+    #bottom-left a{
+      text-decoration:none;
+      color:black;
+      cursor:pointer;
+      padding-bottom: 3px;
+      border-bottom: 3px solid transparent;
+      transition: border-color 0.3s;
+    }
+    #bottom-left a.active {
+      border-bottom-color: black;
+      font-weight: 600;
+    }
 
     /* WRAPPER */
     #gallery-wrapper{
@@ -176,14 +202,14 @@
   <header id="header">
     <div id="name">Angèle Ronach</div>
     <nav id="top-right-menu">
-      <a id="nav-concerts">Concerts</a>
-      <a id="nav-projets">Projet Personnel</a>
+      <a id="nav-concerts" href="#">Concerts</a>
+      <a id="nav-projets" href="#">Projet Personnel</a>
     </nav>
   </header>
 
   <nav id="bottom-left">
-    <a id="nav-accueil">Accueil</a>
-    <a id="nav-about">About</a>
+    <a id="nav-accueil" href="Index.html">Accueil</a>
+    <a id="nav-about" href="Contact.html">About</a>
   </nav>
 
   <div id="gallery-wrapper">
@@ -202,12 +228,12 @@
 <script>
 /* ALBUMS */
 const concertAlbums = [
-  { thumb:"Reuben01.jpg", images:["Reuben01.jpg","Reuben02.jpg","Reuben03.jpg","Reuben04.jpg","Reuben05.jpg"], caption: "Reuben James - Hasard Ludique 2025" }, 
-  { thumb:"CNV000001.jpg", images:["CNV000001.jpg","Goya01.jpg","Goya02.jpg","Goya03.jpg"] },
-  { thumb:"000055020025 copie.png", images:["000055020025 copie.png","000055020024.png","000055020038 copie.png","000055020028.jpg"] },
-  { thumb:"000012.jpg", images:["000012.jpg","00004.jpg","000021.jpg","000017.jpg","000025.jpg","000015.jpg","00008.jpg"] },
-  { thumb:"Screenshot 2025-11-18 at 17.18.09.png", video:"SlumVillage_Video2.mp4", images:["Slum village-6.jpg","Slum village.jpg"] },
-  { thumb:"Colmar01.jpg", images:["Colmar01.jpg","Colmar02.jpg","Colmar03.jpg"] }
+  { thumb:"Reuben01.jpg", images:["Reuben01.jpg","Reuben02.jpg","Reuben03.jpg","Reuben04.jpg","Reuben05.jpg"], caption: "Reuben James - Hasard Ludique, 2025" }, 
+  { thumb:"CNV000001.jpg", images:["CNV000001.jpg","Goya01.jpg","Goya02.jpg","Goya03.jpg"], caption: "Goya Gumbani - Badaboum, 2024" },
+  { thumb:"000055020025 copie.png", images:["000055020025 copie.png","000055020024.png","000055020038 copie.png","000055020028.jpg"], caption: "Keyon Harrold - New Monring, 2024" },
+  { thumb:"000012.jpg", images:["000012.jpg","00004.jpg","000021.jpg","000017.jpg","000025.jpg","000015.jpg","00008.jpg"], caption: "Interference - La Boule Noire, 2025" },
+  { thumb:"Screenshot 2025-11-18 at 17.18.09.png", video:"SlumVillage_Video2.mp4", images:["Slum village-6.jpg","Slum village.jpg"], caption: "Slum Village - The New Parish, 2022" },
+  { thumb:"Colmar01.jpg", images:["Colmar01.jpg","Colmar02.jpg","Colmar03.jpg"], caption: "Colmar Jazz Festival, 2021" }
 ];
 
 const projetAlbums = [
@@ -224,6 +250,11 @@ const modal = document.getElementById("modal");
 const carousel = document.getElementById("carousel");
 const fullscreen = document.getElementById("fullscreen");
 const fullscreenImg = document.getElementById("fullscreen-img");
+
+const navConcerts = document.getElementById("nav-concerts");
+const navProjets = document.getElementById("nav-projets");
+const navAccueil = document.getElementById("nav-accueil");
+const navAbout = document.getElementById("nav-about");
 
 /* HELPERS */
 function albumsFor(cat){
@@ -291,34 +322,58 @@ fullscreen.addEventListener("click", () => {
   fullscreen.classList.remove("active");
 });
 
+/* GESTION DE L'ACTIVATION DES LIENS */
+function setActiveNav(selected){
+  // Nav top right
+  [navConcerts, navProjets].forEach(el => {
+    if(el === selected) el.classList.add("active");
+    else el.classList.remove("active");
+  });
+  // Nav bottom left
+  [navAccueil, navAbout].forEach(el => {
+    if(el === selected) el.classList.add("active");
+    else el.classList.remove("active");
+  });
+}
+
 /* NAVIGATION */
-document.getElementById("nav-concerts").addEventListener("click", () => {
+navConcerts.addEventListener("click", e => {
+  e.preventDefault();
   document.body.classList.add("concerts");
   document.body.classList.remove("projets");
   currentCategory = "concerts";
   renderThumbnails();
   modal.classList.remove("active");
+  setActiveNav(navConcerts);
 });
 
-document.getElementById("nav-projets").addEventListener("click", () => {
+navProjets.addEventListener("click", e => {
+  e.preventDefault();
   document.body.classList.add("projets");
   document.body.classList.remove("concerts");
   currentCategory = "projets";
   renderThumbnails();
   modal.classList.remove("active");
+  setActiveNav(navProjets);
 });
 
-document.getElementById("nav-accueil").addEventListener("click", () => {
-  document.body.classList.add("concerts");
-  document.body.classList.remove("projets");
-  currentCategory = "concerts";
-  renderThumbnails();
-  modal.classList.remove("active");
+navAccueil.addEventListener("click", () => {
+  setActiveNav(navAccueil);
+  // La redirection se fait naturellement avec href vers Index.html
 });
 
+navAbout.addEventListener("click", () => {
+  setActiveNav(navAbout);
+  // La redirection se fait naturellement avec href vers Contact.html
+});
+
+/* Initialisation */
 renderThumbnails();
+setActiveNav(navConcerts); // Par défaut, concert est actif
 </script>
 
 </body>
 </html>
+
+
 
