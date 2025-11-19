@@ -4,7 +4,6 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Angèle Ronach</title>
-
   <style>
     :root{
       --header-h: 70px;
@@ -194,10 +193,57 @@
       border-radius:6px;
     }
 
+    /* --- ADAPTATION MOBILE --- */
+    @media (max-width: 768px) {
+      /* Pour body.concerts : image plus haute mais moins large (verticale, sans couper) */
+      body.concerts .thumb {
+        height: auto;
+        max-width: 90vw;
+        object-fit: contain;
+      }
+
+      /* Pour body.projets : vignettes plus petites, carrées, pour tenir sur écran mobile */
+      body.projets .thumb {
+        width: 120px;
+        height: 120px;
+        object-fit: cover;
+      }
+
+      /* Modal */
+      #modal {
+        top: calc(var(--header-h) + 5px); /* Descend un peu le modal pour laisser visible header */
+        bottom: 50px; /* Laisse un espace pour nav bottom-left */
+      }
+
+      /* Carrousel images/videos plus petites, adaptées à hauteur d'écran */
+      #carousel img, #carousel video {
+        max-height: 60vh;
+        max-width: 90vw;
+        object-fit: contain;
+      }
+
+      /* Empêche l'image du carrousel de dépasser et masquer la navigation en bas */
+      #gallery-wrapper {
+        padding-bottom: 120px; /* plus grand pour éviter recouvrement */
+      }
+
+      /* Bottom nav en front */
+      #bottom-left {
+        position: fixed;
+        bottom: 0;
+        background: white;
+        width: 100%;
+        padding: 10px 20px;
+        border-top: 1px solid rgba(0,0,0,0.1);
+        z-index: 50;
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+      }
+    }
   </style>
 </head>
-
-<body class="concerts"> <!-- PAR DÉFAUT : concerts -->
+<body class="concerts">
 
   <header id="header">
     <div id="name">Angèle Ronach</div>
@@ -225,155 +271,149 @@
     <img id="fullscreen-img" alt="">
   </div>
 
-<script>
-/* ALBUMS */
-const concertAlbums = [
-  { thumb:"Reuben01.jpg", images:["Reuben01.jpg","Reuben02.jpg","Reuben03.jpg","Reuben04.jpg","Reuben05.jpg"], caption: "Reuben James - Hasard Ludique, 2025" }, 
-  { thumb:"CNV000001.jpg", images:["CNV000001.jpg","Goya03.jpg","Goya01.jpg","Goya02.jpg","CNV000006.jpg"], caption: "Goya Gumbani - Badaboum, 2024" },
-  { thumb:"000055020025 copie.png", images:["000055020025 copie.png","000055020024.png","000055020038 copie.png","000055020028.jpg"], caption: "Keyon Harrold - New Morning, 2024" },
-  { thumb:"000012.jpg", images:["000012.jpg","00004.jpg","000021.jpg","000017.jpg","000025.jpg","000015.jpg","00008.jpg"], caption: "Interference - La Boule Noire, 2025" },
-  { thumb:"Screenshot 2025-11-18 at 17.18.09.png", video:"SlumVillage_Video2.mp4", images:["Slum village-6.jpg","Slum village.jpg"], caption: "Slum Village - The New Parish, 2022" },
-  { thumb:"Colmar01.jpg", images:["Colmar01.jpg","Colmar02.jpg","Colmar03.jpg"], caption: "Colmar Jazz Festival, 2021" }
-];
+  <script>
+  /* ALBUMS */
+  const concertAlbums = [
+    { thumb:"Reuben01.jpg", images:["Reuben01.jpg","Reuben02.jpg","Reuben03.jpg","Reuben04.jpg","Reuben05.jpg"], caption: "Reuben James - Hasard Ludique, 2025" }, 
+    { thumb:"CNV000001.jpg", images:["CNV000001.jpg","Goya03.jpg","Goya01.jpg","Goya02.jpg","CNV000006.jpg"], caption: "Goya Gumbani - Badaboum, 2024" },
+    { thumb:"000055020025 copie.png", images:["000055020025 copie.png","000055020024.png","000055020038 copie.png","000055020028.jpg"], caption: "Keyon Harrold - New Morning, 2024" },
+    { thumb:"000012.jpg", images:["000012.jpg","00004.jpg","000021.jpg","000017.jpg","000025.jpg","000015.jpg","00008.jpg"], caption: "Interference - La Boule Noire, 2025" },
+    { thumb:"Screenshot 2025-11-18 at 17.18.09.png", video:"SlumVillage_Video2.mp4", images:["Slum village-6.jpg","Slum village.jpg"], caption: "Slum Village - The New Parish, 2022" },
+    { thumb:"Colmar01.jpg", images:["Colmar01.jpg","Colmar02.jpg","Colmar03.jpg"], caption: "Colmar Jazz Festival, 2021" }
+  ];
 
-const projetAlbums = [
-  { thumb:"P1310001vert.jpg", images:["P1310001vert.jpg","P1290983_finale.jpg","R000024.jpg","Mael03.jpg"] },
-  { thumb:"P1270055.jpg", images:["P1270055.jpg","P1270073.jpg","P1270091.jpg","6181296f354c4728bf73f349_Jack Bridgland Photographer - Helium","house05.jpg","house06.jpg"] }
-];
+  const projetAlbums = [
+    { thumb:"P1310001vert.jpg", images:["P1310001vert.jpg","P1290983_finale.jpg","R000024.jpg","P1310152v05.jpg"] },
+    { thumb:"P1270055.jpg", images:["P1270055.jpg","P1270073.jpg","P1270091.jpg","6181296f354c4728bf73f349_Jack Bridgland Photographer - Helium","house05.jpg","house06.jpg"] }
+  ];
 
-let currentCategory = "concerts";
-let currentAlbumIndex = null;
+  let currentCategory = "concerts";
+  let currentAlbumIndex = null;
 
-/* DOM */
-const galleryContainer = document.getElementById("gallery-container");
-const modal = document.getElementById("modal");
-const carousel = document.getElementById("carousel");
-const fullscreen = document.getElementById("fullscreen");
-const fullscreenImg = document.getElementById("fullscreen-img");
+  /* DOM */
+  const galleryContainer = document.getElementById("gallery-container");
+  const modal = document.getElementById("modal");
+  const carousel = document.getElementById("carousel");
+  const fullscreen = document.getElementById("fullscreen");
+  const fullscreenImg = document.getElementById("fullscreen-img");
 
-const navConcerts = document.getElementById("nav-concerts");
-const navProjets = document.getElementById("nav-projets");
-const navAccueil = document.getElementById("nav-accueil");
-const navAbout = document.getElementById("nav-about");
+  const navConcerts = document.getElementById("nav-concerts");
+  const navProjets = document.getElementById("nav-projets");
+  const navAccueil = document.getElementById("nav-accueil");
+  const navAbout = document.getElementById("nav-about");
 
-/* HELPERS */
-function albumsFor(cat){
-  return cat === "concerts" ? concertAlbums : projetAlbums;
-}
-
-/* RENDER THUMBNAILS */
-function renderThumbnails(){
-  const albums = albumsFor(currentCategory);
-  galleryContainer.innerHTML = '';
-
-  albums.forEach((album, index) => {
-    const img = document.createElement('img');
-    img.className = "thumb";
-    img.src = album.thumb;
-    img.dataset.index = index;
-    img.addEventListener("click", () => openModal(index));
-    galleryContainer.appendChild(img);
-  });
-}
-
-/* OPEN MODAL */
-function openModal(index){
-  currentAlbumIndex = index;
-  const album = albumsFor(currentCategory)[index];
-
-  carousel.innerHTML = "";
-
-  if (album.video){
-    const vid = document.createElement("video");
-    vid.src = album.video;
-    vid.autoplay = true;
-    vid.muted = true;
-    vid.loop = true;
-    vid.controls = true;
-    carousel.appendChild(vid);
+  /* HELPERS */
+  function albumsFor(cat){
+    return cat === "concerts" ? concertAlbums : projetAlbums;
   }
 
-  album.images.forEach(imgSrc => {
-    if(!imgSrc) return;
-    const img = document.createElement("img");
-    img.src = imgSrc;
-    img.addEventListener("click", () => openFullscreen(imgSrc));
-    carousel.appendChild(img);
+  /* RENDER THUMBNAILS */
+  function renderThumbnails(){
+    const albums = albumsFor(currentCategory);
+    galleryContainer.innerHTML = '';
+
+    albums.forEach((album, index) => {
+      const img = document.createElement('img');
+      img.className = "thumb";
+      img.src = album.thumb;
+      img.dataset.index = index;
+      img.addEventListener("click", () => openModal(index));
+      galleryContainer.appendChild(img);
+    });
+  }
+
+  /* OPEN MODAL */
+  function openModal(index){
+    currentAlbumIndex = index;
+    const album = albumsFor(currentCategory)[index];
+
+    carousel.innerHTML = "";
+
+    if (album.video){
+      const vid = document.createElement("video");
+      vid.src = album.video;
+      vid.autoplay = true;
+      vid.muted = true;
+      vid.loop = true;
+      vid.controls = true;
+      carousel.appendChild(vid);
+    }
+
+    album.images.forEach(imgSrc => {
+      if(!imgSrc) return;
+      const img = document.createElement("img");
+      img.src = imgSrc;
+      img.addEventListener("click", () => openFullscreen(imgSrc));
+      carousel.appendChild(img);
+    });
+
+    const modalFooter = document.getElementById("modal-footer");
+    modalFooter.textContent = album.caption ? album.caption : "";
+
+    modal.classList.add("active");
+  }
+
+  /* CLOSE MODAL */
+  modal.addEventListener("click", e => {
+    if(e.target === modal) modal.classList.remove("active");
   });
 
-  // Affiche la caption si elle existe
-  const modalFooter = document.getElementById("modal-footer");
-  modalFooter.textContent = album.caption ? album.caption : "";
-
-  modal.classList.add("active");
-}
-
-/* CLOSE MODAL */
-modal.addEventListener("click", e => {
-  if(e.target === modal) modal.classList.remove("active");
-});
-
-/* FULLSCREEN */
-function openFullscreen(src){
-  fullscreenImg.src = src;
-  fullscreen.classList.add("active");
-}
-fullscreen.addEventListener("click", () => {
-  fullscreen.classList.remove("active");
-});
-
-/* GESTION DE L'ACTIVATION DES LIENS */
-function setActiveNav(selected){
-  // Nav top right
-  [navConcerts, navProjets].forEach(el => {
-    if(el === selected) el.classList.add("active");
-    else el.classList.remove("active");
+  /* FULLSCREEN */
+  function openFullscreen(src){
+    fullscreenImg.src = src;
+    fullscreen.classList.add("active");
+  }
+  fullscreen.addEventListener("click", () => {
+    fullscreen.classList.remove("active");
   });
-  // Nav bottom left
-  [navAccueil, navAbout].forEach(el => {
-    if(el === selected) el.classList.add("active");
-    else el.classList.remove("active");
-  });
-}
 
-/* NAVIGATION */
-navConcerts.addEventListener("click", e => {
-  e.preventDefault();
-  document.body.classList.add("concerts");
-  document.body.classList.remove("projets");
-  currentCategory = "concerts";
+  /* GESTION DE L'ACTIVATION DES LIENS */
+  function setActiveNav(selected){
+    [navConcerts, navProjets].forEach(el => {
+      if(el === selected) el.classList.add("active");
+      else el.classList.remove("active");
+    });
+    [navAccueil, navAbout].forEach(el => {
+      if(el === selected) el.classList.add("active");
+      else el.classList.remove("active");
+    });
+  }
+
+  /* NAVIGATION */
+  navConcerts.addEventListener("click", e => {
+    e.preventDefault();
+    document.body.classList.add("concerts");
+    document.body.classList.remove("projets");
+    currentCategory = "concerts";
+    renderThumbnails();
+    setActiveNav(navConcerts);
+  });
+
+  navProjets.addEventListener("click", e => {
+    e.preventDefault();
+    document.body.classList.add("projets");
+    document.body.classList.remove("concerts");
+    currentCategory = "projets";
+    renderThumbnails();
+    setActiveNav(navProjets);
+  });
+
+  navAccueil.addEventListener("click", () => {
+    setActiveNav(navAccueil);
+  });
+
+  navAbout.addEventListener("click", () => {
+    setActiveNav(navAbout);
+  });
+
+  /* Initial render */
   renderThumbnails();
-  modal.classList.remove("active");
   setActiveNav(navConcerts);
-});
-
-navProjets.addEventListener("click", e => {
-  e.preventDefault();
-  document.body.classList.add("projets");
-  document.body.classList.remove("concerts");
-  currentCategory = "projets";
-  renderThumbnails();
-  modal.classList.remove("active");
-  setActiveNav(navProjets);
-});
-
-navAccueil.addEventListener("click", () => {
-  setActiveNav(navAccueil);
-  // La redirection se fait naturellement avec href vers Index.html
-});
-
-navAbout.addEventListener("click", () => {
-  setActiveNav(navAbout);
-  // La redirection se fait naturellement avec href vers Contact.html
-});
-
-/* Initialisation */
-renderThumbnails();
-setActiveNav(navConcerts); // Par défaut, concert est actif
-</script>
+  </script>
 
 </body>
 </html>
+
 
 
 
