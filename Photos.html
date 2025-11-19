@@ -195,39 +195,32 @@
 
    /* --- ADAPTATION MOBILE --- */
 @media (max-width: 768px) {
-  /* Pour body.concerts : image plus haute mais moins large (verticale, sans couper) */
-  body.concerts .thumb {
-    height: auto;
-    max-width: 90vw;
-    object-fit: contain;
-  }
-
-  /* Pour body.projets : vignettes plus petites, carrées, pour tenir sur écran mobile */
-  body.projets .thumb {
-    width: 120px;
-    height: 120px;
-    object-fit: cover;
-  }
-
-  /* Modal */
-  #modal {
-    top: calc(var(--header-h) + 5px); /* Descend un peu le modal pour laisser visible header */
-    bottom: 50px; /* Laisse un espace pour nav bottom-left */
-  }
-
-  /* Carrousel images/videos plus petites, adaptées à hauteur d'écran */
-  #carousel img, #carousel video {
-    max-height: 60vh;
-    max-width: 90vw;
-    object-fit: contain;
-  }
-
-  /* Empêche l'image du carrousel de dépasser et masquer la navigation en bas */
   #gallery-wrapper {
-    padding-bottom: 120px; /* plus grand pour éviter recouvrement */
+    padding-bottom: 120px;
+    position: relative; /* Ne pas fixer sauf modal ouvert */
+    height: auto;
+    background-color: white; /* si besoin */
   }
 
-  /* Bottom nav en front */
+  #modal {
+    position: fixed;
+    top: calc(var(--header-h) + 5px);
+    bottom: 50px;
+    left: 0;
+    right: 0;
+    background-color: white;
+    z-index: 1000;
+    overflow-y: auto;
+  }
+
+  #carousel {
+    max-height: calc(100vh - var(--header-h) - 70px);
+    overflow-x: auto;
+    padding: 20px 40px;
+    display: flex;
+    gap: 24px;
+  }
+
   #bottom-left {
     position: fixed;
     bottom: 0;
@@ -240,7 +233,7 @@
     justify-content: center;
     gap: 20px;
   }
-
+}
   /* Modifications pour éviter la visibilité de la page derrière le carrousel */
   #carousel, #gallery-wrapper {
     background-color: white;
@@ -251,7 +244,6 @@
     height: 100vh;
     z-index: 1000;
   }
-}
   </style>
 </head>
 <body class="concerts">
@@ -398,15 +390,15 @@
   });
 
   navProjets.addEventListener("click", e => {
-    e.preventDefault();
-    if(currentCategory !== "projets"){
-      currentCategory = "projets";
-      document.body.classList.remove("concerts");
-      document.body.classList.add("projets");
-      setActiveNav(navProjets);
-      renderThumbnails();
-    }
-  });
+  e.preventDefault();
+  if(currentCategory !== "projets"){
+    currentCategory = "projets";
+    document.body.classList.remove("concerts");
+    document.body.classList.add("projets");
+    setActiveNav(navProjets);
+    renderThumbnails();
+  }
+});
 
   /* Initialisation */
   window.addEventListener("DOMContentLoaded", () => {
