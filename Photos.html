@@ -193,54 +193,65 @@
       border-radius:6px;
     }
 
-    /* --- ADAPTATION MOBILE --- */
-    @media (max-width: 768px) {
-      /* Pour body.concerts : image plus haute mais moins large (verticale, sans couper) */
-      body.concerts .thumb {
-        height: auto;
-        max-width: 90vw;
-        object-fit: contain;
-      }
+   /* --- ADAPTATION MOBILE --- */
+@media (max-width: 768px) {
+  /* Pour body.concerts : image plus haute mais moins large (verticale, sans couper) */
+  body.concerts .thumb {
+    height: auto;
+    max-width: 90vw;
+    object-fit: contain;
+  }
 
-      /* Pour body.projets : vignettes plus petites, carrées, pour tenir sur écran mobile */
-      body.projets .thumb {
-        width: 120px;
-        height: 120px;
-        object-fit: cover;
-      }
+  /* Pour body.projets : vignettes plus petites, carrées, pour tenir sur écran mobile */
+  body.projets .thumb {
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+  }
 
-      /* Modal */
-      #modal {
-        top: calc(var(--header-h) + 5px); /* Descend un peu le modal pour laisser visible header */
-        bottom: 50px; /* Laisse un espace pour nav bottom-left */
-      }
+  /* Modal */
+  #modal {
+    top: calc(var(--header-h) + 5px); /* Descend un peu le modal pour laisser visible header */
+    bottom: 50px; /* Laisse un espace pour nav bottom-left */
+  }
 
-      /* Carrousel images/videos plus petites, adaptées à hauteur d'écran */
-      #carousel img, #carousel video {
-        max-height: 60vh;
-        max-width: 90vw;
-        object-fit: contain;
-      }
+  /* Carrousel images/videos plus petites, adaptées à hauteur d'écran */
+  #carousel img, #carousel video {
+    max-height: 60vh;
+    max-width: 90vw;
+    object-fit: contain;
+  }
 
-      /* Empêche l'image du carrousel de dépasser et masquer la navigation en bas */
-      #gallery-wrapper {
-        padding-bottom: 120px; /* plus grand pour éviter recouvrement */
-      }
+  /* Empêche l'image du carrousel de dépasser et masquer la navigation en bas */
+  #gallery-wrapper {
+    padding-bottom: 120px; /* plus grand pour éviter recouvrement */
+  }
 
-      /* Bottom nav en front */
-      #bottom-left {
-        position: fixed;
-        bottom: 0;
-        background: white;
-        width: 100%;
-        padding: 10px 20px;
-        border-top: 1px solid rgba(0,0,0,0.1);
-        z-index: 50;
-        display: flex;
-        justify-content: center;
-        gap: 20px;
-      }
-    }
+  /* Bottom nav en front */
+  #bottom-left {
+    position: fixed;
+    bottom: 0;
+    background: white;
+    width: 100%;
+    padding: 10px 20px;
+    border-top: 1px solid rgba(0,0,0,0.1);
+    z-index: 50;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+  }
+
+  /* Modifications pour éviter la visibilité de la page derrière le carrousel */
+  #carousel, #gallery-wrapper {
+    background-color: white;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 1000;
+  }
+}
   </style>
 </head>
 <body class="concerts">
@@ -367,50 +378,42 @@
     fullscreen.classList.remove("active");
   });
 
-  /* GESTION DE L'ACTIVATION DES LIENS */
+  /* GESTION DE L'ACTIVATION DES LIENS ET CHANGEMENT DE CATEGORIE */
   function setActiveNav(selected){
     [navConcerts, navProjets].forEach(el => {
       if(el === selected) el.classList.add("active");
       else el.classList.remove("active");
     });
-    [navAccueil, navAbout].forEach(el => {
-      if(el === selected) el.classList.add("active");
-      else el.classList.remove("active");
-    });
   }
 
-  /* NAVIGATION */
   navConcerts.addEventListener("click", e => {
     e.preventDefault();
-    document.body.classList.add("concerts");
-    document.body.classList.remove("projets");
-    currentCategory = "concerts";
-    renderThumbnails();
-    setActiveNav(navConcerts);
+    if(currentCategory !== "concerts"){
+      currentCategory = "concerts";
+      document.body.classList.remove("projets");
+      document.body.classList.add("concerts");
+      setActiveNav(navConcerts);
+      renderThumbnails();
+    }
   });
 
   navProjets.addEventListener("click", e => {
     e.preventDefault();
-    document.body.classList.add("projets");
-    document.body.classList.remove("concerts");
-    currentCategory = "projets";
+    if(currentCategory !== "projets"){
+      currentCategory = "projets";
+      document.body.classList.remove("concerts");
+      document.body.classList.add("projets");
+      setActiveNav(navProjets);
+      renderThumbnails();
+    }
+  });
+
+  /* Initialisation */
+  window.addEventListener("DOMContentLoaded", () => {
+    setActiveNav(navConcerts);
     renderThumbnails();
-    setActiveNav(navProjets);
   });
-
-  navAccueil.addEventListener("click", () => {
-    setActiveNav(navAccueil);
-  });
-
-  navAbout.addEventListener("click", () => {
-    setActiveNav(navAbout);
-  });
-
-  /* Initial render */
-  renderThumbnails();
-  setActiveNav(navConcerts);
   </script>
-
 </body>
 </html>
 
